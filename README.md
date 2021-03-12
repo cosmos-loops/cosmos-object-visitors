@@ -1,1 +1,1 @@
-# cosmos-object-viditor
+# COSMOSLOOPS/ObjectVisitor
