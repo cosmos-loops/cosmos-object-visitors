@@ -1,7 +1,7 @@
 @echo off
 
 echo =======================================================================
-echo Cosmos.Prowess
+echo Cosmos.Extensions.ObjectVisitors
 echo =======================================================================
 
 ::go to parent folder
