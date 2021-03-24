@@ -1,8 +1,69 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asset", "asset", "{BAAB7D34-25BF-42B9-B490-5DDB4E6088D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{4D1177AF-1D98-49F1-AD31-F8FCE54A6FF6}"
+ProjectSection(SolutionItems) = preProject
+	asset\images\icon.back.png = asset\images\icon.back.png
+	asset\images\icon.png = asset\images\icon.png
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "props", "props", "{50B8622E-8C87-4DAB-B046-D10E5A36B162}"
+ProjectSection(SolutionItems) = preProject
+	asset\props\misc.props = asset\props\misc.props
+	asset\props\package.props = asset\props\package.props
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{F2BEB61D-2191-47DE-ADE7-E5D6EA3F4FC4}"
+ProjectSection(SolutionItems) = preProject
+	build\PublishBetaVersion_Script.bat = build\PublishBetaVersion_Script.bat
+	build\PublishNightlyVersion_Script.bat = build\PublishNightlyVersion_Script.bat
+	build\PublishReleaseVersion_Script.bat = build\PublishReleaseVersion_Script.bat
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C4E8FF5C-84E8-4924-920F-1743DD243BD8}"
+ProjectSection(SolutionItems) = preProject
+	README.md = README.md
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F26CF0A0-9476-44DA-82BD-2F2FABEC7D1D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A1B9B8E0-0594-4FC8-B098-ECCA6A63E8A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmos.Extensions.ObjectVisitors", "src\Cosmos.Extensions.ObjectVisitors\Cosmos.Extensions.ObjectVisitors.csproj", "{5A6B1DD2-8E2E-4BDF-9647-FB5410643DF3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{D6597A64-2296-4AF3-95B7-37BCD48602AC}"
+ProjectSection(SolutionItems) = preProject
+	.gitignore = .gitignore
+	common.props = common.props
+	common.tests.props = common.tests.props
+	LICENSE = LICENSE
+	logo.png = logo.png
+	asset\version.dev.props = asset\version.dev.props
+	asset\version.props = asset\version.props
+EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosObjectVisitorUT", "test\CosmosObjectVisitorUT\CosmosObjectVisitorUT.csproj", "{73FA076A-6AF5-4734-913A-16FF7BAA4C08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4D1177AF-1D98-49F1-AD31-F8FCE54A6FF6} = {BAAB7D34-25BF-42B9-B490-5DDB4E6088D8}
+		{50B8622E-8C87-4DAB-B046-D10E5A36B162} = {BAAB7D34-25BF-42B9-B490-5DDB4E6088D8}
+		{5A6B1DD2-8E2E-4BDF-9647-FB5410643DF3} = {F26CF0A0-9476-44DA-82BD-2F2FABEC7D1D}
+		{73FA076A-6AF5-4734-913A-16FF7BAA4C08} = {A1B9B8E0-0594-4FC8-B098-ECCA6A63E8A4}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5A6B1DD2-8E2E-4BDF-9647-FB5410643DF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A6B1DD2-8E2E-4BDF-9647-FB5410643DF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A6B1DD2-8E2E-4BDF-9647-FB5410643DF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A6B1DD2-8E2E-4BDF-9647-FB5410643DF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73FA076A-6AF5-4734-913A-16FF7BAA4C08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73FA076A-6AF5-4734-913A-16FF7BAA4C08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73FA076A-6AF5-4734-913A-16FF7BAA4C08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73FA076A-6AF5-4734-913A-16FF7BAA4C08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
