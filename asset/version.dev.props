@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Standard-PkgVersion>0.1.6.7</Standard-PkgVersion>
-        <Validation-PkgVersion>0.1.3.9</Validation-PkgVersion>
+        <Validation-PkgVersion>0.1.4</Validation-PkgVersion>
     </PropertyGroup>
 
 </Project>
