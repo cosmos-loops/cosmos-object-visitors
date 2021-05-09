@@ -1,9 +1,8 @@
 ﻿#if NETFRAMEWORK
-
 using System;
 using FastMember;
 
-namespace Cosmos.Reflection.Core.TypeHelpers
+namespace Cosmos.Reflection.ObjectVisitors.Core.TypeHelpers
 {
     internal static class TypeAccessorExtensions
     {

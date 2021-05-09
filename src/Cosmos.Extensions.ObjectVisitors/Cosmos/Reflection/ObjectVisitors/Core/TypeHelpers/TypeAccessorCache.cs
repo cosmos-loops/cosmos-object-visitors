@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FastMember;
 
-namespace Cosmos.Reflection.Core.TypeHelpers
+namespace Cosmos.Reflection.ObjectVisitors.Core.TypeHelpers
 {
     internal static class TypeAccessorCache
     {

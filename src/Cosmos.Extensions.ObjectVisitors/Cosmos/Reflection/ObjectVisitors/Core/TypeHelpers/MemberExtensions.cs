@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Cosmos.Collections;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 
-namespace Cosmos.Reflection.Core.TypeHelpers
+namespace Cosmos.Reflection.ObjectVisitors.Core.TypeHelpers
 {
     internal static class MemberExtensions
     {

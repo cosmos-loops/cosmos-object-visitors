@@ -1,10 +1,10 @@
 ﻿#if NETFRAMEWORK
 using System;
 using System.Collections.Generic;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 using FastMember;
 
-namespace Cosmos.Reflection.Core
+namespace Cosmos.Reflection.ObjectVisitors.Core
 {
     /// <summary>
     /// A compatible object caller for Cosmos
