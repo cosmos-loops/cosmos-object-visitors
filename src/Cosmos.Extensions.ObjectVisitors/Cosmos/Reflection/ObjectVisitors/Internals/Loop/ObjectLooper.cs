@@ -1,8 +1,8 @@
 ﻿using System;
-using Cosmos.Reflection.Internals.Members;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Internals.Members;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 
-namespace Cosmos.Reflection.Internals.Loop
+namespace Cosmos.Reflection.ObjectVisitors.Internals.Loop
 {
     internal class ObjectLooper : IObjectLooper
     {

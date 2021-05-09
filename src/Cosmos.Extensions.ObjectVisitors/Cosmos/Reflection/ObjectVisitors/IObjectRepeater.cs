@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Cosmos.Reflection
+namespace Cosmos.Reflection.ObjectVisitors
 {
     public interface IObjectRepeater
     {

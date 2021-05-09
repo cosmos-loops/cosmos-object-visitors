@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cosmos.Reflection.Internals.Members;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Internals.Members;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 
-namespace Cosmos.Reflection.Internals.Select
+namespace Cosmos.Reflection.ObjectVisitors.Internals.Select
 {
     internal class ObjectSelector<TVal> : IObjectSelector<TVal>
     {

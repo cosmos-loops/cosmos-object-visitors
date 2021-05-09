@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cosmos.Reflection.Core;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Core;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 
-namespace Cosmos.Reflection.Internals.Repeat
+namespace Cosmos.Reflection.ObjectVisitors.Internals.Repeat
 {
     internal class HistoricalContext
     {

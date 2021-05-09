@@ -1,4 +1,4 @@
-﻿namespace Cosmos.Reflection
+﻿namespace Cosmos.Reflection.ObjectVisitors
 {
     public interface IObjectLooper
     {

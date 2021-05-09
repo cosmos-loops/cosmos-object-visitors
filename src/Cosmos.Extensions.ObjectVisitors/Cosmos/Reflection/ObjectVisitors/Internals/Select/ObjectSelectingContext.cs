@@ -1,7 +1,7 @@
 ﻿using System;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 
-namespace Cosmos.Reflection.Internals.Select
+namespace Cosmos.Reflection.ObjectVisitors.Internals.Select
 {
     internal class InternalObjectSelectingContext<TVal>
     {

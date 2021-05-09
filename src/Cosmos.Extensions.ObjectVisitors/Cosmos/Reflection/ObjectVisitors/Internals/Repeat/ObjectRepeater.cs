@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Cosmos.Reflection.Internals.Repeat
+namespace Cosmos.Reflection.ObjectVisitors.Internals.Repeat
 {
     internal class ObjectRepeater : IObjectRepeater
     {
