@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cosmos.Reflection;
+using Cosmos.Reflection.ObjectVisitors;
 using Cosmos.Validation;
-using CosmosProwessUT.OvUT.Helpers;
-using CosmosProwessUT.OvUT.Model;
+using CosmosObjectVisitorUT.Helpers;
+using CosmosObjectVisitorUT.Model;
 using Xunit;
 
-namespace CosmosProwessUT.OvUT
+namespace CosmosObjectVisitorUT
 {
     [Trait("Validation Rules", "Generic")]
     public class ValidationRuleNormalTests : Prepare

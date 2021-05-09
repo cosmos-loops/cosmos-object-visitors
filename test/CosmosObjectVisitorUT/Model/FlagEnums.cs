@@ -5,7 +5,7 @@
  *     https://github.com/FluentValidation/FluentValidation/blob/master/src/FluentValidation.Tests/EnumValidatorTests.cs
  */
 
-namespace CosmosProwessUT.OvUT.Model
+namespace CosmosObjectVisitorUT.Model
 {
     public class FlagsEnumModel
     {

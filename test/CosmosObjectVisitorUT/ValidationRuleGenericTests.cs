@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Cosmos.Reflection;
+using Cosmos.Reflection.ObjectVisitors;
 using Cosmos.Validation;
-using CosmosProwessUT.OvUT.Helpers;
-using CosmosProwessUT.OvUT.Model;
+using CosmosObjectVisitorUT.Helpers;
+using CosmosObjectVisitorUT.Model;
 using Xunit;
 
-namespace CosmosProwessUT.OvUT
+namespace CosmosObjectVisitorUT
 {
     [Trait("Validation Rules", "Normal")]
     public class ValidationRuleGenericTests : Prepare
@@ -39,12 +39,12 @@ namespace CosmosProwessUT.OvUT
         public void Int16EqualTest()
         {
             var v = ObjectVisitorFactory.Create(Data);
-            v.VerifiableEntry.ForMember(x => x.Int16, c => c.Equal(16));
+            v.VerifiableEntry.ForMember(x => x.Int16, c => c.Equal((short) 16));
 
             var r = v.Verify();
             Assert.True(r.IsValid);
 
-            v.VerifiableEntry.ForMember(x => x.Int16, c => c.Equal(99).OverwriteRule());
+            v.VerifiableEntry.ForMember(x => x.Int16, c => c.Equal((short) 99).OverwriteRule());
 
             r = v.Verify();
             Assert.False(r.IsValid);
@@ -129,12 +129,12 @@ namespace CosmosProwessUT.OvUT
         public void Int16NotEqualTest()
         {
             var v = ObjectVisitorFactory.Create(Data);
-            v.VerifiableEntry.ForMember(x => x.Int16, c => c.NotEqual(16));
+            v.VerifiableEntry.ForMember(x => x.Int16, c => c.NotEqual((short) 16));
 
             var r = v.Verify();
             Assert.False(r.IsValid);
 
-            v.VerifiableEntry.ForMember(x => x.Int16, c => c.NotEqual(99).OverwriteRule());
+            v.VerifiableEntry.ForMember(x => x.Int16, c => c.NotEqual((short) 99).OverwriteRule());
 
             r = v.Verify();
             Assert.True(r.IsValid);
@@ -204,22 +204,22 @@ namespace CosmosProwessUT.OvUT
         public void Int16RangeTest()
         {
             var v = ObjectVisitorFactory.Create(Data);
-            v.VerifiableEntry.ForMember(x => x.Int16, c => c.Range(1, 100));
+            v.VerifiableEntry.ForMember(x => x.Int16, c => c.Range((short) 1, (short) 100));
 
             var r = v.Verify();
             Assert.True(r.IsValid);
 
-            v.VerifiableEntry.ForMember(x => x.Int16, c => c.Range(88, 100));
+            v.VerifiableEntry.ForMember(x => x.Int16, c => c.Range((short) 88, (short) 100));
 
             r = v.Verify();
             Assert.False(r.IsValid);
 
-            v.VerifiableEntry.ForMember(x => x.Int16, c => c.RangeWithCloseInterval(16, 17).OverwriteRule());
+            v.VerifiableEntry.ForMember(x => x.Int16, c => c.RangeWithCloseInterval((short) 16, (short) 17).OverwriteRule());
 
             r = v.Verify();
             Assert.True(r.IsValid);
 
-            v.VerifiableEntry.ForMember(x => x.Int16, c => c.RangeWithOpenInterval(16, 17).OverwriteRule());
+            v.VerifiableEntry.ForMember(x => x.Int16, c => c.RangeWithOpenInterval((short) 16, (short) 17).OverwriteRule());
 
             r = v.Verify();
             Assert.False(r.IsValid);
@@ -547,12 +547,12 @@ namespace CosmosProwessUT.OvUT
         {
             var v = ObjectVisitorFactory.Create(Data);
 
-            v.VerifiableEntry.ForMember(x => x.Int16, c => c.LessThan(17));
+            v.VerifiableEntry.ForMember(x => x.Int16, c => c.LessThan((short) 17));
 
             var r = v.Verify();
             Assert.True(r.IsValid);
 
-            v.VerifiableEntry.ForMember(x => x.Int16, c => c.LessThan(16).OverwriteRule());
+            v.VerifiableEntry.ForMember(x => x.Int16, c => c.LessThan((short) 16).OverwriteRule());
 
             r = v.Verify();
             Assert.False(r.IsValid);
@@ -627,12 +627,12 @@ namespace CosmosProwessUT.OvUT
         {
             var v = ObjectVisitorFactory.Create(Data);
 
-            v.VerifiableEntry.ForMember(x => x.Int16, c => c.LessThanOrEqual(16));
+            v.VerifiableEntry.ForMember(x => x.Int16, c => c.LessThanOrEqual((short) 16));
 
             var r = v.Verify();
             Assert.True(r.IsValid);
 
-            v.VerifiableEntry.ForMember(x => x.Int16, c => c.LessThanOrEqual(15).OverwriteRule());
+            v.VerifiableEntry.ForMember(x => x.Int16, c => c.LessThanOrEqual((short) 15).OverwriteRule());
 
             r = v.Verify();
             Assert.False(r.IsValid);
@@ -707,12 +707,12 @@ namespace CosmosProwessUT.OvUT
         {
             var v = ObjectVisitorFactory.Create(Data);
 
-            v.VerifiableEntry.ForMember(x => x.Int16, c => c.GreaterThan(15));
+            v.VerifiableEntry.ForMember(x => x.Int16, c => c.GreaterThan((short) 15));
 
             var r = v.Verify();
             Assert.True(r.IsValid);
 
-            v.VerifiableEntry.ForMember(x => x.Int16, c => c.GreaterThan(16).OverwriteRule());
+            v.VerifiableEntry.ForMember(x => x.Int16, c => c.GreaterThan((short) 16).OverwriteRule());
 
             r = v.Verify();
             Assert.False(r.IsValid);
@@ -787,12 +787,12 @@ namespace CosmosProwessUT.OvUT
         {
             var v = ObjectVisitorFactory.Create(Data);
 
-            v.VerifiableEntry.ForMember(x => x.Int16, c => c.GreaterThanOrEqual(16));
+            v.VerifiableEntry.ForMember(x => x.Int16, c => c.GreaterThanOrEqual((short) 16));
 
             var r = v.Verify();
             Assert.True(r.IsValid);
 
-            v.VerifiableEntry.ForMember(x => x.Int16, c => c.GreaterThanOrEqual(17).OverwriteRule());
+            v.VerifiableEntry.ForMember(x => x.Int16, c => c.GreaterThanOrEqual((short) 17).OverwriteRule());
 
             r = v.Verify();
             Assert.False(r.IsValid);
@@ -1645,87 +1645,87 @@ namespace CosmosProwessUT.OvUT
         {
             var m = new NiceAct3() {StringVal = "53"};
             var v = ObjectVisitorFactory.Create(m);
-        
+
             v.VerifiableEntry.ForMember(x => x.StringVal, c => c.Matches(@"^\w\d$"));
-        
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-        
+
             v["StringVal"] = " 5";
             r = v.Verify();
             Assert.False(r.IsValid);
-        
+
             v["StringVal"] = "S33";
             r = v.Verify();
             Assert.False(r.IsValid);
-        
+
             v["StringVal"] = "";
             r = v.Verify();
             Assert.False(r.IsValid);
-        
+
             v["StringVal"] = null;
             r = v.Verify();
             Assert.False(r.IsValid);
-            
+
             v.VerifiableEntry.ForMember("StringVal", c => c.Matches(@"^\w\d$").WithMessage("OH", false).OverwriteRule());
             r = v.Verify();
             Assert.False(r.IsValid);
             Assert.NotNull(r.Errors.SingleOrDefault(x => x.PropertyName == "StringVal"));
             Assert.Equal("OH", r.Errors.Single(x => x.PropertyName == "StringVal").Details[0].ErrorMessage);
         }
-        
+
         [Fact(DisplayName = "RegexExpression Token with String test")]
         public void RegexExpressionStringTest()
         {
             var m = new NiceAct3() {StringVal = "53", RegexExpression = @"^\w\d$"};
             var v = ObjectVisitorFactory.Create(m);
-            
+
             v.VerifiableEntry.ForMember(x => x.StringVal, c => c.Matches(u => u.RegexExpression));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-            
+
             v["StringVal"] = " 5";
             r = v.Verify();
             Assert.False(r.IsValid);
-            
+
             v["StringVal"] = "S33";
             r = v.Verify();
             Assert.False(r.IsValid);
-            
+
             v["StringVal"] = "";
             r = v.Verify();
             Assert.False(r.IsValid);
-        
+
             v["StringVal"] = null;
             r = v.Verify();
             Assert.False(r.IsValid);
         }
-        
+
         [Fact(DisplayName = "RegexExpression Token with Regex object test")]
         public void RegexExpressionRegexObjTest()
         {
             var regex = new Regex(@"^\w\d$");
-            var m = new NiceAct3() {StringVal = "53", Regex =regex};
+            var m = new NiceAct3() {StringVal = "53", Regex = regex};
             var v = ObjectVisitorFactory.Create(m);
-        
+
             v.VerifiableEntry.ForMember(x => x.StringVal, c => c.Matches(u => u.Regex));
-            
+
             var r = v.Verify();
             Assert.True(r.IsValid);
-        
+
             v["StringVal"] = " 5";
             r = v.Verify();
             Assert.False(r.IsValid);
-        
+
             v["StringVal"] = "S33";
             r = v.Verify();
             Assert.False(r.IsValid);
-        
+
             v["StringVal"] = "";
             r = v.Verify();
             Assert.False(r.IsValid);
-        
+
             v["StringVal"] = null;
             r = v.Verify();
             Assert.False(r.IsValid);

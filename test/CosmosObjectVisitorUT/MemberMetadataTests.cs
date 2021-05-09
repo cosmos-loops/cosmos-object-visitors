@@ -1,12 +1,12 @@
 ﻿#if !NETFRAMEWORK
 using System;
 using System.Linq;
-using Cosmos.Reflection.Core.Builder;
-using CosmosProwessUT.OvUT.Helpers;
-using CosmosProwessUT.OvUT.Model;
+using Cosmos.Reflection.ObjectVisitors.Core.Builder;
+using CosmosObjectVisitorUT.Helpers;
+using CosmosObjectVisitorUT.Model;
 using Xunit;
 
-namespace CosmosProwessUT.OvUT
+namespace CosmosObjectVisitorUT
 {
     [Trait("ObjectMember", "Metadata")]
     public unsafe class MemberMetadataTests : Prepare

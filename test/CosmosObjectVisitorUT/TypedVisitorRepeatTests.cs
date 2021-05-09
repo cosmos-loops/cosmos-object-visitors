@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cosmos.Reflection;
-using CosmosProwessUT.OvUT.Helpers;
-using CosmosProwessUT.OvUT.Model;
+using Cosmos.Reflection.ObjectVisitors;
+using CosmosObjectVisitorUT.Helpers;
+using CosmosObjectVisitorUT.Model;
 using Xunit;
 
-namespace CosmosProwessUT.OvUT
+namespace CosmosObjectVisitorUT
 {
     [Trait("TypedVisitor.Repeat", "ObjectRepeater")]
     public class TypedVisitorRepeatTests : Prepare

@@ -1,10 +1,11 @@
-﻿using Cosmos.Reflection;
-using CosmosProwessUT.OvUT.Helpers;
-using CosmosProwessUT.OvUT.Model;
+﻿using Cosmos.Reflection.ObjectVisitors;
+using Cosmos.Validation;
+using CosmosObjectVisitorUT.Helpers;
+using CosmosObjectVisitorUT.Model;
 using Shouldly;
 using Xunit;
 
-namespace CosmosProwessUT.OvUT
+namespace CosmosObjectVisitorUT
 {
     [Trait("Validation.FluentApi", "Validation")]
     public class ValidationFluentApiTests : Prepare

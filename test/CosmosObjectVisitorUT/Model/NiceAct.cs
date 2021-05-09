@@ -1,6 +1,7 @@
 ﻿using System;
+using CosmosObjectVisitorUT.Model;
 
-namespace CosmosProwessUT.OvUT.Model
+namespace CosmosObjectVisitorUT.Model
 {
     public class NiceAct
     {

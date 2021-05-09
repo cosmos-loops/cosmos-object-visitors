@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using CosmosObjectVisitorUT.Model;
 
-namespace CosmosProwessUT.OvUT.Model
+namespace CosmosObjectVisitorUT.Model
 {
     public class NiceAct2
     {
@@ -10,18 +11,18 @@ namespace CosmosProwessUT.OvUT.Model
         public NiceAct2(bool init)
         {
             NiceAct act = new NiceAct();
-            
+
             Str = "StrStr";
             Int16 = 16;
             Int32 = 32;
             Int64 = 64;
             Char = 'c';
-            Bytes = new byte[] {1,0,1,0,1,0,1,0,1,0};
+            Bytes = new byte[] {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
             DateTime = DateTime.Today;
             DateTimeOffset = DateTime;
             MustByNullObj = null;
             SomeObj = act;
-            SomeNiceActArray = new []{act, act, act, act, act};
+            SomeNiceActArray = new[] {act, act, act, act, act};
             SomeNiceActList = new List<NiceAct> {act, act, act, act, act};
         }
 
@@ -40,17 +41,17 @@ namespace CosmosProwessUT.OvUT.Model
         public DateTime DateTime { get; set; }
 
         public DateTimeOffset DateTimeOffset { get; set; }
-        
+
         public object MustByNullObj { get; set; }
-        
+
         public object SomeObj { get; set; }
-        
+
         public NiceAct[] SomeNiceActArray { get; set; }
-        
-        public List<NiceAct> SomeNiceActList{ get; set; }
-        
+
+        public List<NiceAct> SomeNiceActList { get; set; }
+
         public decimal Discount { get; set; }
-        
+
         public Country Country { get; set; }
 
         public override int GetHashCode()

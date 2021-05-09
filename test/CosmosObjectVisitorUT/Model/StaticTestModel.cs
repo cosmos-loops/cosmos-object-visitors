@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CosmosProwessUT.OvUT.Model
+namespace CosmosObjectVisitorUT.Model
 {
     public static class StaticTestModel
     {

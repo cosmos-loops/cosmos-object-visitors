@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using Cosmos.Reflection;
-using CosmosProwessUT.OvUT.Helpers;
-using CosmosProwessUT.OvUT.Model;
+using Cosmos.Reflection.ObjectVisitors;
+using CosmosObjectVisitorUT.Helpers;
+using CosmosObjectVisitorUT.Model;
 using Xunit;
 
-namespace CosmosProwessUT.OvUT
+namespace CosmosObjectVisitorUT
 {
     [Trait("TypedVisitor.Select", "ObjectSelector")]
     public class TypedVisitorSelectTests : Prepare

@@ -1,6 +1,7 @@
-﻿using Cosmos.Validation.Strategies;
+﻿using Cosmos.Validation;
+using Cosmos.Validation.Strategies;
 
-namespace CosmosProwessUT.OvUT.Model
+namespace CosmosObjectVisitorUT.Model
 {
     public class NormalNiceActValidationStrategy : ValidationStrategy
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cosmos.Reflection;
-using Cosmos.Reflection.Metadata;
-using CosmosProwessUT.OvUT.Helpers;
-using CosmosProwessUT.OvUT.Model;
+using Cosmos.Reflection.ObjectVisitors;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
+using CosmosObjectVisitorUT.Helpers;
+using CosmosObjectVisitorUT.Model;
 using Xunit;
 
-namespace CosmosProwessUT.OvUT
+namespace CosmosObjectVisitorUT
 {
     [Trait("TypedVisitorWithInitialValue", "ObjectVisitorWithInitialValue")]
     public class TypedVisitorWithInitialValuesTests : Prepare

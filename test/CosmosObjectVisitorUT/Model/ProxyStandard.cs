@@ -1,4 +1,4 @@
-﻿namespace CosmosProwessUT.OvUT.Model
+﻿namespace CosmosObjectVisitorUT.Model
 {
     public interface ITest
     {

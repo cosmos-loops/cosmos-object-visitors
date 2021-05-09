@@ -1,4 +1,4 @@
-﻿namespace CosmosProwessUT.OvUT.Helpers
+﻿namespace CosmosObjectVisitorUT.Helpers
 {
     public abstract class Prepare
     {

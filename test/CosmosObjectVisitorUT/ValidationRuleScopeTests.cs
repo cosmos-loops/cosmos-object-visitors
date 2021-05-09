@@ -1,9 +1,10 @@
 ﻿using System;
-using Cosmos.Reflection;
-using CosmosProwessUT.OvUT.Model;
+using Cosmos.Reflection.ObjectVisitors;
+using Cosmos.Validation;
+using CosmosObjectVisitorUT.Model;
 using Xunit;
 
-namespace CosmosProwessUT.OvUT
+namespace CosmosObjectVisitorUT
 {
     [Trait("Validation Rules", "Scope")]
     public class ValidationRuleScopeTests

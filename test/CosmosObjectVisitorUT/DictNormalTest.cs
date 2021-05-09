@@ -1,12 +1,12 @@
 ﻿#if !NETFRAMEWORK
 using System;
-using Cosmos.Reflection.Core.Builder;
-using CosmosProwessUT.OvUT.Helpers;
-using CosmosProwessUT.OvUT.Model;
+using Cosmos.Reflection.ObjectVisitors.Core.Builder;
+using CosmosObjectVisitorUT.Helpers;
+using CosmosObjectVisitorUT.Model;
 using Natasha.CSharp;
 using Xunit;
 
-namespace CosmosProwessUT.OvUT
+namespace CosmosObjectVisitorUT
 {
     [Trait("DictOperator", "普通类")]
     public class DictNormalTest : Prepare

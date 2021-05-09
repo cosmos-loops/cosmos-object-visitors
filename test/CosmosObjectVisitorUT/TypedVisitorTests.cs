@@ -1,11 +1,11 @@
 ﻿using System;
-using Cosmos.Reflection;
-using Cosmos.Reflection.Metadata;
-using CosmosProwessUT.OvUT.Helpers;
-using CosmosProwessUT.OvUT.Model;
+using Cosmos.Reflection.ObjectVisitors;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
+using CosmosObjectVisitorUT.Helpers;
+using CosmosObjectVisitorUT.Model;
 using Xunit;
 
-namespace CosmosProwessUT.OvUT
+namespace CosmosObjectVisitorUT
 {
     [Trait("TypedVisitor", "ObjectVisitor")]
     public class TypedVisitorTests : Prepare

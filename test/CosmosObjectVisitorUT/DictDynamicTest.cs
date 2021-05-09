@@ -4,7 +4,7 @@
 // using CosmosProwessUT.OvUT.Helpers;
 // using Xunit;
 //
-// namespace CosmosProwessUT.OvUT
+// namespace CosmosObjectVisitorUT.Model
 // {
 //     [Trait("DictOperator", "动态类")]
 //     public class DictDynamicTest: Prepare

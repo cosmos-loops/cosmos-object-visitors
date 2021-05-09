@@ -1,10 +1,11 @@
 ﻿using System;
-using Cosmos.Reflection;
-using CosmosProwessUT.OvUT.Helpers;
-using CosmosProwessUT.OvUT.Model;
+using Cosmos.Reflection.ObjectVisitors;
+using Cosmos.Validation;
+using CosmosObjectVisitorUT.Helpers;
+using CosmosObjectVisitorUT.Model;
 using Xunit;
 
-namespace CosmosProwessUT.OvUT
+namespace CosmosObjectVisitorUT
 {
     [Trait("Validation.Strategy/Rule Mutex", "Validation")]
     public class ValidationMutexTests : Prepare
