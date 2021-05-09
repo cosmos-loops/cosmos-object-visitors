@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using Cosmos.Reflection.Internals;
+using Cosmos.Reflection.ObjectVisitors.Internals;
 
-namespace Cosmos.Reflection
+namespace Cosmos.Reflection.ObjectVisitors
 {
     public interface IFluentGetter
     {

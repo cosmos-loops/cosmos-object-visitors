@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using Cosmos.Reflection.Internals.Members;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Internals.Members;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 
-namespace Cosmos.Reflection.Internals
+namespace Cosmos.Reflection.ObjectVisitors.Internals
 {
     internal class FluentGetterBuilder : IFluentGetter, IFluentValueGetter
     {
