@@ -1,8 +1,9 @@
 <Project>
 
     <PropertyGroup>
-        <Standard-PkgVersion>0.1.6.7</Standard-PkgVersion>
-        <Validation-PkgVersion>0.1.4</Validation-PkgVersion>
+        <Standard-PkgVersion>0.1.7.5</Standard-PkgVersion>
+        <Prowess-PkgVersion>0.1.6.8</Prowess-PkgVersion>
+        <Validation-PkgVersion>0.1.4.8</Validation-PkgVersion>
     </PropertyGroup>
 
 </Project>
