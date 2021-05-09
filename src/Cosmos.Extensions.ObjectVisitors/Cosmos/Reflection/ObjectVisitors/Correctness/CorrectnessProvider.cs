@@ -2,7 +2,7 @@
 using Cosmos.Validation.Objects;
 using Cosmos.Validation.Projects;
 
-namespace Cosmos.Reflection.Correctness
+namespace Cosmos.Reflection.ObjectVisitors.Correctness
 {
     internal class CorrectnessProvider : AbstractValidationProvider
     {

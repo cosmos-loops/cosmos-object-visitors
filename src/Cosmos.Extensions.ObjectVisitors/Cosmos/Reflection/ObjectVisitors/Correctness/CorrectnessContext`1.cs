@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using Cosmos.Reflection.Internals;
+using Cosmos.Reflection.ObjectVisitors.Internals;
 using Cosmos.Validation;
 using Cosmos.Validation.Strategies;
 
-namespace Cosmos.Reflection.Correctness
+namespace Cosmos.Reflection.ObjectVisitors.Correctness
 {
     internal class CorrectnessContext<T> : IValidationEntry<T>
     {

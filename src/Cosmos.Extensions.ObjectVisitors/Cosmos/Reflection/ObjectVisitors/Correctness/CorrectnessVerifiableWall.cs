@@ -2,7 +2,7 @@
 using Cosmos.Validation;
 using Cosmos.Validation.Validators;
 
-namespace Cosmos.Reflection.Correctness
+namespace Cosmos.Reflection.ObjectVisitors.Correctness
 {
     internal static class CorrectnessVerifiableWall
     {

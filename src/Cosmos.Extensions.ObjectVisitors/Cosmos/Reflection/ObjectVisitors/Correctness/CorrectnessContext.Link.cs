@@ -3,7 +3,7 @@ using System.Reflection;
 using Cosmos.Validation;
 using Cosmos.Validation.Strategies;
 
-namespace Cosmos.Reflection.Correctness
+namespace Cosmos.Reflection.ObjectVisitors.Correctness
 {
     internal class LinkToCorrectnessContext<T> : IValidationEntry
     {

@@ -1,8 +1,6 @@
-﻿using Cosmos.Reflection.Correctness.Interfaces;
-using Cosmos.Validation;
-using Cosmos.Validation.Strategies;
+﻿using Cosmos.Reflection.ObjectVisitors.Correctness.Interfaces;
 
-namespace Cosmos.Reflection.Correctness
+namespace Cosmos.Reflection.ObjectVisitors.Correctness
 {
     public interface IValidationEntry :
         IMayRegisterByStrategyForOv,

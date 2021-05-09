@@ -1,7 +1,7 @@
 ﻿using System;
 using Cosmos.Validation;
 
-namespace Cosmos.Reflection.Correctness
+namespace Cosmos.Reflection.ObjectVisitors.Correctness
 {
     internal static class CorrectnessOptions
     {

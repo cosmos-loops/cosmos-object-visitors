@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Cosmos.Validation;
 
-namespace Cosmos.Reflection.Correctness.Interfaces
+namespace Cosmos.Reflection.ObjectVisitors.Correctness.Interfaces
 {
     public interface IMayRegisterForMemberForOv
     {

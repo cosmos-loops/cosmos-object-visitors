@@ -1,6 +1,6 @@
 ﻿using Cosmos.Validation;
 
-namespace Cosmos.Reflection.Internals
+namespace Cosmos.Reflection.ObjectVisitors.Internals
 {
     internal static class VerifyResultExtensions
     {

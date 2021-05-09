@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Cosmos.Collections;
 using Cosmos.Validation.Projects;
 
-namespace Cosmos.Reflection.Correctness
+namespace Cosmos.Reflection.ObjectVisitors.Correctness
 {
     internal class CorrectnessProjectManager : AbstractProjectManager
     {

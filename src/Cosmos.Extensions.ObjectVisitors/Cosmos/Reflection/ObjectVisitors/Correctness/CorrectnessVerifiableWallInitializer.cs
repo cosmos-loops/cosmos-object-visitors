@@ -1,6 +1,6 @@
 ﻿using Cosmos.Validation.Registrars;
 
-namespace Cosmos.Reflection.Correctness
+namespace Cosmos.Reflection.ObjectVisitors.Correctness
 {
     internal static class CorrectnessVerifiableWallInitializer
     {

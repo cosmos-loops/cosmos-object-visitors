@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using Cosmos.Reflection.Internals.Members;
 using Cosmos.Validation;
 using Cosmos.Validation.Registrars;
-using Cosmos.Validation.Registrars.Interfaces;
 using Cosmos.Validation.Strategies;
 
-namespace Cosmos.Reflection.Correctness
+namespace Cosmos.Reflection.ObjectVisitors.Correctness
 {
     internal class RegisterRuleChain
     {

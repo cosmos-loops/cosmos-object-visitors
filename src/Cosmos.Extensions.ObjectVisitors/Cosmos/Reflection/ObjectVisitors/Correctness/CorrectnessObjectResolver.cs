@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cosmos.Reflection.Internals.Members;
+using Cosmos.Reflection.ObjectVisitors.Internals.Members;
 using Cosmos.Validation.Objects;
 
-namespace Cosmos.Reflection.Correctness
+namespace Cosmos.Reflection.ObjectVisitors.Correctness
 {
     internal class CorrectnessObjectResolver : AbstractVerifiableObjectResolver
     {

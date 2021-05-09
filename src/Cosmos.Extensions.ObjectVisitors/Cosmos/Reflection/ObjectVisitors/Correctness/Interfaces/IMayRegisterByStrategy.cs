@@ -1,7 +1,7 @@
 ﻿using Cosmos.Validation;
 using Cosmos.Validation.Strategies;
 
-namespace Cosmos.Reflection.Correctness.Interfaces
+namespace Cosmos.Reflection.ObjectVisitors.Correctness.Interfaces
 {
     public interface IMayRegisterByStrategyForOv
     {
