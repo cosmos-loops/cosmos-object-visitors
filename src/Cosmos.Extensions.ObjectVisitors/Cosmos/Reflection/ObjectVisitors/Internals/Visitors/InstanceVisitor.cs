@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Cosmos.Reflection.Core;
-using Cosmos.Reflection.Correctness;
-using Cosmos.Reflection.Internals.Members;
-using Cosmos.Reflection.Internals.Repeat;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Core;
+using Cosmos.Reflection.ObjectVisitors.Correctness;
+using Cosmos.Reflection.ObjectVisitors.Internals.Members;
+using Cosmos.Reflection.ObjectVisitors.Internals.Repeat;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Cosmos.Validation;
 
-namespace Cosmos.Reflection.Internals.Visitors
+namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 {
     internal class InstanceVisitor : IObjectVisitor, ICoreVisitor, IObjectGetter, IObjectSetter
     {
@@ -34,7 +34,7 @@ namespace Cosmos.Reflection.Internals.Visitors
                 : null;
             LiteMode = liteMode;
 
-            _lazyMemberHandler = MemberHandler.Lazy(() => new MemberHandler(_handler, SourceType), liteMode);
+            _lazyMemberHandler = MemberHandler.Lazy(_handler, SourceType, liteMode);
             _correctnessContext = strictMode
                 ? new CorrectnessContext(this, true)
                 : null;
@@ -184,6 +184,15 @@ namespace Cosmos.Reflection.Internals.Visitors
         #region Contains
 
         public bool Contains(string memberName) => _lazyMemberHandler.Value.Contains(memberName);
+
+        #endregion
+
+        #region ValueAccessor
+
+        public IPropertyValueAccessor ToValueAccessor()
+        {
+            return new ObjectPropertyValueAccessor(Instance, SourceType);
+        }
 
         #endregion
     }

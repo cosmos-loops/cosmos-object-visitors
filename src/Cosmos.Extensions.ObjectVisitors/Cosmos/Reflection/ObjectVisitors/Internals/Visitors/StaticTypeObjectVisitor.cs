@@ -1,55 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Cosmos.Reflection.Core;
-using Cosmos.Reflection.Correctness;
-using Cosmos.Reflection.Internals.Members;
-using Cosmos.Reflection.Internals.Repeat;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Core;
+using Cosmos.Reflection.ObjectVisitors.Correctness;
+using Cosmos.Reflection.ObjectVisitors.Internals.Members;
+using Cosmos.Reflection.ObjectVisitors.Internals.Repeat;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Cosmos.Validation;
 
-namespace Cosmos.Reflection.Internals.Visitors
+namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 {
-    internal class FutureInstanceVisitor : IObjectVisitor, ICoreVisitor, IObjectGetter, IObjectSetter
+    internal class StaticTypeObjectVisitor : IObjectVisitor, ICoreVisitor, IObjectGetter, IObjectSetter
     {
         private readonly ObjectCallerBase _handler;
-        private readonly Type _sourceType;
 
         private readonly Lazy<MemberHandler> _lazyMemberHandler;
 
-        protected HistoricalContext NormalHistoricalContext { get; set; }
-
-        public FutureInstanceVisitor(ObjectCallerBase handler, Type sourceType, AlgorithmKind kind, bool repeatable,
-            IDictionary<string, object> initialValues = null, bool liteMode = false, bool strictMode = false)
+        public StaticTypeObjectVisitor(ObjectCallerBase handler, Type targetType, AlgorithmKind kind, bool liteMode = false, bool strictMode = false)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
-            _sourceType = sourceType ?? throw new ArgumentNullException(nameof(sourceType));
             AlgorithmKind = kind;
 
-            _handler.New();
-            NormalHistoricalContext = repeatable
-                ? new HistoricalContext(sourceType, kind)
-                : null;
+            SourceType = targetType ?? throw new ArgumentNullException(nameof(targetType));
             LiteMode = liteMode;
 
-            _lazyMemberHandler = MemberHandler.Lazy(() => new MemberHandler(_handler, _sourceType), liteMode);
+            _lazyMemberHandler = MemberHandler.Lazy(_handler, SourceType, liteMode);
             _correctnessContext = strictMode
                 ? new CorrectnessContext(this, true)
                 : null;
-
-            if (initialValues != null)
-                SetValue(initialValues);
         }
 
-        public Type SourceType => _sourceType;
+        public Type SourceType { get; }
 
-        public bool IsStatic => false;
+        public bool IsStatic => true;
 
-        public AlgorithmKind AlgorithmKind { get; }
-
+        public AlgorithmKind AlgorithmKind  { get; }
+        
         #region Instance
 
-        public object Instance => _handler.GetInstance();
+        public object Instance => default;
 
         #endregion
 
@@ -116,7 +105,6 @@ namespace Cosmos.Reflection.Internals.Visitors
 
         private void SetValueImpl(string memberName, object value)
         {
-            NormalHistoricalContext?.RegisterOperation(c => c[memberName] = value);
             _handler[memberName] = value;
         }
 
@@ -165,8 +153,8 @@ namespace Cosmos.Reflection.Internals.Visitors
         }
 
         #endregion
-
-        public HistoricalContext ExposeHistoricalContext() => NormalHistoricalContext;
+        
+        public HistoricalContext ExposeHistoricalContext() => default;
 
         public Lazy<MemberHandler> ExposeLazyMemberHandler() => _lazyMemberHandler;
 
@@ -185,6 +173,15 @@ namespace Cosmos.Reflection.Internals.Visitors
         #region Contains
 
         public bool Contains(string memberName) => _lazyMemberHandler.Value.Contains(memberName);
+
+        #endregion
+
+        #region ValueAccessor
+
+        public IPropertyValueAccessor ToValueAccessor()
+        {
+            return new StaticPropertyValueAccessor(SourceType);
+        }
 
         #endregion
     }

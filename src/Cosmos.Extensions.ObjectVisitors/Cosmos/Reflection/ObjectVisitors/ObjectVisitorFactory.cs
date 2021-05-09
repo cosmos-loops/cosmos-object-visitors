@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cosmos.Reflection.Correctness;
-using Cosmos.Reflection.Internals;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Correctness;
+using Cosmos.Reflection.ObjectVisitors.Internals;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Cosmos.Validation;
 using Cosmos.Validation.Strategies;
 
-namespace Cosmos.Reflection
+namespace Cosmos.Reflection.ObjectVisitors
 {
     public static class ObjectVisitorFactory
     {

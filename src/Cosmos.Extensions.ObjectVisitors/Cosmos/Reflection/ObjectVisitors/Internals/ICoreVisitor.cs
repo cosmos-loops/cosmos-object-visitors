@@ -1,9 +1,9 @@
 ﻿using System;
-using Cosmos.Reflection.Internals.Members;
-using Cosmos.Reflection.Internals.Repeat;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Internals.Members;
+using Cosmos.Reflection.ObjectVisitors.Internals.Repeat;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 
-namespace Cosmos.Reflection.Internals
+namespace Cosmos.Reflection.ObjectVisitors.Internals
 {
     internal interface ICoreVisitor
     {

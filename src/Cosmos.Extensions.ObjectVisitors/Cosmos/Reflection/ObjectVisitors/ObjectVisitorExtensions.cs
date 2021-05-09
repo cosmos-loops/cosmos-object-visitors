@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cosmos.Reflection.Internals;
-using Cosmos.Reflection.Internals.Loop;
-using Cosmos.Reflection.Internals.Repeat;
-using Cosmos.Reflection.Internals.Select;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Internals;
+using Cosmos.Reflection.ObjectVisitors.Internals.Loop;
+using Cosmos.Reflection.ObjectVisitors.Internals.Repeat;
+using Cosmos.Reflection.ObjectVisitors.Internals.Select;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 
-namespace Cosmos.Reflection
+namespace Cosmos.Reflection.ObjectVisitors
 {
     public static class ObjectVisitorExtensions
     {

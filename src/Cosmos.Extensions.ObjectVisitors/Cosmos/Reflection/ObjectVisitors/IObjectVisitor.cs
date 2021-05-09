@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Cosmos.Reflection.Correctness;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Correctness;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Cosmos.Validation;
 
-namespace Cosmos.Reflection
+namespace Cosmos.Reflection.ObjectVisitors
 {
     public interface IObjectVisitor
     {
@@ -46,6 +46,8 @@ namespace Cosmos.Reflection
         ObjectMember GetMember(string memberName);
 
         bool Contains(string memberName);
+
+        IPropertyValueAccessor ToValueAccessor();
     }
     
     public interface IObjectVisitor<T> : IObjectVisitor

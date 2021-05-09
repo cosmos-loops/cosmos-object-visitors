@@ -1,9 +1,9 @@
 ﻿using System;
-using Cosmos.Reflection.Core;
-using Cosmos.Reflection.Core.Builder;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Core;
+using Cosmos.Reflection.ObjectVisitors.Core.Builder;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 
-namespace Cosmos.Reflection.Internals
+namespace Cosmos.Reflection.ObjectVisitors.Internals
 {
     internal static class SafeObjectHandleSwitcher
     {

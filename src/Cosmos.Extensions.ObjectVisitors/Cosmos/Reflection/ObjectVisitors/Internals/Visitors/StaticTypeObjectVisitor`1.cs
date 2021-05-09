@@ -1,58 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Cosmos.Reflection.Core;
-using Cosmos.Reflection.Correctness;
-using Cosmos.Reflection.Internals.Members;
-using Cosmos.Reflection.Internals.Repeat;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Core;
+using Cosmos.Reflection.ObjectVisitors.Correctness;
+using Cosmos.Reflection.ObjectVisitors.Internals.Members;
+using Cosmos.Reflection.ObjectVisitors.Internals.Repeat;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Cosmos.Validation;
 
-namespace Cosmos.Reflection.Internals.Visitors
+namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 {
-    internal class FutureInstanceVisitor<T> : IObjectVisitor<T>, ICoreVisitor<T>, IObjectGetter<T>, IObjectSetter<T>
+    internal class StaticTypeObjectVisitor<T> : IObjectVisitor<T>, ICoreVisitor<T>, IObjectGetter<T>, IObjectSetter<T>
     {
-        private readonly ObjectCallerBase<T> _handler;
-        private readonly Type _sourceType;
+        private readonly ObjectCallerBase _handler;
 
         private readonly Lazy<MemberHandler> _lazyMemberHandler;
 
-        protected HistoricalContext<T> GenericHistoricalContext { get; set; }
-
-        public FutureInstanceVisitor(ObjectCallerBase<T> handler, AlgorithmKind kind, bool repeatable,
-            IDictionary<string, object> initialValues = null, bool liteMode = false, bool strictMode = false)
+        public StaticTypeObjectVisitor(ObjectCallerBase<T> handler, AlgorithmKind kind, bool liteMode = false, bool strictMode = false)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
-            _sourceType = typeof(T);
             AlgorithmKind = kind;
 
-            _handler.New();
-
-            GenericHistoricalContext = repeatable
-                ? new HistoricalContext<T>(kind)
-                : null;
+            SourceType = typeof(T);
             LiteMode = liteMode;
 
-            _lazyMemberHandler = MemberHandler.Lazy(() => new MemberHandler(_handler, _sourceType), liteMode);
+            _lazyMemberHandler = MemberHandler.Lazy(_handler, SourceType, liteMode);
             _correctnessContext = strictMode
                 ? new CorrectnessContext<T>(this, true)
                 : null;
-
-            if (initialValues != null)
-                SetValue(initialValues);
         }
 
-        public Type SourceType => _sourceType;
+        public Type SourceType { get; }
 
-        public bool IsStatic => false;
+        public bool IsStatic => true;
 
         public AlgorithmKind AlgorithmKind { get; }
 
         #region Instance
 
-        public T Instance => _handler.GetInstance();
+        public T Instance => default;
 
-        object IObjectVisitor.Instance => _handler.GetInstance();
+        object IObjectVisitor.Instance => default;
 
         #endregion
 
@@ -151,7 +139,6 @@ namespace Cosmos.Reflection.Internals.Visitors
 
         private void SetValueImpl(string memberName, object value)
         {
-            GenericHistoricalContext?.RegisterOperation(c => c[memberName] = value);
             _handler[memberName] = value;
         }
 
@@ -226,15 +213,16 @@ namespace Cosmos.Reflection.Internals.Visitors
         }
 
         #endregion
-        
-        public HistoricalContext<T> ExposeHistoricalContext() => GenericHistoricalContext;
+
+
+        public HistoricalContext<T> ExposeHistoricalContext() => default;
 
         public Lazy<MemberHandler> ExposeLazyMemberHandler() => _lazyMemberHandler;
 
         public IObjectVisitor<T> Owner => this;
 
         public bool LiteMode { get; }
-        
+
         #region Member
 
         public IEnumerable<string> GetMemberNames() => _lazyMemberHandler.Value.GetNames();
@@ -250,13 +238,22 @@ namespace Cosmos.Reflection.Internals.Visitors
 
             return _lazyMemberHandler.Value.GetMember(name);
         }
-        
+
         #endregion
-        
+
         #region Contains
 
         public bool Contains(string memberName) => _lazyMemberHandler.Value.Contains(memberName);
-        
+
+        #endregion
+
+        #region ValueAccessor
+
+        public IPropertyValueAccessor ToValueAccessor()
+        {
+            return new StaticPropertyValueAccessor<T>();
+        }
+
         #endregion
     }
 }

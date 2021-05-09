@@ -1,30 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Cosmos.Reflection.Core;
-using Cosmos.Reflection.Correctness;
-using Cosmos.Reflection.Internals.Members;
-using Cosmos.Reflection.Internals.Repeat;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Core;
+using Cosmos.Reflection.ObjectVisitors.Correctness;
+using Cosmos.Reflection.ObjectVisitors.Internals.Members;
+using Cosmos.Reflection.ObjectVisitors.Internals.Repeat;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Cosmos.Validation;
 
-namespace Cosmos.Reflection.Internals.Visitors
+namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 {
-    internal class StaticTypeObjectVisitor<T> : IObjectVisitor<T>, ICoreVisitor<T>, IObjectGetter<T>, IObjectSetter<T>
+    internal class InstanceVisitor<T> : IObjectVisitor<T>, ICoreVisitor<T>, IObjectGetter<T>, IObjectSetter<T>
     {
-        private readonly ObjectCallerBase _handler;
+        private readonly ObjectCallerBase<T> _handler;
+        private readonly T _instance;
 
         private readonly Lazy<MemberHandler> _lazyMemberHandler;
 
-        public StaticTypeObjectVisitor(ObjectCallerBase<T> handler, AlgorithmKind kind, bool liteMode = false, bool strictMode = false)
+        protected HistoricalContext<T> GenericHistoricalContext { get; set; }
+
+        public InstanceVisitor(ObjectCallerBase<T> handler, T instance, AlgorithmKind kind, bool repeatable,
+            bool liteMode = false, bool strictMode = false)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
+            _instance = instance;
             AlgorithmKind = kind;
 
+            _handler.SetInstance(_instance);
+
             SourceType = typeof(T);
+            GenericHistoricalContext = repeatable
+                ? new HistoricalContext<T>(kind)
+                : null;
             LiteMode = liteMode;
 
-            _lazyMemberHandler = MemberHandler.Lazy(() => new MemberHandler(_handler, SourceType), liteMode);
+            _lazyMemberHandler = MemberHandler.Lazy(_handler, SourceType, liteMode);
             _correctnessContext = strictMode
                 ? new CorrectnessContext<T>(this, true)
                 : null;
@@ -32,15 +42,15 @@ namespace Cosmos.Reflection.Internals.Visitors
 
         public Type SourceType { get; }
 
-        public bool IsStatic => true;
+        public bool IsStatic => false;
 
         public AlgorithmKind AlgorithmKind { get; }
 
         #region Instance
 
-        public T Instance => default;
+        public T Instance => _instance;
 
-        object IObjectVisitor.Instance => default;
+        object IObjectVisitor.Instance => _instance;
 
         #endregion
 
@@ -139,6 +149,7 @@ namespace Cosmos.Reflection.Internals.Visitors
 
         private void SetValueImpl(string memberName, object value)
         {
+            GenericHistoricalContext?.RegisterOperation(c => c[memberName] = value);
             _handler[memberName] = value;
         }
 
@@ -149,21 +160,6 @@ namespace Cosmos.Reflection.Internals.Visitors
         public object GetValue(string memberName)
         {
             return _handler[memberName];
-        }
-
-        public object GetValue(Expression<Func<T, object>> expression)
-        {
-            if (expression is null)
-                throw new ArgumentNullException(nameof(expression));
-
-            var name = PropertySelector.GetPropertyName(expression);
-
-            return _handler[name];
-        }
-
-        public TValue GetValue<TValue>(string memberName)
-        {
-            return _handler.Get<TValue>(memberName);
         }
 
         object IObjectVisitor.GetValue<TObj>(Expression<Func<TObj, object>> expression)
@@ -192,6 +188,21 @@ namespace Cosmos.Reflection.Internals.Visitors
         TValue IObjectGetter<T>.GetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression)
             => ((IObjectVisitor) this).GetValue(expression);
 
+        public object GetValue(Expression<Func<T, object>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            return _handler[name];
+        }
+
+        public TValue GetValue<TValue>(string memberName)
+        {
+            return _handler.Get<TValue>(memberName);
+        }
+
         public TValue GetValue<TValue>(Expression<Func<T, TValue>> expression)
         {
             if (expression is null)
@@ -214,8 +225,7 @@ namespace Cosmos.Reflection.Internals.Visitors
 
         #endregion
 
-
-        public HistoricalContext<T> ExposeHistoricalContext() => default;
+        public HistoricalContext<T> ExposeHistoricalContext() => GenericHistoricalContext;
 
         public Lazy<MemberHandler> ExposeLazyMemberHandler() => _lazyMemberHandler;
 
@@ -244,6 +254,15 @@ namespace Cosmos.Reflection.Internals.Visitors
         #region Contains
 
         public bool Contains(string memberName) => _lazyMemberHandler.Value.Contains(memberName);
+
+        #endregion
+
+        #region ValueAccessor
+
+        public IPropertyValueAccessor ToValueAccessor()
+        {
+            return new ObjectPropertyValueAccessor<T>(Instance);
+        }
 
         #endregion
     }
