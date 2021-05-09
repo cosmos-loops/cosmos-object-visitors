@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 
-namespace Cosmos.Reflection.Internals.Members
+namespace Cosmos.Reflection.ObjectVisitors.Internals.Members
 {
     internal static class MemberHandlerResolver
     {

@@ -7,9 +7,10 @@ using Cosmos.Validation;
 using Cosmos.Validation.Annotations;
 using Cosmos.Validation.Objects;
 
+// ReSharper disable SuspiciousTypeConversion.Global
 // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 
-namespace Cosmos.Reflection.Internals.Members
+namespace Cosmos.Reflection.ObjectVisitors.Internals.Members
 {
     public class MemberObjectContractImpl : ICustomVerifiableObjectContractImpl
     {
@@ -24,9 +25,9 @@ namespace Cosmos.Reflection.Internals.Members
         internal MemberObjectContractImpl(MemberHandler handler)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
-            
+
             Type = handler.SourceType;
-            ObjectKind = handler.SourceType.GetObjectKind();
+            ObjectKind = ObjectKindExtensions.GetObjectKind(handler.SourceType);
             IsBasicType = ObjectKind == VerifiableObjectKind.BasicType;
 
             foreach (var member in _handler.GetMembers())
@@ -128,10 +129,10 @@ namespace Cosmos.Reflection.Internals.Members
                     yield return t;
         }
 
-        public IEnumerable<ValidationParameterAttribute> GetParameterAnnotations()
+        public IEnumerable<VerifiableParamsAttribute> GetParameterAnnotations()
         {
             foreach (var attribute in _attributes)
-                if (attribute is ValidationParameterAttribute annotation)
+                if (attribute is VerifiableParamsAttribute annotation)
                     yield return annotation;
         }
 
@@ -153,7 +154,7 @@ namespace Cosmos.Reflection.Internals.Members
         {
             foreach (var attribute in attributes)
             {
-                if (attribute is ValidationParameterAttribute)
+                if (attribute is VerifiableParamsAttribute)
                     return true;
                 if (Types.IsInterfaceDefined<Attribute, IFlagAnnotation>(attribute))
                     return true;

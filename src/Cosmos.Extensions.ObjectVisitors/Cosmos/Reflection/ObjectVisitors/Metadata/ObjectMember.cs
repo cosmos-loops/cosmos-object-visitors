@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Cosmos.Validation.Objects;
 
-namespace Cosmos.Reflection.Metadata
+namespace Cosmos.Reflection.ObjectVisitors.Metadata
 {
     public sealed class ObjectMember
     {

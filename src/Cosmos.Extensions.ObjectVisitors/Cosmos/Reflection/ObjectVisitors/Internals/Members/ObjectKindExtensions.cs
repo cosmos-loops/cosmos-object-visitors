@@ -1,7 +1,7 @@
 ﻿using System;
 using Cosmos.Validation.Objects;
 
-namespace Cosmos.Reflection.Internals.Members
+namespace Cosmos.Reflection.ObjectVisitors.Internals.Members
 {
     internal static class ObjectKindExtensions
     {

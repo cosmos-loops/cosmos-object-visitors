@@ -3,12 +3,12 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace Cosmos.Reflection.Metadata
+namespace Cosmos.Reflection.ObjectVisitors.Metadata
 {
     internal static class ObjectMemberCache
     {
         private static readonly ConcurrentDictionary<Type, Dictionary<string, ObjectMember>> _objectMemberCache;
-        private static object _cacheLockObj = new();
+        private static readonly object _cacheLockObj = new();
 
         static ObjectMemberCache()
         {

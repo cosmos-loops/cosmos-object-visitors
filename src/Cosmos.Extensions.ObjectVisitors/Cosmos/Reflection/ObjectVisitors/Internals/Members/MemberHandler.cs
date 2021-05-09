@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Cosmos.Reflection.Core;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Core;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 
-namespace Cosmos.Reflection.Internals.Members
+namespace Cosmos.Reflection.ObjectVisitors.Internals.Members
 {
     internal class MemberHandler
     {
@@ -27,23 +27,24 @@ namespace Cosmos.Reflection.Internals.Members
 
         #region Factory
 
-        public static Lazy<MemberHandler> Lazy(Func<MemberHandler> valueFactory, bool liteMode)
+        public static Lazy<MemberHandler> Lazy(ObjectCallerBase handler, Type sourceType, bool liteMode)
         {
             return liteMode
                 ? default
-                : new Lazy<MemberHandler>(valueFactory);
+                : new Lazy<MemberHandler>(() => new MemberHandler(handler, sourceType));
         }
 
         public static MemberHandler For(Type declaringType, AlgorithmKind kind = AlgorithmKind.Precision)
         {
-            var handler = SafeObjectHandleSwitcher.Switch(kind)(declaringType);
+            var handler = ObjectCallerCache.Get(declaringType, () => SafeObjectHandleSwitcher.Switch(kind)(declaringType));
             return new(handler, declaringType);
         }
 
         public static MemberHandler For<T>(AlgorithmKind kind = AlgorithmKind.Precision)
         {
-            var handler = UnsafeObjectHandleSwitcher.Switch<T>(kind)();
-            return new(handler, typeof(T));
+            var declaringType = typeof(T);
+            var handler = ObjectCallerCache.Get(declaringType, () => UnsafeObjectHandleSwitcher.Switch<T>(kind)());
+            return new(handler, declaringType);
         }
 
         #endregion

@@ -1,8 +1,8 @@
 ﻿using System;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Cosmos.Validation.Objects;
 
-namespace Cosmos.Reflection.Internals.Members
+namespace Cosmos.Reflection.ObjectVisitors.Internals.Members
 {
     internal static class MemberHandlerExtensions
     {

@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using AspectCore.Extensions.Reflection;
-using Cosmos.Reflection.Core;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Core;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Cosmos.Validation;
 using Cosmos.Validation.Annotations;
 using Cosmos.Validation.Objects;
 
+// ReSharper disable SuspiciousTypeConversion.Global
 // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 
-namespace Cosmos.Reflection.Internals.Members
+namespace Cosmos.Reflection.ObjectVisitors.Internals.Members
 {
     public class MemberValueContractImpl : ICustomVerifiableMemberContractImpl
     {
@@ -24,10 +25,10 @@ namespace Cosmos.Reflection.Internals.Members
         {
             _member = member ?? throw new ArgumentNullException(nameof(member));
             _lazyCallingHandler = new Lazy<ObjectCallerBase>(() => SafeObjectHandleSwitcher.Switch(AlgorithmKind.Precision)(declaringType));
-            
+
             DeclaringType = declaringType;
             MemberKind = member.Kind;
-            IsBasicType = member.MemberType.IsBasicType();
+            IsBasicType = ObjectKindExtensions.IsBasicType(member.MemberType);
 
             _reflectorProvider = member.MemberType.GetReflector();
             _attributes = _reflectorProvider.GetCustomAttributes();
@@ -74,10 +75,10 @@ namespace Cosmos.Reflection.Internals.Members
                     yield return t;
         }
 
-        public IEnumerable<ValidationParameterAttribute> GetParameterAnnotations()
+        public IEnumerable<VerifiableParamsAttribute> GetParameterAnnotations()
         {
             foreach (var attribute in _attributes)
-                if (attribute is ValidationParameterAttribute annotation)
+                if (attribute is VerifiableParamsAttribute annotation)
                     yield return annotation;
         }
 
@@ -188,7 +189,7 @@ namespace Cosmos.Reflection.Internals.Members
         {
             foreach (var attribute in attributes)
             {
-                if (attribute is ValidationParameterAttribute)
+                if (attribute is VerifiableParamsAttribute)
                     return true;
                 if (Types.IsInterfaceDefined<Attribute, IFlagAnnotation>(attribute))
                     return true;

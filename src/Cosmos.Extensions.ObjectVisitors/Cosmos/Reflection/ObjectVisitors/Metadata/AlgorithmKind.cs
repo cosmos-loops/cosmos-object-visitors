@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cosmos.Reflection.Metadata
+namespace Cosmos.Reflection.ObjectVisitors.Metadata
 {
     /// <summary>
     /// Kind of algorithm to find tree
