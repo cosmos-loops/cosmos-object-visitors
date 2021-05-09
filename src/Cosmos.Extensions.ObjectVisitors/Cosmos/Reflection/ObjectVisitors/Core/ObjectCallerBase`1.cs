@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 #endif
 
-namespace Cosmos.Reflection.Core
+namespace Cosmos.Reflection.ObjectVisitors.Core
 {
 #if NET5_0
     [SkipLocalsInit]

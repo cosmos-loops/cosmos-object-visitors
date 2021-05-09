@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Cosmos.Reflection.Core
+namespace Cosmos.Reflection.ObjectVisitors.Core
 {
     internal static class ObjectCallerExtensions
     {

@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using BTFindTree;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Natasha.CSharp;
 
-namespace Cosmos.Reflection.Core.Builder
+namespace Cosmos.Reflection.ObjectVisitors.Core.Builder
 {
     public class ObjectCallerBuilder
     {
@@ -209,7 +209,7 @@ namespace Cosmos.Reflection.Core.Builder
 
             return tempClass;
         }
-         
+
         private static Action<Dictionary<string, ObjectMember>> InitMetadataMappingCaller(Type runtimeProxyType)
         {
             return NDelegate

@@ -1,4 +1,4 @@
-﻿namespace Cosmos.Reflection.Core
+﻿namespace Cosmos.Reflection.ObjectVisitors.Core
 {
     public abstract class CoreCallerBase
     {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 
-namespace Cosmos.Reflection.Core
+namespace Cosmos.Reflection.ObjectVisitors.Core
 {
     public abstract class ObjectCallerBase : CoreCallerBase
     {

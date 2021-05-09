@@ -4,10 +4,10 @@ using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using BTFindTree;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Natasha.CSharp;
 
-namespace Cosmos.Reflection.Core.Builder
+namespace Cosmos.Reflection.ObjectVisitors.Core.Builder
 {
     public static class HashDictBuilder
     {

@@ -4,14 +4,14 @@ using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using BTFindTree;
-using Cosmos.Reflection.Metadata;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Natasha.CSharp;
 
-namespace Cosmos.Reflection.Core.Builder
+namespace Cosmos.Reflection.ObjectVisitors.Core.Builder
 {
-    public static class PrecisionDictBuilder
+    public static class FuzzyDictBuilder
     {
-        static PrecisionDictBuilder()
+        static FuzzyDictBuilder()
         {
             _type_cache = new ConcurrentDictionary<Type, string>();
             _str_cache = new ConcurrentDictionary<string, string>();
@@ -40,18 +40,18 @@ namespace Cosmos.Reflection.Core.Builder
                             .UseDomain(type.GetDomain(), builder => builder.LogCompilerError())
                             .UnsafeFunc<Type, ObjectCallerBase>(newFindTree, _type_cache.Keys.ToArray(), "Cosmos.Reflection.NCallerDynamic");
 
-            PrecisionDictOperator.CreateFromString = (delegate * managed<Type, ObjectCallerBase>) (newAction.Method.MethodHandle.GetFunctionPointer());
+            FuzzyDictOperator.CreateFromString = (delegate * managed<Type, ObjectCallerBase>) (newAction.Method.MethodHandle.GetFunctionPointer());
             return (ObjectCallerBase) Activator.CreateInstance(proxyType);
         }
     }
 
-    public static unsafe class PrecisionDictOperator
+    public static unsafe class FuzzyDictOperator
     {
         public static delegate* managed<Type, ObjectCallerBase> CreateFromString;
 
-        static PrecisionDictOperator()
+        static FuzzyDictOperator()
         {
-            PrecisionDictBuilder.Ctor(typeof(NullObjectClass));
+            FuzzyDictBuilder.Ctor(typeof(NullObjectClass));
         }
 
         public static ObjectCallerBase CreateFromType(Type type)
@@ -60,13 +60,13 @@ namespace Cosmos.Reflection.Core.Builder
         }
     }
 
-    public static unsafe class PrecisionDictOperator<T>
+    public static unsafe class FuzzyDictOperator<T>
     {
         public static readonly delegate* managed<ObjectCallerBase> Create;
 
-        static PrecisionDictOperator()
+        static FuzzyDictOperator()
         {
-            var dynamicType = ObjectCallerBuilder.InitType(typeof(T), AlgorithmKind.Precision);
+            var dynamicType = ObjectCallerBuilder.InitType(typeof(T), AlgorithmKind.Fuzzy);
             Create = (delegate * managed<ObjectCallerBase>) (NInstance.Creator(dynamicType).Method.MethodHandle.GetFunctionPointer());
         }
     }
