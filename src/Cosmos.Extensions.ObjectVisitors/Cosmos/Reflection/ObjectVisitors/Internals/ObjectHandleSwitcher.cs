@@ -1,6 +1,7 @@
 ﻿using System;
 using Cosmos.Reflection.ObjectVisitors.Core;
 using Cosmos.Reflection.ObjectVisitors.Core.Builder;
+using Cosmos.Reflection.ObjectVisitors.DynamicSupported;
 using Cosmos.Reflection.ObjectVisitors.Metadata;
 
 namespace Cosmos.Reflection.ObjectVisitors.Internals
@@ -31,6 +32,9 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
     {
         public static Func<ObjectCallerBase> Switch<T>(AlgorithmKind kind)
         {
+            if (DynamicObjectHelper.IsSupportedDynamicType<T>())
+                return SlimObjectCallerBuilder<T>.Ctor;
+
 #if NETFRAMEWORK
             return CompatibleCallerBuilder<T>.Ctor;
 #else

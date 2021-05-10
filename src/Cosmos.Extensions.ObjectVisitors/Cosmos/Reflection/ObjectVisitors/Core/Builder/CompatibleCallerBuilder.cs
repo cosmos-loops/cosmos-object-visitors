@@ -1,6 +1,7 @@
 ﻿#if NETFRAMEWORK
 using System;
 using Cosmos.Reflection.ObjectVisitors.Core.TypeHelpers;
+using Cosmos.Reflection.ObjectVisitors.DynamicSupported;
 using Cosmos.Reflection.ObjectVisitors.Metadata;
 
 namespace Cosmos.Reflection.ObjectVisitors.Core.Builder
@@ -9,6 +10,9 @@ namespace Cosmos.Reflection.ObjectVisitors.Core.Builder
     {
         public static ObjectCallerBase Ctor(Type type)
         {
+            if (DynamicObjectHelper.IsSupportedDynamicType(type))
+                return SlimObjectCallerBuilder.Ctor(type);
+            
             var callerType = typeof(CompatibleObjectCaller<>).MakeGenericType(type);
 
             var accessor = type.CreateTypeAccessor(true);

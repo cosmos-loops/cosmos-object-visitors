@@ -5,7 +5,7 @@ using Cosmos.Validation.Objects;
 
 namespace Cosmos.Reflection.ObjectVisitors.Metadata
 {
-    public sealed class ObjectMember
+    public class ObjectMember
     {
         public ObjectMember(
             bool canWrite,
@@ -61,8 +61,10 @@ namespace Cosmos.Reflection.ObjectVisitors.Metadata
             }
 
 #if NETFRAMEWORK
-
-            if (isStatic) { }
+            if (isStatic)
+            {
+                //TODO
+            }
 
 #endif
         }
@@ -178,7 +180,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Metadata
             bool isOverride
             ) GetMethodInfo(MethodInfo info)
         {
-            var isAsync = info?.GetCustomAttribute(typeof(AsyncStateMachineAttribute)) != null;
+            var isAsync = info?.GetCustomAttribute(typeof(AsyncStateMachineAttribute)) is not null;
             bool isStatic = info?.IsStatic ?? false;
             bool isAbstract = false;
             bool isVirtual = false;

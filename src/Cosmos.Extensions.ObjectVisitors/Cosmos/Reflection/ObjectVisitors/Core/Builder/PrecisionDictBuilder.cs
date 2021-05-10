@@ -4,6 +4,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using BTFindTree;
+using Cosmos.Reflection.ObjectVisitors.DynamicSupported;
 using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Natasha.CSharp;
 
@@ -56,6 +57,9 @@ namespace Cosmos.Reflection.ObjectVisitors.Core.Builder
 
         public static ObjectCallerBase CreateFromType(Type type)
         {
+            if (DynamicObjectHelper.IsSupportedDynamicType(type))
+                return SlimObjectCallerBuilder.Ctor(type);
+            
             return CreateFromString(type);
         }
     }
