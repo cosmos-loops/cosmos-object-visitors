@@ -36,15 +36,15 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Members
 
         public static MemberHandler For(Type declaringType, AlgorithmKind kind = AlgorithmKind.Precision)
         {
-            var handler = ObjectCallerCache.Get(declaringType, () => SafeObjectHandleSwitcher.Switch(kind)(declaringType));
+            if (declaringType is null) return default;
+            var handler = SafeObjectHandleSwitcher.Switch(kind)(declaringType);
             return new(handler, declaringType);
         }
 
         public static MemberHandler For<T>(AlgorithmKind kind = AlgorithmKind.Precision)
         {
-            var declaringType = typeof(T);
-            var handler = ObjectCallerCache.Get(declaringType, () => UnsafeObjectHandleSwitcher.Switch<T>(kind)());
-            return new(handler, declaringType);
+            var handler = UnsafeObjectHandleSwitcher.Switch<T>(kind)();
+            return new(handler, typeof(T));
         }
 
         #endregion

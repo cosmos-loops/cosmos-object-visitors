@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using AspectCore.Extensions.Reflection;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Cosmos.Validation;
 using Cosmos.Validation.Annotations;
 using Cosmos.Validation.Objects;
@@ -27,7 +28,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Members
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
 
             Type = handler.SourceType;
-            ObjectKind = ObjectKindExtensions.GetObjectKind(handler.SourceType);
+            ObjectKind = handler.SourceType.GetObjectKind();
             IsBasicType = ObjectKind == VerifiableObjectKind.BasicType;
 
             foreach (var member in _handler.GetMembers())
