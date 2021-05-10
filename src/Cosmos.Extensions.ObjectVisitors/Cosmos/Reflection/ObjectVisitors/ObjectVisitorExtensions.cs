@@ -39,6 +39,15 @@ namespace Cosmos.Reflection.ObjectVisitors
 
         #endregion
 
+        #region ToDynamicObject
+
+        public static DynamicInstance ToDynamicObject(this IObjectVisitor visitor)
+        {
+            return new(visitor);
+        }
+
+        #endregion
+
         #region To Dictionary
 
         public static Dictionary<string, object> ToDictionary(this IObjectVisitor visitor)
