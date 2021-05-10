@@ -4,6 +4,11 @@
         <name>Cosmos.Extensions.ObjectVisitors</name>
     </assembly>
     <members>
+        <member name="T:Cosmos.Reflection.ObjectVisitors.Core.CompatibleObjectCaller`1">
+            <summary>
+            A compatible object caller for Cosmos
+            </summary>
+        </member>
         <member name="M:Cosmos.Reflection.ObjectVisitors.Core.CoreCallerBase.New">
             <summary>
             如果不是静态类，可以新建一个实例
@@ -23,6 +28,21 @@
             </summary>
             <param name="name">字段/属性名</param>
             <param name="value">字段/属性新值</param>
+        </member>
+        <member name="M:Cosmos.Reflection.ObjectVisitors.Core.TypeHelpers.TypeAccessorExtensions.CreateTypeAccessor(System.Type)">
+            <summary>
+            Create TypeAccessor
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cosmos.Reflection.ObjectVisitors.Core.TypeHelpers.TypeAccessorExtensions.CreateTypeAccessor(System.Type,System.Boolean)">
+            <summary>
+            Create TypeAccessor
+            </summary>
+            <param name="type"></param>
+            <param name="allowNonPublicAccessors"></param>
+            <returns></returns>
         </member>
         <member name="T:Cosmos.Reflection.ObjectVisitors.Metadata.AlgorithmKind">
             <summary>
