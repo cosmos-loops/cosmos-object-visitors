@@ -17,7 +17,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 
         private readonly Lazy<MemberHandler> _lazyMemberHandler;
 
-        protected HistoricalContext NormalHistoricalContext { get; set; }
+        private HistoricalContext NormalHistoricalContext { get; set; }
 
         public InstanceVisitor(ObjectCallerBase handler, Type sourceType, object instance, AlgorithmKind kind, bool repeatable,
             bool liteMode = false, bool strictMode = false)
