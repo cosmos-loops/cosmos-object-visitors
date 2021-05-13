@@ -16,9 +16,12 @@ EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{F2BEB61D-2191-47DE-ADE7-E5D6EA3F4FC4}"
 ProjectSection(SolutionItems) = preProject
-	build\PublishBetaVersion_Script.bat = build\PublishBetaVersion_Script.bat
-	build\PublishNightlyVersion_Script.bat = build\PublishNightlyVersion_Script.bat
-	build\PublishReleaseVersion_Script.bat = build\PublishReleaseVersion_Script.bat
+	build\Beta.bat = build\Beta.bat
+	build\Beta_WithoutBuild.bat = build\Beta_WithoutBuild.bat
+	build\Nightly.bat = build\Nightly.bat
+	build\Nightly_WithoutBuild.bat = build\Nightly_WithoutBuild.bat
+	build\Release.bat = build\Release.bat
+	build\Release_WithoutBuild.bat = build\Release_WithoutBuild.bat
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C4E8FF5C-84E8-4924-920F-1743DD243BD8}"
