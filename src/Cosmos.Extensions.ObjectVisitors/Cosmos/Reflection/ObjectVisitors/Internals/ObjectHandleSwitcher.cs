@@ -32,7 +32,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
     {
         public static Func<ObjectCallerBase> Switch<T>(AlgorithmKind kind)
         {
-            if (DynamicObjectHelper.IsSupportedDynamicType<T>())
+            if (DynamicTypeHelper.IsSupportedDynamicType<T>())
                 return SlimObjectCallerBuilder<T>.Ctor;
 
 #if NETFRAMEWORK

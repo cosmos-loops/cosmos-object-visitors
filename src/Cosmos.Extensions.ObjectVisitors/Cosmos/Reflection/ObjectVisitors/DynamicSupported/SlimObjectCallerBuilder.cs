@@ -9,7 +9,7 @@ namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
         {
             ObjectCallerBase caller;
 
-            if (DynamicObjectHelper.IsSupportedDynamicType(type))
+            if (DynamicTypeHelper.IsSupportedDynamicType(type))
                 caller = new SlimObjectCaller();
             else
                 throw new InvalidOperationException("Is not a valid dynamic type.");
@@ -18,7 +18,7 @@ namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
         }
     }
 
-    public static class SlimObjectCallerBuilder<T>
+    internal static class SlimObjectCallerBuilder<T>
     {
         public static Func<ObjectCallerBase> Ctor => () => SlimObjectCallerBuilder.Ctor(typeof(T));
     }

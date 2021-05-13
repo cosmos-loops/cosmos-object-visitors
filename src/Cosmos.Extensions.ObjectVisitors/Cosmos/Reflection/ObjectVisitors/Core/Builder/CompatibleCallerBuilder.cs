@@ -10,7 +10,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Core.Builder
     {
         public static ObjectCallerBase Ctor(Type type)
         {
-            if (DynamicObjectHelper.IsSupportedDynamicType(type))
+            if (DynamicTypeHelper.IsSupportedDynamicType(type))
                 return SlimObjectCallerBuilder.Ctor(type);
             
             var callerType = typeof(CompatibleObjectCaller<>).MakeGenericType(type);

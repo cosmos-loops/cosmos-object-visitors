@@ -9,7 +9,13 @@ namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
         public SlimObjectMember(
             string name,
             Type type,
-            bool isAsync
-        ) : base(true, true, false, name, type, false, isAsync, false, false, false, false, false, VerifiableMemberKind.Field) { }
+            bool isAsync,
+            SlimObjectTypes dynamicType
+        ) : base(true, true, false, name, type, false, isAsync, false, false, false, false, false, VerifiableMemberKind.Field)
+        {
+            DynamicType = dynamicType;
+        }
+
+        public SlimObjectTypes DynamicType;
     }
 }

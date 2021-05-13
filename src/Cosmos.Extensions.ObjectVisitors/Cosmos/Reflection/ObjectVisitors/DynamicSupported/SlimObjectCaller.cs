@@ -1,54 +1,152 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+#if NET452 || NET462
+using Cosmos.Collections;
 using Cosmos.Exceptions;
 using Cosmos.Reflection.ObjectVisitors.Core;
 using Cosmos.Reflection.ObjectVisitors.Metadata;
 
+#else
+using Cosmos.Exceptions;
+using Cosmos.Reflection.ObjectVisitors.Core;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
+
+#endif
+
 namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
 {
+    /// <summary>
+    /// A slim ObjectCaller for ExpandoObject
+    /// </summary>
     public sealed class SlimObjectCaller : ObjectCallerBase
     {
-        private IDictionary<string, object> _dynamicObject;
+        private SlimObjectTypes _mode;
+        private IDictionary<string, object> _expandoObject;
+        private dynamic _dynamicObject;
 
-        public override void New() => _dynamicObject = new Dictionary<string, object>();
+        public override void New() => _expandoObject = new Dictionary<string, object>();
 
-        public void SetInstance(ExpandoObject value) => _dynamicObject = value;
+        public void SetInstance(ExpandoObject value)
+        {
+            _expandoObject = value;
+            _dynamicObject = default;
+            _mode = SlimObjectTypes.ForExpandoObject;
+        }
 
-        public IDictionary<string, object> Instance => _dynamicObject;
+        public void SetInstance(IDictionary<string, object> value)
+        {
+            _expandoObject = value;
+            _dynamicObject = default;
+            _mode = SlimObjectTypes.ForExpandoObject;
+        }
+
+        public void SetInstance<T>(T value) where T : DynamicObject
+        {
+            _dynamicObject = value;
+            _expandoObject = default;
+            _mode = SlimObjectTypes.ForDynamicObject;
+        }
+
+        public IDictionary<string, object> Instance
+        {
+            get
+            {
+                return _mode switch
+                {
+                    SlimObjectTypes.ForExpandoObject => _expandoObject,
+                    SlimObjectTypes.ForDynamicObject => ((DynamicObject) _dynamicObject).ToDictionary(),
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+            }
+        }
+
+        protected override HashSet<string> InternalMemberNames
+        {
+            get
+            {
+                return _mode switch
+                {
+                    SlimObjectTypes.ForDynamicObject => ((DynamicObject) _dynamicObject).GetDynamicMemberNames().ToHashSet(),
+                    SlimObjectTypes.ForExpandoObject => _expandoObject.Keys.ToHashSet(),
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+            }
+        }
 
         public override T Get<T>(string name)
         {
-            var @try = Try.Create(() => _dynamicObject[name].As<T>());
-            return @try.GetSafeValue(default(T));
+            switch (_mode)
+            {
+                case SlimObjectTypes.ForDynamicObject:
+                {
+                    var @try = Try.Create(() => (T) _dynamicObject[name]);
+                    return @try.GetSafeValue(default(T));
+                }
+
+                case SlimObjectTypes.ForExpandoObject:
+                {
+                    var @try = Try.Create(() => _expandoObject[name].As<T>());
+                    return @try.GetSafeValue(default(T));
+                }
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         public override void Set(string name, object value)
         {
-            _dynamicObject[name] = value;
+            switch (_mode)
+            {
+                case SlimObjectTypes.ForDynamicObject:
+                    _dynamicObject[name] = value;
+                    break;
+
+                case SlimObjectTypes.ForExpandoObject:
+                    _expandoObject[name] = value;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         public override void SetObjInstance(object obj)
         {
-            if (obj is null)
-                return;
-            if (obj is ExpandoObject expandoObject)
-                _dynamicObject = expandoObject;
-            else if (obj is IObjectVisitor objectVisitor)
-                _dynamicObject = objectVisitor.ToDictionary();
-            else if (obj is DynamicInstance dynamicInstance)
-                _dynamicObject = dynamicInstance.ExposeVisitor().ToDictionary();
-            else if (obj is DynamicObject dynamicObject)
-                _dynamicObject = dynamicObject.ToDictionary();
-            else
-                _dynamicObject = (IDictionary<string, object>) obj;
+            switch (obj)
+            {
+                case null:
+                    return;
+                case ExpandoObject expandoObject:
+                    SetInstance(expandoObject);
+                    break;
+                case IObjectVisitor objectVisitor:
+                    SetInstance(objectVisitor.ToDictionary());
+                    break;
+                case DynamicInstance dynamicInstance:
+                    SetInstance(dynamicInstance.ExposeVisitor().ToDictionary());
+                    break;
+                case DynamicObject dynamicObject:
+                    SetInstance(dynamicObject);
+                    break;
+                default:
+                    SetInstance((IDictionary<string, object>) obj);
+                    break;
+            }
         }
 
         public override object GetObject(string name)
         {
-            var @try = Try.Create(() => _dynamicObject[name]);
+            var @try = _mode switch
+            {
+                SlimObjectTypes.ForExpandoObject => Try.Create(() => _expandoObject[name]),
+                SlimObjectTypes.ForDynamicObject => Try.Create(() => _dynamicObject[name]),
+                _ => throw new ArgumentOutOfRangeException()
+            };
             return @try.GetSafeValue(default(object));
         }
 
@@ -57,14 +155,36 @@ namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
 
-            if (_dynamicObject.TryGetValue(name, out var target))
+            switch (_mode)
             {
-                var runtimeType = GetRuntimeType(target);
-                var isAsync = runtimeType?.GetCustomAttribute(typeof(AsyncStateMachineAttribute)) is not null;
-                return new SlimObjectMember(name, runtimeType, isAsync);
-            }
+                case SlimObjectTypes.ForDynamicObject:
+                {
+                    if (((DynamicObject) _dynamicObject).GetDynamicMemberNames().Contains(name))
+                    {
+                        var target = _dynamicObject[name];
+                        var runtimeType = GetRuntimeType(target);
+                        var isAsync = runtimeType?.GetCustomAttribute(typeof(AsyncStateMachineAttribute)) is not null;
+                        return new SlimObjectMember(name, runtimeType, isAsync, _mode);
+                    }
 
-            throw new ArgumentException($"There's no such member named {name}");
+                    throw new ArgumentException($"There's no such member named {name}");
+                }
+
+                case SlimObjectTypes.ForExpandoObject:
+                {
+                    if (_expandoObject.TryGetValue(name, out var target))
+                    {
+                        var runtimeType = GetRuntimeType(target);
+                        var isAsync = runtimeType?.GetCustomAttribute(typeof(AsyncStateMachineAttribute)) is not null;
+                        return new SlimObjectMember(name, runtimeType, isAsync, _mode);
+                    }
+
+                    throw new ArgumentException($"There's no such member named {name}");
+                }
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private static Type GetRuntimeType(object target)

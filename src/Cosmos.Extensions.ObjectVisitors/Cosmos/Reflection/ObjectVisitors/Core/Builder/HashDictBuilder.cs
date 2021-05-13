@@ -57,7 +57,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Core.Builder
 
         public static ObjectCallerBase CreateFromType(Type type)
         {
-            if (DynamicObjectHelper.IsSupportedDynamicType(type))
+            if (DynamicTypeHelper.IsSupportedDynamicType(type))
                 return SlimObjectCallerBuilder.Ctor(type);
             
             return CreateFromString(type);

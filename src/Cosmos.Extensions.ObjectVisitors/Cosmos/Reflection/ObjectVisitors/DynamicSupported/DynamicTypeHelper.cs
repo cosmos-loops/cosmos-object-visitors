@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using Cosmos.Reflection.ObjectVisitors.Core;
 
 namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
 {
-    internal static class DynamicObjectHelper
+    internal static class DynamicTypeHelper
     {
         public static bool IsSupportedDynamicType<T>()
         {
@@ -26,6 +27,20 @@ namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
                 return true;
 
             return false;
+        }
+
+        public static Dictionary<string, object> ToDictionary<T>(this T dynamicObject)
+            where T : DynamicObject
+        {
+            var d = new Dictionary<string, object>();
+            if (dynamicObject is null)
+                return d;
+
+            dynamic ptr = dynamicObject;
+            foreach (var name in dynamicObject.GetDynamicMemberNames())
+                d[name] = ptr[name];
+
+            return d;
         }
     }
 }
