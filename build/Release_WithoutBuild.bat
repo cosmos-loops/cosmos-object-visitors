@@ -1,7 +1,7 @@
 @echo off
 
 echo =======================================================================
-echo Cosmos.Extensions.ObjectVisitors
+echo Cosmos.ObjectVisitors (Without Build)
 echo =======================================================================
 
 ::go to parent folder
@@ -12,25 +12,6 @@ if not exist nuget_packages (
     md nuget_packages
     echo Created nuget_packages folder.
 )
-
-::clear nuget_packages
-for /R "nuget_packages" %%s in (*) do (
-    del "%%s"
-)
-echo Cleaned up all nuget packages.
-echo.
-
-::start to package all projects
-
-::cosmos-object-visitors
-dotnet pack src/Cosmos.Extensions.ObjectVisitors/Cosmos.Extensions.ObjectVisitors.csproj -c Release -o nuget_packages --no-restore
-
-for /R "nuget_packages" %%s in (*symbols.nupkg) do (
-    del "%%s"
-)
-
-echo.
-echo.
 
 ::push nuget packages to server
 for /R "nuget_packages" %%s in (*.nupkg) do ( 	
