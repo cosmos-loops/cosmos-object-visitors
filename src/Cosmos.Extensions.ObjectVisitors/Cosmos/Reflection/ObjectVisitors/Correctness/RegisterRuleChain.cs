@@ -42,9 +42,62 @@ namespace Cosmos.Reflection.ObjectVisitors.Correctness
             UpdateRegisterHandler(registrar => registrar.ForStrategy(strategy, mode).TakeEffectAndBack());
         }
 
+        public void RegisterRulePackage(Type declaringType, VerifyRulePackage package, VerifyRuleMode mode = VerifyRuleMode.Append)
+        {
+            if (declaringType is not null
+             && package is not null
+             && declaringType == package.DeclaringType)
+            {
+                UpdateRegisterHandler(registrar => registrar.ForType(declaringType).WithRulePackage(package, mode).TakeEffectAndBack());
+            }
+        }
+
+        public void RegisterRulePackage<T>(VerifyRulePackage package, VerifyRuleMode mode = VerifyRuleMode.Append)
+        {
+            if (package is not null && typeof(T) == package.DeclaringType)
+            {
+                UpdateRegisterHandler(registrar => registrar.ForType<T>().WithRulePackage(package, mode).TakeEffectAndBack());
+            }
+        }
+
+        public void RegisterMemberRulePackage(Type declaringType, string memberName, VerifyMemberRulePackage package, VerifyRuleMode mode = VerifyRuleMode.Append)
+        {
+            if (declaringType is not null
+             && !string.IsNullOrWhiteSpace(memberName)
+             && package is not null
+             && declaringType == package.DeclaringType
+             && memberName == package.MemberName)
+            {
+                UpdateRegisterHandler(registrar => registrar.ForType(declaringType).ForMember(memberName).WithMemberRulePackage(package, mode).TakeEffectAndBack());
+            }
+        }
+
+        public void RegisterMemberRulePackage<T>(string memberName, VerifyMemberRulePackage package, VerifyRuleMode mode = VerifyRuleMode.Append)
+        {
+            if (!string.IsNullOrWhiteSpace(memberName)
+             && package is not null
+             && typeof(T) == package.DeclaringType
+             && memberName == package.MemberName)
+            {
+                UpdateRegisterHandler(registrar => registrar.ForType<T>().ForMember(memberName).WithMemberRulePackage(package, mode).TakeEffectAndBack());
+            }
+        }
+
+        public void RegisterMemberRulePackage<T, TVal>(Expression<Func<T, TVal>> expression, VerifyMemberRulePackage package, VerifyRuleMode mode = VerifyRuleMode.Append)
+        {
+            if (expression is not null
+             && package is not null
+             && typeof(T) == package.DeclaringType)
+            {
+                UpdateRegisterHandler(registrar => registrar.ForType<T>().ForMember(expression).WithMemberRulePackage(package, mode).TakeEffectAndBack());
+            }
+        }
+
         public void RegisterMember(Type declaringType, string memberName, Func<IValueRuleBuilder, IValueRuleBuilder> func)
         {
-            if (declaringType is not null && func is not null)
+            if (declaringType is not null
+             && func is not null
+             && !string.IsNullOrWhiteSpace(memberName))
             {
                 UpdateRegisterHandler(registrar => registrar.ForType(declaringType).ForMember(memberName).WithConfig(func).TakeEffectAndBack());
             }

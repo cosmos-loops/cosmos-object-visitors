@@ -42,8 +42,27 @@ namespace Cosmos.Reflection.ObjectVisitors.Correctness
 
         public IValidationEntry SetStrategy<TStrategy>(TStrategy strategy, StrategyMode mode = StrategyMode.OverallOverwrite) where TStrategy : class, IValidationStrategy, new()
         {
-            if (strategy is null) throw new ArgumentNullException(nameof(strategy));
+            if (strategy is null)
+                throw new ArgumentNullException(nameof(strategy));
             CorrectRuleChain.RegisterStrategy(strategy, mode);
+            _needToBuild = true;
+            return this;
+        }
+
+        public IValidationEntry SetRulePackage(VerifyRulePackage package, VerifyRuleMode mode = VerifyRuleMode.Append)
+        {
+            if (package is null)
+                throw new ArgumentNullException(nameof(package));
+            CorrectRuleChain.RegisterRulePackage(_visitor.SourceType, package, mode);
+            _needToBuild = true;
+            return this;
+        }
+
+        public IValidationEntry SetMemberRulePackage(string name, VerifyMemberRulePackage package, VerifyRuleMode mode = VerifyRuleMode.Append)
+        {
+            if (package is null)
+                throw new ArgumentNullException(nameof(package));
+            CorrectRuleChain.RegisterMemberRulePackage(_visitor.SourceType, name, package, mode);
             _needToBuild = true;
             return this;
         }
@@ -97,6 +116,24 @@ namespace Cosmos.Reflection.ObjectVisitors.Correctness
 
                 return _handler;
             }
+        }
+
+        #endregion
+
+        #region VerifyRulePackage
+
+        public VerifyRulePackage ExposeRulePackage()
+        {
+            if (ValidationHandler is null)
+                return VerifyRulePackage.Empty;
+            return ValidationHandler.ExposeRulePackage(_visitor.SourceType);
+        }
+
+        public VerifyMemberRulePackage ExposeMemberRulePackage(string memberName)
+        {
+            if (ValidationHandler is null)
+                return VerifyMemberRulePackage.Empty;
+            return ValidationHandler.ExposeMemberRulePackage(_visitor.SourceType, memberName);
         }
 
         #endregion

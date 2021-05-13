@@ -30,6 +30,18 @@ namespace Cosmos.Reflection.ObjectVisitors.Correctness
             return this;
         }
 
+        public IValidationEntry SetRulePackage(VerifyRulePackage package, VerifyRuleMode mode = VerifyRuleMode.Append)
+        {
+            RuleChainRef.RegisterRulePackage(_declaringType, package, mode);
+            return this;
+        }
+
+        public IValidationEntry SetMemberRulePackage(string name, VerifyMemberRulePackage package, VerifyRuleMode mode = VerifyRuleMode.Append)
+        {
+            RuleChainRef.RegisterMemberRulePackage(_declaringType, name, package, mode);
+            return this;
+        }
+
         public IValidationEntry ForMember(string name, Func<IValueRuleBuilder, IValueRuleBuilder> func)
         {
             RuleChainRef.RegisterMember(_declaringType, name, func);
@@ -52,6 +64,16 @@ namespace Cosmos.Reflection.ObjectVisitors.Correctness
         {
             get => _linkToGenericContext.StrictMode;
             set => _linkToGenericContext.StrictMode = value;
+        }
+
+        public VerifyRulePackage ExposeRulePackage()
+        {
+            return _linkToGenericContext.ExposeRulePackage();
+        }
+
+        public VerifyMemberRulePackage ExposeMemberRulePackage(string memberName)
+        {
+            return _linkToGenericContext.ExposeMemberRulePackage(memberName);
         }
     }
 }

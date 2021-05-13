@@ -49,6 +49,33 @@ namespace Cosmos.Reflection.ObjectVisitors.Correctness
             return this;
         }
 
+        public IValidationEntry<T> SetRulePackage(VerifyRulePackage package, VerifyRuleMode mode = VerifyRuleMode.Append)
+        {
+            if (package is null)
+                throw new ArgumentNullException(nameof(package));
+            CorrectRuleChain.RegisterRulePackage<T>(package, mode);
+            _needToBuild = true;
+            return this;
+        }
+
+        public IValidationEntry<T> SetMemberRulePackage(string memberName, VerifyMemberRulePackage package, VerifyRuleMode mode = VerifyRuleMode.Append)
+        {
+            if (package is null)
+                throw new ArgumentNullException(nameof(package));
+            CorrectRuleChain.RegisterMemberRulePackage<T>(memberName, package, mode);
+            _needToBuild = true;
+            return this;
+        }
+
+        public IValidationEntry<T> SetMemberRulePackage<TVal>(Expression<Func<T, TVal>> expression, VerifyMemberRulePackage package, VerifyRuleMode mode = VerifyRuleMode.Append)
+        {
+            if (package is null)
+                throw new ArgumentNullException(nameof(package));
+            CorrectRuleChain.RegisterMemberRulePackage(expression, package, mode);
+            _needToBuild = true;
+            return this;
+        }
+
         public IValidationEntry<T> ForMember(string name, Func<IValueRuleBuilder<T>, IValueRuleBuilder<T>> func)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -107,6 +134,24 @@ namespace Cosmos.Reflection.ObjectVisitors.Correctness
 
                 return _handler;
             }
+        }
+
+        #endregion
+
+        #region VerifyRulePackage
+
+        public VerifyRulePackage ExposeRulePackage()
+        {
+            if (ValidationHandler is null)
+                return VerifyRulePackage.Empty;
+            return ValidationHandler.ExposeRulePackage(_visitor.SourceType);
+        }
+
+        public VerifyMemberRulePackage ExposeMemberRulePackage(string memberName)
+        {
+            if (ValidationHandler is null)
+                return VerifyMemberRulePackage.Empty;
+            return ValidationHandler.ExposeMemberRulePackage(_visitor.SourceType, memberName);
         }
 
         #endregion
