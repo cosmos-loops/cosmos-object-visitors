@@ -19,17 +19,17 @@ namespace Cosmos.Reflection.ObjectVisitors
 
         IValidationEntry VerifiableEntry { get; }
 
-        VerifyResult Verify();
+        VerifyResult Verify(bool withGlobalRules = false);
 
-        void VerifyAndThrow();
+        void VerifyAndThrow(bool withGlobalRules = false);
 
-        void SetValue(string memberName, object value);
+        void SetValue(string memberName, object value, bool validationWithGlobalRules = false);
 
-        void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value);
+        void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value, bool validationWithGlobalRules = false);
 
-        void SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value);
+        void SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value, bool validationWithGlobalRules = false);
 
-        void SetValue(IDictionary<string, object> keyValueCollection);
+        void SetValue(IDictionary<string, object> keyValueCollection, bool validationWithGlobalRules = false);
 
         object GetValue(string memberName);
 
@@ -56,9 +56,9 @@ namespace Cosmos.Reflection.ObjectVisitors
 
         new IValidationEntry<T> VerifiableEntry { get; }
 
-        void SetValue(Expression<Func<T, object>> expression, object value);
+        void SetValue(Expression<Func<T, object>> expression, object value, bool validationWithGlobalRules = false);
 
-        void SetValue<TValue>(Expression<Func<T, TValue>> expression, TValue value);
+        void SetValue<TValue>(Expression<Func<T, TValue>> expression, TValue value, bool validationWithGlobalRules = false);
 
         object GetValue(Expression<Func<T, object>> expression);
 

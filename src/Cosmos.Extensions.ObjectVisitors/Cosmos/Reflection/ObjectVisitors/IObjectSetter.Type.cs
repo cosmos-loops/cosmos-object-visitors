@@ -8,13 +8,13 @@ namespace Cosmos.Reflection.ObjectVisitors
     {
         object Instance { get; }
         
-        void SetValue(string memberName, object value);
+        void SetValue(string memberName, object value, bool validationWithGlobalRules = false);
 
-        void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value);
+        void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value, bool validationWithGlobalRules = false);
 
-        void SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value);
+        void SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value, bool validationWithGlobalRules = false);
 
-        void SetValue(IDictionary<string, object> keyValueCollection);
+        void SetValue(IDictionary<string, object> keyValueCollection, bool validationWithGlobalRules = false);
         
         bool Contains(string memberName);
     }
@@ -23,17 +23,17 @@ namespace Cosmos.Reflection.ObjectVisitors
     {
         T Instance { get; }
         
-        void SetValue(string memberName, object value);
+        void SetValue(string memberName, object value, bool validationWithGlobalRules = false);
         
-        void SetValue(Expression<Func<T, object>> expression, object value);
+        void SetValue(Expression<Func<T, object>> expression, object value, bool validationWithGlobalRules = false);
 
-        void SetValue<TValue>(Expression<Func<T, TValue>> expression, TValue value);
+        void SetValue<TValue>(Expression<Func<T, TValue>> expression, TValue value, bool validationWithGlobalRules = false);
 
-        void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value);
+        void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value, bool validationWithGlobalRules = false);
 
-        void SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value);
+        void SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value, bool validationWithGlobalRules = false);
 
-        void SetValue(IDictionary<string, object> keyValueCollection);
+        void SetValue(IDictionary<string, object> keyValueCollection, bool validationWithGlobalRules = false);
         
         bool Contains(string memberName);
     }
