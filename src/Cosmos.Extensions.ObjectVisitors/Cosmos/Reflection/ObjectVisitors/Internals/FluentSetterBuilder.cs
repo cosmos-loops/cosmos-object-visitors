@@ -7,7 +7,7 @@ using Cosmos.Reflection.ObjectVisitors.Metadata;
 
 namespace Cosmos.Reflection.ObjectVisitors.Internals
 {
-      internal class FluentSetterBuilder : IFluentSetter, IFluentValueSetter
+    internal class FluentSetterBuilder : IFluentSetter, IFluentValueSetter
     {
         private readonly Type _type;
         private readonly AlgorithmKind _kind;

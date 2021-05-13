@@ -158,47 +158,47 @@ namespace Cosmos.Reflection.ObjectVisitors.Correctness
 
         #region Verify
 
-        public VerifyResult Verify(bool withGlobalRules = false)
+        public VerifyResult Verify(bool withGlobalRules, string withGlobalProviderName = "")
         {
             if (ValidationHandler is null)
                 return VerifyResult.Success;
             var master = ValidationHandler.Verify(_visitor.SourceType, _visitor.Instance);
             var slave = withGlobalRules
-                ? ValidationMe.Resolve<T>().Verify(_visitor.Instance)
+                ? ValidationMe.Resolve<T>(withGlobalProviderName).Verify(_visitor.Instance)
                 : VerifyResult.Success;
             return VerifyResult.Merge(master, slave);
         }
 
-        public VerifyResult VerifyOne(string memberName, bool withGlobalRules = false)
+        public VerifyResult VerifyOne(string memberName, bool withGlobalRules, string withGlobalProviderName = "")
         {
             if (ValidationHandler is null)
                 return VerifyResult.Success;
             var value = _visitor.ExposeLazyMemberHandler().Value.GetValueObject(memberName);
             var master = ValidationHandler.VerifyOne(_visitor.SourceType, value, memberName);
             var slave = withGlobalRules
-                ? ValidationMe.Resolve<T>().VerifyOne(value, memberName)
+                ? ValidationMe.Resolve<T>(withGlobalProviderName).VerifyOne(value, memberName)
                 : VerifyResult.Success;
             return VerifyResult.Merge(master, slave);
         }
 
-        public VerifyResult VerifyOne(string memberName, object value, bool withGlobalRules = false)
+        public VerifyResult VerifyOne(string memberName, object value, bool withGlobalRules, string withGlobalProviderName = "")
         {
             if (ValidationHandler is null)
                 return VerifyResult.Success;
             var master = ValidationHandler.VerifyOne(_visitor.SourceType, value, memberName);
             var slave = withGlobalRules
-                ? ValidationMe.Resolve<T>().VerifyOne(value, memberName)
+                ? ValidationMe.Resolve<T>(withGlobalProviderName).VerifyOne(value, memberName)
                 : VerifyResult.Success;
             return VerifyResult.Merge(master, slave);
         }
 
-        public VerifyResult VerifyMany(IDictionary<string, object> keyValueCollections, bool withGlobalRules = false)
+        public VerifyResult VerifyMany(IDictionary<string, object> keyValueCollections, bool withGlobalRules, string withGlobalProviderName = "")
         {
             if (ValidationHandler is null)
                 return VerifyResult.Success;
             var master = ValidationHandler.VerifyMany(_visitor.SourceType, keyValueCollections);
             var slave = withGlobalRules
-                ? ValidationMe.Resolve<T>().VerifyMany(_visitor.SourceType, keyValueCollections)
+                ? ValidationMe.Resolve<T>(withGlobalProviderName).VerifyMany(_visitor.SourceType, keyValueCollections)
                 : VerifyResult.Success;
             return VerifyResult.Merge(master, slave);
         }

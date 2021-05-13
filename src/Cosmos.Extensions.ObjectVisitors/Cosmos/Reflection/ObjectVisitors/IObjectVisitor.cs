@@ -19,17 +19,29 @@ namespace Cosmos.Reflection.ObjectVisitors
 
         IValidationEntry VerifiableEntry { get; }
 
-        VerifyResult Verify(bool withGlobalRules = false);
+        VerifyResult Verify();
 
-        void VerifyAndThrow(bool withGlobalRules = false);
+        VerifyResult Verify(string globalVerifyProviderName);
 
-        void SetValue(string memberName, object value, bool validationWithGlobalRules = false);
+        void VerifyAndThrow();
 
-        void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value, bool validationWithGlobalRules = false);
+        void VerifyAndThrow(string globalVerifyProviderName);
 
-        void SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value, bool validationWithGlobalRules = false);
+        void SetValue(string memberName, object value);
 
-        void SetValue(IDictionary<string, object> keyValueCollection, bool validationWithGlobalRules = false);
+        void SetValue(string memberName, object value, string globalVerifyProviderName);
+
+        void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value);
+
+        void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value, string globalVerifyProviderName);
+
+        void SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value);
+
+        void SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value, string globalVerifyProviderName);
+
+        void SetValue(IDictionary<string, object> keyValueCollection);
+
+        void SetValue(IDictionary<string, object> keyValueCollection, string globalVerifyProviderName);
 
         object GetValue(string memberName);
 
@@ -49,16 +61,20 @@ namespace Cosmos.Reflection.ObjectVisitors
 
         IPropertyValueAccessor ToValueAccessor();
     }
-    
+
     public interface IObjectVisitor<T> : IObjectVisitor
     {
         new T Instance { get; }
 
         new IValidationEntry<T> VerifiableEntry { get; }
 
-        void SetValue(Expression<Func<T, object>> expression, object value, bool validationWithGlobalRules = false);
+        void SetValue(Expression<Func<T, object>> expression, object value);
 
-        void SetValue<TValue>(Expression<Func<T, TValue>> expression, TValue value, bool validationWithGlobalRules = false);
+        void SetValue(Expression<Func<T, object>> expression, object value, string validationWithGlobalRules);
+
+        void SetValue<TValue>(Expression<Func<T, TValue>> expression, TValue value);
+
+        void SetValue<TValue>(Expression<Func<T, TValue>> expression, TValue value, string globalVerifyProviderName);
 
         object GetValue(Expression<Func<T, object>> expression);
 

@@ -64,22 +64,33 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 
         public IValidationEntry VerifiableEntry => _correctnessContext ??= new CorrectnessContext(this, false);
 
-        public VerifyResult Verify(bool withGlobalRules = false) => ((CorrectnessContext) VerifiableEntry).Verify(withGlobalRules);
+        public VerifyResult Verify() => ((CorrectnessContext) VerifiableEntry).Verify(false);
 
-        public void VerifyAndThrow(bool withGlobalRules = false) => Verify(withGlobalRules).Raise();
+        public VerifyResult Verify(string globalVerifyProviderName) => ((CorrectnessContext) VerifiableEntry).Verify(true, globalVerifyProviderName);
+
+        public void VerifyAndThrow() => Verify().Raise();
+
+        public void VerifyAndThrow(string globalVerifyProviderName) => Verify(globalVerifyProviderName).Raise();
 
         #endregion
 
         #region SetValue
 
-        public void SetValue(string memberName, object value, bool validationWithGlobalRules = false)
+        public void SetValue(string memberName, object value)
         {
             if (StrictMode)
-                ((CorrectnessContext) VerifiableEntry).VerifyOne(memberName, value, validationWithGlobalRules).Raise();
+                ((CorrectnessContext) VerifiableEntry).VerifyOne(memberName, value, false).Raise();
             SetValueImpl(memberName, value);
         }
 
-        public void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value, bool validationWithGlobalRules = false)
+        public void SetValue(string memberName, object value, string globalVerifyProviderName)
+        {
+            if (StrictMode)
+                ((CorrectnessContext) VerifiableEntry).VerifyOne(memberName, value, true, globalVerifyProviderName).Raise();
+            SetValueImpl(memberName, value);
+        }
+
+        public void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value)
         {
             if (expression is null)
                 return;
@@ -87,11 +98,11 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             var name = PropertySelector.GetPropertyName(expression);
 
             if (StrictMode)
-                ((CorrectnessContext) VerifiableEntry).VerifyOne(name, value, validationWithGlobalRules).Raise();
+                ((CorrectnessContext) VerifiableEntry).VerifyOne(name, value, false).Raise();
             SetValueImpl(name, value);
         }
 
-        public void SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value, bool validationWithGlobalRules = false)
+        public void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value, string globalVerifyProviderName)
         {
             if (expression is null)
                 return;
@@ -99,16 +110,50 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             var name = PropertySelector.GetPropertyName(expression);
 
             if (StrictMode)
-                ((CorrectnessContext) VerifiableEntry).VerifyOne(name, value, validationWithGlobalRules).Raise();
+                ((CorrectnessContext) VerifiableEntry).VerifyOne(name, value, true, globalVerifyProviderName).Raise();
             SetValueImpl(name, value);
         }
 
-        public void SetValue(IDictionary<string, object> keyValueCollection, bool validationWithGlobalRules = false)
+        public void SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value)
+        {
+            if (expression is null)
+                return;
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            if (StrictMode)
+                ((CorrectnessContext) VerifiableEntry).VerifyOne(name, value, false).Raise();
+            SetValueImpl(name, value);
+        }
+
+        public void SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value, string globalVerifyProviderName)
+        {
+            if (expression is null)
+                return;
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            if (StrictMode)
+                ((CorrectnessContext) VerifiableEntry).VerifyOne(name, value, true, globalVerifyProviderName).Raise();
+            SetValueImpl(name, value);
+        }
+
+        public void SetValue(IDictionary<string, object> keyValueCollection)
         {
             if (keyValueCollection is null)
                 throw new ArgumentNullException(nameof(keyValueCollection));
             if (StrictMode)
-                ((CorrectnessContext) VerifiableEntry).VerifyMany(keyValueCollection, validationWithGlobalRules).Raise();
+                ((CorrectnessContext) VerifiableEntry).VerifyMany(keyValueCollection, false).Raise();
+            foreach (var keyValue in keyValueCollection)
+                SetValueImpl(keyValue.Key, keyValue.Value);
+        }
+
+        public void SetValue(IDictionary<string, object> keyValueCollection, string globalVerifyProviderName)
+        {
+            if (keyValueCollection is null)
+                throw new ArgumentNullException(nameof(keyValueCollection));
+            if (StrictMode)
+                ((CorrectnessContext) VerifiableEntry).VerifyMany(keyValueCollection, true, globalVerifyProviderName).Raise();
             foreach (var keyValue in keyValueCollection)
                 SetValueImpl(keyValue.Key, keyValue.Value);
         }
