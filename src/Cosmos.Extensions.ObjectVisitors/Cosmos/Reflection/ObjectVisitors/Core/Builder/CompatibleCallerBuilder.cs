@@ -1,8 +1,8 @@
 ﻿#if NETFRAMEWORK
 using System;
 using Cosmos.Reflection.ObjectVisitors.Core.TypeHelpers;
-using Cosmos.Reflection.ObjectVisitors.DynamicSupported;
 using Cosmos.Reflection.ObjectVisitors.Metadata;
+using Cosmos.Reflection.ObjectVisitors.SlimSupported.DynamicServices;
 
 namespace Cosmos.Reflection.ObjectVisitors.Core.Builder
 {
@@ -10,8 +10,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Core.Builder
     {
         public static ObjectCallerBase Ctor(Type type)
         {
-            if (DynamicTypeHelper.IsSupportedDynamicType(type))
-                return SlimObjectCallerBuilder.Ctor(type);
+            if (DynamicServiceTypeHelper.IsSupportedDynamicType(type))
+                return DynamicServiceSlimObjectCallerBuilder.Ctor(type);
             
             var callerType = typeof(CompatibleObjectCaller<>).MakeGenericType(type);
 

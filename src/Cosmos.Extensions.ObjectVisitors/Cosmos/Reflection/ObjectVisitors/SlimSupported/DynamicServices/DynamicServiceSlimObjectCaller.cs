@@ -16,14 +16,14 @@ using Cosmos.Reflection.ObjectVisitors.Metadata;
 
 #endif
 
-namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
+namespace Cosmos.Reflection.ObjectVisitors.SlimSupported.DynamicServices
 {
     /// <summary>
     /// A slim ObjectCaller for ExpandoObject
     /// </summary>
-    public sealed class SlimObjectCaller : ObjectCallerBase
+    public sealed class DynamicServiceSlimObjectCaller : ObjectCallerBase
     {
-        private SlimObjectTypes _mode;
+        private SlimSupportedFor _mode;
         private IDictionary<string, object> _expandoObject;
         private dynamic _dynamicObject;
 
@@ -33,21 +33,21 @@ namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
         {
             _expandoObject = value;
             _dynamicObject = default;
-            _mode = SlimObjectTypes.ForExpandoObject;
+            _mode = SlimSupportedFor.ExpandoObject;
         }
 
         public void SetInstance(IDictionary<string, object> value)
         {
             _expandoObject = value;
             _dynamicObject = default;
-            _mode = SlimObjectTypes.ForExpandoObject;
+            _mode = SlimSupportedFor.ExpandoObject;
         }
 
         public void SetInstance<T>(T value) where T : DynamicObject
         {
             _dynamicObject = value;
             _expandoObject = default;
-            _mode = SlimObjectTypes.ForDynamicObject;
+            _mode = SlimSupportedFor.DynamicObject;
         }
 
         public IDictionary<string, object> Instance
@@ -56,8 +56,8 @@ namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
             {
                 return _mode switch
                 {
-                    SlimObjectTypes.ForExpandoObject => _expandoObject,
-                    SlimObjectTypes.ForDynamicObject => ((DynamicObject) _dynamicObject).ToDictionary(),
+                    SlimSupportedFor.ExpandoObject => _expandoObject,
+                    SlimSupportedFor.DynamicObject => ((DynamicObject) _dynamicObject).ToDictionary(),
                     _ => throw new ArgumentOutOfRangeException()
                 };
             }
@@ -69,8 +69,8 @@ namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
             {
                 return _mode switch
                 {
-                    SlimObjectTypes.ForDynamicObject => ((DynamicObject) _dynamicObject).GetDynamicMemberNames().ToHashSet(),
-                    SlimObjectTypes.ForExpandoObject => _expandoObject.Keys.ToHashSet(),
+                    SlimSupportedFor.DynamicObject => ((DynamicObject) _dynamicObject).GetDynamicMemberNames().ToHashSet(),
+                    SlimSupportedFor.ExpandoObject => _expandoObject.Keys.ToHashSet(),
                     _ => throw new ArgumentOutOfRangeException()
                 };
             }
@@ -80,13 +80,13 @@ namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
         {
             switch (_mode)
             {
-                case SlimObjectTypes.ForDynamicObject:
+                case SlimSupportedFor.DynamicObject:
                 {
                     var @try = Try.Create(() => (T) _dynamicObject[name]);
                     return @try.GetSafeValue(default(T));
                 }
 
-                case SlimObjectTypes.ForExpandoObject:
+                case SlimSupportedFor.ExpandoObject:
                 {
                     var @try = Try.Create(() => _expandoObject[name].As<T>());
                     return @try.GetSafeValue(default(T));
@@ -101,11 +101,11 @@ namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
         {
             switch (_mode)
             {
-                case SlimObjectTypes.ForDynamicObject:
+                case SlimSupportedFor.DynamicObject:
                     _dynamicObject[name] = value;
                     break;
 
-                case SlimObjectTypes.ForExpandoObject:
+                case SlimSupportedFor.ExpandoObject:
                     _expandoObject[name] = value;
                     break;
 
@@ -142,8 +142,8 @@ namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
         {
             return _mode switch
             {
-                SlimObjectTypes.ForExpandoObject => _expandoObject,
-                SlimObjectTypes.ForDynamicObject => _dynamicObject,
+                SlimSupportedFor.ExpandoObject => _expandoObject,
+                SlimSupportedFor.DynamicObject => _dynamicObject,
                 _ => _expandoObject
             };
         }
@@ -152,8 +152,8 @@ namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
         {
             var @try = _mode switch
             {
-                SlimObjectTypes.ForExpandoObject => Try.Create(() => _expandoObject[name]),
-                SlimObjectTypes.ForDynamicObject => Try.Create(() => _dynamicObject[name]),
+                SlimSupportedFor.ExpandoObject => Try.Create(() => _expandoObject[name]),
+                SlimSupportedFor.DynamicObject => Try.Create(() => _dynamicObject[name]),
                 _ => throw new ArgumentOutOfRangeException()
             };
             return @try.GetSafeValue(default(object));
@@ -166,26 +166,26 @@ namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
 
             switch (_mode)
             {
-                case SlimObjectTypes.ForDynamicObject:
+                case SlimSupportedFor.DynamicObject:
                 {
                     if (((DynamicObject) _dynamicObject).GetDynamicMemberNames().Contains(name))
                     {
                         var target = _dynamicObject[name];
                         var runtimeType = GetRuntimeType(target);
                         var isAsync = runtimeType?.GetCustomAttribute(typeof(AsyncStateMachineAttribute)) is not null;
-                        return new SlimObjectMember(name, runtimeType, isAsync, _mode);
+                        return new DynamicServiceSlimObjectMember(name, runtimeType, isAsync, _mode);
                     }
 
                     throw new ArgumentException($"There's no such member named {name}");
                 }
 
-                case SlimObjectTypes.ForExpandoObject:
+                case SlimSupportedFor.ExpandoObject:
                 {
                     if (_expandoObject.TryGetValue(name, out var target))
                     {
                         var runtimeType = GetRuntimeType(target);
                         var isAsync = runtimeType?.GetCustomAttribute(typeof(AsyncStateMachineAttribute)) is not null;
-                        return new SlimObjectMember(name, runtimeType, isAsync, _mode);
+                        return new DynamicServiceSlimObjectMember(name, runtimeType, isAsync, _mode);
                     }
 
                     throw new ArgumentException($"There's no such member named {name}");

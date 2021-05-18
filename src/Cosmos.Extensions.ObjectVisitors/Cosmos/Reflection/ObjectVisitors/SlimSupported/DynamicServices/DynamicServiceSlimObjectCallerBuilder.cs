@@ -1,16 +1,16 @@
 ﻿using System;
 using Cosmos.Reflection.ObjectVisitors.Core;
 
-namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
+namespace Cosmos.Reflection.ObjectVisitors.SlimSupported.DynamicServices
 {
-    internal static class SlimObjectCallerBuilder
+    internal static class DynamicServiceSlimObjectCallerBuilder
     {
         public static unsafe ObjectCallerBase Ctor(Type type)
         {
             ObjectCallerBase caller;
 
-            if (DynamicTypeHelper.IsSupportedDynamicType(type))
-                caller = new SlimObjectCaller();
+            if (DynamicServiceTypeHelper.IsSupportedDynamicType(type))
+                caller = new DynamicServiceSlimObjectCaller();
             else
                 throw new InvalidOperationException("Is not a valid dynamic type.");
 
@@ -20,6 +20,6 @@ namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
 
     internal static class SlimObjectCallerBuilder<T>
     {
-        public static Func<ObjectCallerBase> Ctor => () => SlimObjectCallerBuilder.Ctor(typeof(T));
+        public static Func<ObjectCallerBase> Ctor => () => DynamicServiceSlimObjectCallerBuilder.Ctor(typeof(T));
     }
 }

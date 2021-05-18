@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Dynamic;
 using Cosmos.Reflection.ObjectVisitors.Core;
 
-namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
+namespace Cosmos.Reflection.ObjectVisitors.SlimSupported.DynamicServices
 {
-    internal static class DynamicTypeHelper
+    internal static class DynamicServiceTypeHelper
     {
         public static bool IsSupportedDynamicType<T>()
         {

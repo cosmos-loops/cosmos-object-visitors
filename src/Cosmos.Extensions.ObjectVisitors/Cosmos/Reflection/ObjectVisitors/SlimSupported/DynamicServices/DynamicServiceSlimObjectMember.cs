@@ -2,20 +2,20 @@
 using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Cosmos.Validation.Objects;
 
-namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
+namespace Cosmos.Reflection.ObjectVisitors.SlimSupported.DynamicServices
 {
-    public sealed class SlimObjectMember : ObjectMember
+    public sealed class DynamicServiceSlimObjectMember : ObjectMember
     {
-        public SlimObjectMember(
+        public DynamicServiceSlimObjectMember(
             string name,
             Type type,
             bool isAsync,
-            SlimObjectTypes dynamicType
+            SlimSupportedFor dynamicType
         ) : base(true, true, false, name, type, false, isAsync, false, false, false, false, false, VerifiableMemberKind.Field)
         {
             DynamicType = dynamicType;
         }
 
-        public SlimObjectTypes DynamicType;
+        public SlimSupportedFor DynamicType;
     }
 }
