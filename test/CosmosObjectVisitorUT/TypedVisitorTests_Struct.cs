@@ -26,7 +26,7 @@ namespace CosmosObjectVisitorUT
         }
 
         [Fact]
-        public void ToSetValueIntoStructTest()
+        public void ToSetValueIntoStructWithSilenceModeTest()
         {
             var model = new NiceStruct("Alex", 23, DateTime.Today, Country.China, true);
             var v = ObjectVisitorFactory.Create(model);
@@ -37,7 +37,21 @@ namespace CosmosObjectVisitorUT
 
             v["Name"] = "Lewis";
 
-            v["Name"].ShouldBe("Lewis");
+            v["Name"].ShouldBe("Alex"); // struct is readonly
+        }
+
+        [Fact]
+        public void ToSetValueIntoStructWithoutSilenceModeTest()
+        {
+            var options = ObjectVisitorOptions.Default.With(x => x.SilenceIfNotWritable = false);
+            var model = new NiceStruct("Alex", 23, DateTime.Today, Country.China, true);
+            var v = ObjectVisitorFactory.Create(model, options);
+
+            v.ShouldNotBeNull();
+
+            v["Name"].ShouldBe("Alex");
+
+            Assert.Throws<InvalidOperationException>(() => v["Name"] = "Lewis");
         }
     }
 }
