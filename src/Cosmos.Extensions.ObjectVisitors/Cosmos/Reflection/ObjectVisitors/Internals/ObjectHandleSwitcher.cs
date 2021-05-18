@@ -2,6 +2,7 @@
 using Cosmos.Reflection.ObjectVisitors.Core;
 using Cosmos.Reflection.ObjectVisitors.Core.Builder;
 using Cosmos.Reflection.ObjectVisitors.Metadata;
+using Cosmos.Reflection.ObjectVisitors.SlimSupported;
 using Cosmos.Reflection.ObjectVisitors.SlimSupported.DynamicServices;
 
 namespace Cosmos.Reflection.ObjectVisitors.Internals
@@ -13,17 +14,13 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
 #if NETFRAMEWORK
             return CompatibleCallerBuilder.Ctor;
 #else
-            switch (kind)
+            return kind switch
             {
-                case AlgorithmKind.Precision:
-                    return PrecisionDictOperator.CreateFromType;
-                case AlgorithmKind.Hash:
-                    return HashDictOperator.CreateFromType;
-                case AlgorithmKind.Fuzzy:
-                    return FuzzyDictOperator.CreateFromType;
-                default:
-                    throw new InvalidOperationException("Unknown AlgorithmKind.");
-            }
+                AlgorithmKind.Precision => PrecisionDictOperator.CreateFromType,
+                AlgorithmKind.Hash => HashDictOperator.CreateFromType,
+                AlgorithmKind.Fuzzy => FuzzyDictOperator.CreateFromType,
+                _ => throw new InvalidOperationException("Unknown AlgorithmKind.")
+            };
 #endif
         }
     }
@@ -32,23 +29,19 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
     {
         public static Func<ObjectCallerBase> Switch<T>(AlgorithmKind kind)
         {
-            if (DynamicServiceTypeHelper.IsSupportedDynamicType<T>())
-                return SlimObjectCallerBuilder<T>.Ctor;
-
 #if NETFRAMEWORK
             return CompatibleCallerBuilder<T>.Ctor;
 #else
-            switch (kind)
+            if (SlimDeterminer.Check<T>(out var createFromSlimService))
+                return createFromSlimService;
+
+            return kind switch
             {
-                case AlgorithmKind.Precision:
-                    return () => PrecisionDictOperator<T>.Create();
-                case AlgorithmKind.Hash:
-                    return () => HashDictOperator<T>.Create();
-                case AlgorithmKind.Fuzzy:
-                    return () => FuzzyDictOperator<T>.Create();
-                default:
-                    throw new InvalidOperationException("Unknown AlgorithmKind.");
-            }
+                AlgorithmKind.Precision => () => PrecisionDictOperator<T>.Create(),
+                AlgorithmKind.Hash => () => HashDictOperator<T>.Create(),
+                AlgorithmKind.Fuzzy => () => FuzzyDictOperator<T>.Create(),
+                _ => throw new InvalidOperationException("Unknown AlgorithmKind.")
+            };
 #endif
         }
     }

@@ -2,6 +2,7 @@
 using System;
 using Cosmos.Reflection.ObjectVisitors.Core.TypeHelpers;
 using Cosmos.Reflection.ObjectVisitors.Metadata;
+using Cosmos.Reflection.ObjectVisitors.SlimSupported;
 using Cosmos.Reflection.ObjectVisitors.SlimSupported.DynamicServices;
 
 namespace Cosmos.Reflection.ObjectVisitors.Core.Builder
@@ -10,8 +11,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Core.Builder
     {
         public static ObjectCallerBase Ctor(Type type)
         {
-            if (DynamicServiceTypeHelper.IsSupportedDynamicType(type))
-                return DynamicServiceSlimObjectCallerBuilder.Ctor(type);
+            if (SlimDeterminer.Check(type, out var createFromSlimService))
+                return createFromSlimService;
             
             var callerType = typeof(CompatibleObjectCaller<>).MakeGenericType(type);
 
