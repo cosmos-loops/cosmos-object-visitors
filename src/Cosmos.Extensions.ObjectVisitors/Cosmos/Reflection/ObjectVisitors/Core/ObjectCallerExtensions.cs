@@ -27,5 +27,11 @@ namespace Cosmos.Reflection.ObjectVisitors.Core
 
             return (TObject) fieldInfo?.GetValue(handler);
         }
+
+        public static ObjectCallerBase AndSetInstance(this ObjectCallerBase handler, object instance)
+        {
+            handler.SetObjInstance(instance);
+            return handler;
+        }
     }
 }

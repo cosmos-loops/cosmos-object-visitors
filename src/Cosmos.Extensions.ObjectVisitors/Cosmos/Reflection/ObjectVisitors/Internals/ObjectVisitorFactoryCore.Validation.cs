@@ -12,8 +12,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
         public static InstanceVisitor CreateForInstance<TStrategy>(Type type, object instance, AlgorithmKind kind, bool repeatable, bool liteMode, TStrategy strategy, bool strictMode)
             where TStrategy : class, IValidationStrategy, new()
         {
-            var handler = SafeObjectHandleSwitcher.Switch(kind)(type);
-            var visitor = new InstanceVisitor(handler, type, instance, kind, repeatable, liteMode, strictMode);
+            var handler = SafeObjectHandleSwitcher.Switch(kind)(type).AndSetInstance(instance);
+            var visitor = new InstanceVisitor(handler, type, kind, repeatable, liteMode, strictMode);
             visitor.VerifiableEntry.SetStrategy(strategy);
             return visitor;
         }

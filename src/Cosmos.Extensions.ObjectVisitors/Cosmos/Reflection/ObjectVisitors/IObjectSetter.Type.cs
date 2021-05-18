@@ -8,9 +8,9 @@ namespace Cosmos.Reflection.ObjectVisitors
     {
         object Instance { get; }
 
-        void SetValue(string memberName, object value);
+        void SetValue(string memberName, object value, AccessMode mode = AccessMode.Concise);
 
-        void SetValue(string memberName, object value, string globalVerifyProviderName);
+        void SetValue(string memberName, object value, string globalVerifyProviderName, AccessMode mode = AccessMode.Concise);
 
         void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value);
 
@@ -32,9 +32,9 @@ namespace Cosmos.Reflection.ObjectVisitors
     {
         T Instance { get; }
 
-        void SetValue(string memberName, object value);
+        void SetValue(string memberName, object value, AccessMode mode = AccessMode.Concise);
 
-        void SetValue(string memberName, object value, string globalVerifyProviderName);
+        void SetValue(string memberName, object value, string globalVerifyProviderName, AccessMode mode = AccessMode.Concise);
 
         void SetValue(Expression<Func<T, object>> expression, object value);
 

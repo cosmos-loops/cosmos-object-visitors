@@ -10,8 +10,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
     {
         public static InstanceVisitor CreateForInstance(Type type, object instance, AlgorithmKind kind, bool repeatable, bool liteMode, bool strictMode)
         {
-            var handler = SafeObjectHandleSwitcher.Switch(kind)(type);
-            return new InstanceVisitor(handler, type, instance, kind, repeatable, liteMode, strictMode);
+            var handler = SafeObjectHandleSwitcher.Switch(kind)(type).AndSetInstance(instance);
+            return new InstanceVisitor(handler, type, kind, repeatable, liteMode, strictMode);
         }
 
         public static InstanceVisitor<T> CreateForInstance<T>(T instance, AlgorithmKind kind, bool repeatable, bool liteMode, bool strictMode)

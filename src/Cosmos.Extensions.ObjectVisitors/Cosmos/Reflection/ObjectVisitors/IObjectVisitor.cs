@@ -27,9 +27,9 @@ namespace Cosmos.Reflection.ObjectVisitors
 
         void VerifyAndThrow(string globalVerifyProviderName);
 
-        void SetValue(string memberName, object value);
+        void SetValue(string memberName, object value, AccessMode mode = AccessMode.Concise);
 
-        void SetValue(string memberName, object value, string globalVerifyProviderName);
+        void SetValue(string memberName, object value, string globalVerifyProviderName, AccessMode mode = AccessMode.Concise);
 
         void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value);
 
@@ -43,15 +43,17 @@ namespace Cosmos.Reflection.ObjectVisitors
 
         void SetValue(IDictionary<string, object> keyValueCollection, string globalVerifyProviderName);
 
-        object GetValue(string memberName);
+        object GetValue(string memberName, AccessMode mode = AccessMode.Concise);
 
-        TValue GetValue<TValue>(string memberName);
+        TValue GetValue<TValue>(string memberName, AccessMode mode = AccessMode.Concise);
 
         object GetValue<TObj>(Expression<Func<TObj, object>> expression);
 
         TValue GetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression);
 
         object this[string memberName] { get; set; }
+        
+        object this[string memberName, AccessMode mode] { get; set; }
 
         IEnumerable<string> GetMemberNames();
 

@@ -7,9 +7,9 @@ namespace Cosmos.Reflection.ObjectVisitors
     {
         object Instance { get; }
 
-        object GetValue(string memberName);
+        object GetValue(string memberName, AccessMode mode = AccessMode.Concise);
 
-        TValue GetValue<TValue>(string memberName);
+        TValue GetValue<TValue>(string memberName, AccessMode mode = AccessMode.Concise);
 
         object GetValue<TObj>(Expression<Func<TObj, object>> expression);
 
@@ -22,9 +22,9 @@ namespace Cosmos.Reflection.ObjectVisitors
     {
         T Instance { get; }
 
-        object GetValue(string memberName);
+        object GetValue(string memberName, AccessMode mode = AccessMode.Concise);
 
-        TValue GetValue<TValue>(string memberName);
+        TValue GetValue<TValue>(string memberName, AccessMode mode = AccessMode.Concise);
 
         object GetValue(Expression<Func<T, object>> expression);
 

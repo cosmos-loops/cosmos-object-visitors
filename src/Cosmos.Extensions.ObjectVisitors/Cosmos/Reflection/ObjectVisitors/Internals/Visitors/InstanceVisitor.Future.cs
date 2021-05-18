@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using Cosmos.Reflection.ObjectVisitors.Core;
 using Cosmos.Reflection.ObjectVisitors.Correctness;
 using Cosmos.Reflection.ObjectVisitors.Internals.Members;
+using Cosmos.Reflection.ObjectVisitors.Internals.PropertyNodes;
 using Cosmos.Reflection.ObjectVisitors.Internals.Repeat;
 using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Cosmos.Validation;
@@ -19,6 +20,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 
         private HistoricalContext NormalHistoricalContext { get; set; }
 
+        private Dictionary<string, Lazy<IPropertyNodeVisitor>> LazyPropertyNodes { get; set; }
+
         public FutureInstanceVisitor(ObjectCallerBase handler, Type sourceType, AlgorithmKind kind, bool repeatable,
             IDictionary<string, object> initialValues = null, bool liteMode = false, bool strictMode = false)
         {
@@ -32,7 +35,6 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
                 : null;
             LiteMode = liteMode;
 
-
             _lazyMemberHandler = MemberHandler.Lazy(_handler, _sourceType, liteMode);
             _correctnessContext = strictMode
                 ? new CorrectnessContext(this, true)
@@ -40,6 +42,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 
             if (initialValues is not null)
                 SetValue(initialValues);
+
+            LazyPropertyNodes = RootNode.New(_handler, kind, repeatable, strictMode);
         }
 
         public Type SourceType => _sourceType;
@@ -50,7 +54,14 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 
         #region Instance
 
-        public object Instance => _handler.GetInstance();
+        public object Instance => _handler.GetObjInstance();
+
+        public int Signature => Instance?.GetHashCode() ?? 0;
+
+        public void SyncInstance(object instance)
+        {
+            _handler.SetObjInstance(instance);
+        }
 
         #endregion
 
@@ -78,18 +89,40 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 
         #region SetValue
 
-        public void SetValue(string memberName, object value)
+        public void SetValue(string memberName, object value, AccessMode mode = AccessMode.Concise)
         {
-            if (StrictMode)
-                ((CorrectnessContext) VerifiableEntry).VerifyOne(memberName, value, false).Raise();
-            SetValueImpl(memberName, value);
+            if (mode == AccessMode.Concise)
+            {
+                if (StrictMode)
+                    ((CorrectnessContext) VerifiableEntry).VerifyOne(memberName, value, false).Raise();
+                SetValueImpl(memberName, value);
+            }
+            else if (PathNavParser.TryParse(memberName, out var segments)
+                  && LazyPropertyNodes.TryGetValue(segments[0], out var node))
+            {
+                if (node is null)
+                    throw new ArgumentNullException(nameof(memberName), $"${segments[0]} is not a structured object.");
+
+                node.Value.SetValue(segments, value, 1);
+            }
         }
 
-        public void SetValue(string memberName, object value, string globalVerifyProviderName)
+        public void SetValue(string memberName, object value, string globalVerifyProviderName, AccessMode mode = AccessMode.Concise)
         {
-            if (StrictMode)
-                ((CorrectnessContext) VerifiableEntry).VerifyOne(memberName, value, true, globalVerifyProviderName).Raise();
-            SetValueImpl(memberName, value);
+            if (mode == AccessMode.Concise)
+            {
+                if (StrictMode)
+                    ((CorrectnessContext) VerifiableEntry).VerifyOne(memberName, value, true, globalVerifyProviderName).Raise();
+                SetValueImpl(memberName, value);
+            }
+            else if (PathNavParser.TryParse(memberName, out var segments)
+                  && LazyPropertyNodes.TryGetValue(segments[0], out var node))
+            {
+                if (node is null)
+                    throw new ArgumentNullException(nameof(memberName), $"${segments[0]} is not a structured object.");
+
+                node.Value.SetValue(segments, value, 1, globalVerifyProviderName);
+            }
         }
 
         public void SetValue<TObj>(Expression<Func<TObj, object>> expression, object value)
@@ -170,14 +203,26 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 
         #region GetValue
 
-        public object GetValue(string memberName)
+        public object GetValue(string memberName, AccessMode mode = AccessMode.Concise)
         {
-            return _handler[memberName];
+            if (mode == AccessMode.Concise)
+                return _handler[memberName];
+            if (PathNavParser.TryParse(memberName, out var segments))
+                return LazyPropertyNodes.TryGetValue(segments[0], out var node)
+                    ? node.Value.GetValue(segments, 1)
+                    : default;
+            return default;
         }
 
-        public TValue GetValue<TValue>(string memberName)
+        public TValue GetValue<TValue>(string memberName, AccessMode mode = AccessMode.Concise)
         {
-            return _handler.Get<TValue>(memberName);
+            if (mode == AccessMode.Concise)
+                return _handler.Get<TValue>(memberName);
+            if (PathNavParser.TryParse(memberName, out var segments))
+                return LazyPropertyNodes.TryGetValue(segments[0], out var node)
+                    ? (TValue) node.Value.GetValue(segments, 1)
+                    : default;
+            return default;
         }
 
         public object GetValue<TObj>(Expression<Func<TObj, object>> expression)
@@ -210,11 +255,19 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             set => SetValue(memberName, value);
         }
 
+        public object this[string memberName, AccessMode mode]
+        {
+            get => GetValue(memberName, mode);
+            set => SetValue(memberName, value, mode);
+        }
+
         #endregion
 
         public HistoricalContext ExposeHistoricalContext() => NormalHistoricalContext;
 
         public Lazy<MemberHandler> ExposeLazyMemberHandler() => _lazyMemberHandler;
+
+        public ObjectCallerBase ExposeObjectCaller() => _handler;
 
         public IObjectVisitor Owner => this;
 
@@ -225,6 +278,10 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
         public IEnumerable<string> GetMemberNames() => _lazyMemberHandler.Value.GetNames();
 
         public ObjectMember GetMember(string memberName) => _lazyMemberHandler.Value.GetMember(memberName);
+
+        #endregion
+
+        #region PropertyNodes
 
         #endregion
 

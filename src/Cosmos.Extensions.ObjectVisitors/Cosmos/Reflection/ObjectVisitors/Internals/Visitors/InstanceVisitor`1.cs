@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using Cosmos.Reflection.ObjectVisitors.Core;
 using Cosmos.Reflection.ObjectVisitors.Correctness;
 using Cosmos.Reflection.ObjectVisitors.Internals.Members;
+using Cosmos.Reflection.ObjectVisitors.Internals.PropertyNodes;
 using Cosmos.Reflection.ObjectVisitors.Internals.Repeat;
 using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Cosmos.Validation;
@@ -13,20 +14,19 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
     internal class InstanceVisitor<T> : IObjectVisitor<T>, ICoreVisitor<T>, IObjectGetter<T>, IObjectSetter<T>
     {
         private readonly ObjectCallerBase<T> _handler;
-        private readonly T _instance;
-
         private readonly Lazy<MemberHandler> _lazyMemberHandler;
 
         private HistoricalContext<T> GenericHistoricalContext { get; set; }
+
+        private Dictionary<string, Lazy<IPropertyNodeVisitor>> LazyPropertyNodes { get; set; }
 
         public InstanceVisitor(ObjectCallerBase<T> handler, T instance, AlgorithmKind kind, bool repeatable,
             bool liteMode = false, bool strictMode = false)
         {
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
-            _instance = instance;
             AlgorithmKind = kind;
 
-            _handler.SetInstance(_instance);
+            _handler.SetInstance(instance);
 
             SourceType = typeof(T);
             GenericHistoricalContext = repeatable
@@ -38,6 +38,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             _correctnessContext = strictMode
                 ? new CorrectnessContext<T>(this, true)
                 : null;
+
+            LazyPropertyNodes = RootNode.New(_handler, kind, repeatable, strictMode);
         }
 
         public Type SourceType { get; }
@@ -48,9 +50,16 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 
         #region Instance
 
-        public T Instance => _instance;
+        public T Instance => _handler.GetInstance();
 
-        object IObjectVisitor.Instance => _instance;
+        object IObjectVisitor.Instance => _handler.GetObjInstance();
+
+        public int Signature => Instance?.GetHashCode() ?? 0;
+
+        public void SyncInstance(object instance)
+        {
+            _handler.SetObjInstance(instance);
+        }
 
         #endregion
 
@@ -80,18 +89,40 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 
         #region SetValue
 
-        public void SetValue(string memberName, object value)
+        public void SetValue(string memberName, object value, AccessMode mode = AccessMode.Concise)
         {
-            if (StrictMode)
-                ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(memberName, value, false).Raise();
-            SetValueImpl(memberName, value);
+            if (mode == AccessMode.Concise)
+            {
+                if (StrictMode)
+                    ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(memberName, value, false).Raise();
+                SetValueImpl(memberName, value);
+            }
+            else if (PathNavParser.TryParse(memberName, out var segments)
+                  && LazyPropertyNodes.TryGetValue(segments[0], out var node))
+            {
+                if (node is null)
+                    throw new ArgumentNullException(nameof(memberName), $"${segments[0]} is not a structured object.");
+
+                node.Value.SetValue(segments, value, 1);
+            }
         }
 
-        public void SetValue(string memberName, object value, string globalVerifyProviderName)
+        public void SetValue(string memberName, object value, string globalVerifyProviderName, AccessMode mode = AccessMode.Concise)
         {
-            if (StrictMode)
-                ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(memberName, value, true, globalVerifyProviderName).Raise();
-            SetValueImpl(memberName, value);
+            if (mode == AccessMode.Concise)
+            {
+                if (StrictMode)
+                    ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(memberName, value, true, globalVerifyProviderName).Raise();
+                SetValueImpl(memberName, value);
+            }
+            else if (PathNavParser.TryParse(memberName, out var segments)
+                  && LazyPropertyNodes.TryGetValue(segments[0], out var node))
+            {
+                if (node is null)
+                    throw new ArgumentNullException(nameof(memberName), $"${segments[0]} is not a structured object.");
+
+                node.Value.SetValue(segments, value, 1, globalVerifyProviderName);
+            }
         }
 
         void IObjectVisitor.SetValue<TObj>(Expression<Func<TObj, object>> expression, object value)
@@ -232,9 +263,15 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 
         #region GetValue
 
-        public object GetValue(string memberName)
+        public object GetValue(string memberName, AccessMode mode = AccessMode.Concise)
         {
-            return _handler[memberName];
+            if (mode == AccessMode.Concise)
+                return _handler[memberName];
+            if (PathNavParser.TryParse(memberName, out var segments))
+                return LazyPropertyNodes.TryGetValue(segments[0], out var node)
+                    ? node.Value.GetValue(segments, 1)
+                    : default;
+            return default;
         }
 
         object IObjectVisitor.GetValue<TObj>(Expression<Func<TObj, object>> expression)
@@ -273,9 +310,15 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             return _handler[name];
         }
 
-        public TValue GetValue<TValue>(string memberName)
+        public TValue GetValue<TValue>(string memberName, AccessMode mode = AccessMode.Concise)
         {
-            return _handler.Get<TValue>(memberName);
+            if (mode == AccessMode.Concise)
+                return _handler.Get<TValue>(memberName);
+            if (PathNavParser.TryParse(memberName, out var segments))
+                return LazyPropertyNodes.TryGetValue(segments[0], out var node)
+                    ? (TValue) node.Value.GetValue(segments, 1)
+                    : default;
+            return default;
         }
 
         public TValue GetValue<TValue>(Expression<Func<T, TValue>> expression)
@@ -298,11 +341,19 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             set => SetValue(memberName, value);
         }
 
+        public object this[string memberName, AccessMode mode]
+        {
+            get => GetValue(memberName, mode);
+            set => SetValue(memberName, value, mode);
+        }
+
         #endregion
 
         public HistoricalContext<T> ExposeHistoricalContext() => GenericHistoricalContext;
 
         public Lazy<MemberHandler> ExposeLazyMemberHandler() => _lazyMemberHandler;
+
+        public ObjectCallerBase<T> ExposeObjectCaller() => _handler;
 
         public IObjectVisitor<T> Owner => this;
 
@@ -323,6 +374,10 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 
             return _lazyMemberHandler.Value.GetMember(name);
         }
+
+        #endregion
+
+        #region PropertyNodes
 
         #endregion
 

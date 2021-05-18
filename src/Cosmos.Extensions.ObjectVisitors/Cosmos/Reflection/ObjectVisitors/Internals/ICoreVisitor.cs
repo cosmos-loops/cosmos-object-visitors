@@ -1,4 +1,5 @@
 ﻿using System;
+using Cosmos.Reflection.ObjectVisitors.Core;
 using Cosmos.Reflection.ObjectVisitors.Internals.Members;
 using Cosmos.Reflection.ObjectVisitors.Internals.Repeat;
 using Cosmos.Reflection.ObjectVisitors.Metadata;
@@ -14,10 +15,16 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
         AlgorithmKind AlgorithmKind { get; }
 
         object Instance { get; }
+        
+        int Signature { get; }
+        
+        //void SyncInstance(object instance);
 
         HistoricalContext ExposeHistoricalContext();
 
         Lazy<MemberHandler> ExposeLazyMemberHandler();
+
+        ObjectCallerBase ExposeObjectCaller();
 
         IObjectVisitor Owner { get; }
 
@@ -37,6 +44,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
         HistoricalContext<T> ExposeHistoricalContext();
 
         Lazy<MemberHandler> ExposeLazyMemberHandler();
+
+        ObjectCallerBase<T> ExposeObjectCaller();
 
         IObjectVisitor<T> Owner { get; }
 
