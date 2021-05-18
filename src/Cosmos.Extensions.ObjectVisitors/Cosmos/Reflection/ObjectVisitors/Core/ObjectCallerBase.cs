@@ -14,6 +14,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Core
 
         public abstract void SetObjInstance(object obj);
 
+        public abstract object GetObjInstance();
+
         public abstract unsafe object GetObject(string name);
 
         protected virtual HashSet<string> InternalMemberNames { get; } = new();

@@ -194,6 +194,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Core.Builder
             else
             {
                 body.Append($@"public override void SetObjInstance(object obj){{ }}");
+                body.Append($@"public override object GetObjInstance(){{ return default(object); }}");
             }
 
             var tempClass = NClass.UseDomain(type.GetDomain())

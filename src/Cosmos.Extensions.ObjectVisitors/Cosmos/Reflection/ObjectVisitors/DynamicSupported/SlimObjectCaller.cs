@@ -9,7 +9,6 @@ using Cosmos.Collections;
 using Cosmos.Exceptions;
 using Cosmos.Reflection.ObjectVisitors.Core;
 using Cosmos.Reflection.ObjectVisitors.Metadata;
-
 #else
 using Cosmos.Exceptions;
 using Cosmos.Reflection.ObjectVisitors.Core;
@@ -137,6 +136,16 @@ namespace Cosmos.Reflection.ObjectVisitors.DynamicSupported
                     SetInstance((IDictionary<string, object>) obj);
                     break;
             }
+        }
+
+        public override object GetObjInstance()
+        {
+            return _mode switch
+            {
+                SlimObjectTypes.ForExpandoObject => _expandoObject,
+                SlimObjectTypes.ForDynamicObject => _dynamicObject,
+                _ => _expandoObject
+            };
         }
 
         public override object GetObject(string name)

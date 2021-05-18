@@ -43,9 +43,16 @@ namespace Cosmos.Reflection.ObjectVisitors.Core
             }
         }
 
+        public override object GetObjInstance()
+        {
+            return Instance;
+        }
+
         public override T Get<T>(string name)
         {
             var member = GetMember(name);
+            if (member is null)
+                return default;
             if (member.IsStatic)
                 return (T) member.ToGetValue(Instance);
             return (T) _typeAccessor[Instance, name];
@@ -54,6 +61,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Core
         public override void Set(string name, object value)
         {
             var member = GetMember(name);
+            if (member is null)
+                return;
             if (member.IsStatic)
                 member.ToSetValue(Instance, value);
             else

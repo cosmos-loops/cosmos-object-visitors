@@ -1,5 +1,6 @@
 ﻿#if NET5_0_OR_GREATER
 using System.Runtime.CompilerServices;
+
 #endif
 
 namespace Cosmos.Reflection.ObjectVisitors.Core
@@ -17,5 +18,9 @@ namespace Cosmos.Reflection.ObjectVisitors.Core
         {
             Instance = (T) obj;
         }
+
+        public T GetInstance() => Instance;
+
+        public override object GetObjInstance() => Instance;
     }
 }
