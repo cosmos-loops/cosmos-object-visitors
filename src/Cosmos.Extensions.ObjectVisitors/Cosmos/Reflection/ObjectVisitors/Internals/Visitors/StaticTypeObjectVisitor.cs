@@ -13,8 +13,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 {
     internal class StaticTypeObjectVisitor : IObjectVisitor, ICoreVisitor, IObjectGetter, IObjectSetter
     {
+        private readonly ObjectOwn _objectOwnInfo;
         private readonly ObjectCallerBase _handler;
-
         private readonly Lazy<MemberHandler> _lazyMemberHandler;
 
         private Dictionary<string, Lazy<IPropertyNodeVisitor>> LazyPropertyNodes { get; set; }
@@ -27,6 +27,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             SourceType = targetType ?? throw new ArgumentNullException(nameof(targetType));
             LiteMode = liteMode;
 
+            _objectOwnInfo = ObjectOwn.Of(targetType);
             _lazyMemberHandler = MemberHandler.Lazy(_handler, SourceType, liteMode);
             _correctnessContext = strictMode
                 ? new CorrectnessContext(this, true)
@@ -79,6 +80,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
         {
             if (mode == AccessMode.Concise)
             {
+                if (_objectOwnInfo.IsReadOnly)
+                    return;
                 if (StrictMode)
                     ((CorrectnessContext) VerifiableEntry).VerifyOne(memberName, value, false).Raise();
                 SetValueImpl(memberName, value);
@@ -97,6 +100,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
         {
             if (mode == AccessMode.Concise)
             {
+                if (_objectOwnInfo.IsReadOnly)
+                    return;
                 if (StrictMode)
                     ((CorrectnessContext) VerifiableEntry).VerifyOne(memberName, value, true, globalVerifyProviderName).Raise();
                 SetValueImpl(memberName, value);
@@ -116,10 +121,14 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             if (expression is null)
                 return;
 
+            if (_objectOwnInfo.IsReadOnly)
+                return;
+            
             var name = PropertySelector.GetPropertyName(expression);
 
             if (StrictMode)
                 ((CorrectnessContext) VerifiableEntry).VerifyOne(name, value, false).Raise();
+           
             SetValueImpl(name, value);
         }
 
@@ -128,10 +137,14 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             if (expression is null)
                 return;
 
+            if (_objectOwnInfo.IsReadOnly)
+                return;
+            
             var name = PropertySelector.GetPropertyName(expression);
 
             if (StrictMode)
                 ((CorrectnessContext) VerifiableEntry).VerifyOne(name, value, true, globalVerifyProviderName).Raise();
+           
             SetValueImpl(name, value);
         }
 
@@ -140,10 +153,14 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             if (expression is null)
                 return;
 
+            if (_objectOwnInfo.IsReadOnly)
+                return;
+            
             var name = PropertySelector.GetPropertyName(expression);
 
             if (StrictMode)
                 ((CorrectnessContext) VerifiableEntry).VerifyOne(name, value, false).Raise();
+            
             SetValueImpl(name, value);
         }
 
@@ -152,10 +169,14 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             if (expression is null)
                 return;
 
+            if (_objectOwnInfo.IsReadOnly)
+                return;
+            
             var name = PropertySelector.GetPropertyName(expression);
 
             if (StrictMode)
                 ((CorrectnessContext) VerifiableEntry).VerifyOne(name, value, true, globalVerifyProviderName).Raise();
+          
             SetValueImpl(name, value);
         }
 
@@ -163,6 +184,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
         {
             if (keyValueCollection is null)
                 throw new ArgumentNullException(nameof(keyValueCollection));
+            if (_objectOwnInfo.IsReadOnly)
+                return;
             if (StrictMode)
                 ((CorrectnessContext) VerifiableEntry).VerifyMany(keyValueCollection, false).Raise();
             foreach (var keyValue in keyValueCollection)
@@ -173,6 +196,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
         {
             if (keyValueCollection is null)
                 throw new ArgumentNullException(nameof(keyValueCollection));
+            if (_objectOwnInfo.IsReadOnly)
+                return;
             if (StrictMode)
                 ((CorrectnessContext) VerifiableEntry).VerifyMany(keyValueCollection, true, globalVerifyProviderName).Raise();
             foreach (var keyValue in keyValueCollection)

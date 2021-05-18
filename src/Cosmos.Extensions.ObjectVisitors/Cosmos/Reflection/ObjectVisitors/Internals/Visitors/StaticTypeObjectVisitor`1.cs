@@ -13,8 +13,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 {
     internal class StaticTypeObjectVisitor<T> : IObjectVisitor<T>, ICoreVisitor<T>, IObjectGetter<T>, IObjectSetter<T>
     {
+        private readonly ObjectOwn _objectOwnInfo;
         private readonly ObjectCallerBase<T> _handler;
-
         private readonly Lazy<MemberHandler> _lazyMemberHandler;
 
         private Dictionary<string, Lazy<IPropertyNodeVisitor>> LazyPropertyNodes { get; set; }
@@ -27,12 +27,13 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             SourceType = typeof(T);
             LiteMode = liteMode;
 
+            _objectOwnInfo = ObjectOwn.Of<T>();
             _lazyMemberHandler = MemberHandler.Lazy(_handler, SourceType, liteMode);
             _correctnessContext = strictMode
                 ? new CorrectnessContext<T>(this, true)
                 : null;
 
-            LazyPropertyNodes =  RootNode.New(_handler, kind, RpMode.NON_REPEATABLE, strictMode);
+            LazyPropertyNodes = RootNode.New(_handler, kind, RpMode.NON_REPEATABLE, strictMode);
         }
 
         public Type SourceType { get; }
@@ -83,6 +84,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
         {
             if (mode == AccessMode.Concise)
             {
+                if (_objectOwnInfo.IsReadOnly)
+                    return;
                 if (StrictMode)
                     ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(memberName, value, false).Raise();
                 SetValueImpl(memberName, value);
@@ -101,6 +104,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
         {
             if (mode == AccessMode.Concise)
             {
+                if (_objectOwnInfo.IsReadOnly)
+                    return;
                 if (StrictMode)
                     ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(memberName, value, true, globalVerifyProviderName).Raise();
                 SetValueImpl(memberName, value);
@@ -115,11 +120,108 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             }
         }
 
+        public void SetValue(Expression<Func<T, object>> expression, object value)
+        {
+            if (expression is null)
+                return;
+
+            if (_objectOwnInfo.IsReadOnly)
+                return;
+            
+            var name = PropertySelector.GetPropertyName(expression);
+
+            if (StrictMode)
+                ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(name, value, false).Raise();
+           
+            SetValueImpl(name, value);
+        }
+
+        public void SetValue(Expression<Func<T, object>> expression, object value, string globalVerifyProviderName)
+        {
+            if (expression is null)
+                return;
+
+            if (_objectOwnInfo.IsReadOnly)
+                return;
+            
+            var name = PropertySelector.GetPropertyName(expression);
+
+            if (StrictMode)
+                ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(name, value, true, globalVerifyProviderName).Raise();
+           
+            SetValueImpl(name, value);
+        }
+
+        public void SetValue<TValue>(Expression<Func<T, TValue>> expression, TValue value)
+        {
+            if (expression is null)
+                return;
+
+            if (_objectOwnInfo.IsReadOnly)
+                return;
+            
+            var name = PropertySelector.GetPropertyName(expression);
+
+            if (StrictMode)
+                ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(name, value, false).Raise();
+           
+            SetValueImpl(name, value);
+        }
+
+        public void SetValue<TValue>(Expression<Func<T, TValue>> expression, TValue value, string globalVerifyProviderName)
+        {
+            if (expression is null)
+                return;
+
+            if (_objectOwnInfo.IsReadOnly)
+                return;
+            
+            var name = PropertySelector.GetPropertyName(expression);
+
+            if (StrictMode)
+                ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(name, value, true, globalVerifyProviderName).Raise();
+         
+            SetValueImpl(name, value);
+        }
+
+        public void SetValue(IDictionary<string, object> keyValueCollection)
+        {
+            if (keyValueCollection is null)
+                throw new ArgumentNullException(nameof(keyValueCollection));
+            if (_objectOwnInfo.IsReadOnly)
+                return;
+            if (StrictMode)
+                ((CorrectnessContext<T>) VerifiableEntry).VerifyMany(keyValueCollection, false).Raise();
+            foreach (var keyValue in keyValueCollection)
+                SetValueImpl(keyValue.Key, keyValue.Value);
+        }
+
+        public void SetValue(IDictionary<string, object> keyValueCollection, string globalVerifyProviderName)
+        {
+            if (keyValueCollection is null)
+                throw new ArgumentNullException(nameof(keyValueCollection));
+            if (_objectOwnInfo.IsReadOnly)
+                return;
+            if (StrictMode)
+                ((CorrectnessContext<T>) VerifiableEntry).VerifyMany(keyValueCollection, true, globalVerifyProviderName).Raise();
+            foreach (var keyValue in keyValueCollection)
+                SetValueImpl(keyValue.Key, keyValue.Value);
+        }
+
+        private void SetValueImpl(string memberName, object value)
+        {
+            _handler[memberName] = value;
+        }
+
         void IObjectVisitor.SetValue<TObj>(Expression<Func<TObj, object>> expression, object value)
         {
             if (expression is null)
                 return;
 
+            if (_objectOwnInfo.IsReadOnly)
+                return;
+            
+            
             var name = PropertySelector.GetPropertyName(expression);
 
             if (StrictMode)
@@ -132,10 +234,14 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             if (expression is null)
                 return;
 
+            if (_objectOwnInfo.IsReadOnly)
+                return;
+            
             var name = PropertySelector.GetPropertyName(expression);
 
             if (StrictMode)
                 ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(name, value, true, globalVerifyProviderName).Raise();
+           
             SetValueImpl(name, value);
         }
 
@@ -144,10 +250,14 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             if (expression is null)
                 return;
 
+            if (_objectOwnInfo.IsReadOnly)
+                return;
+            
             var name = PropertySelector.GetPropertyName(expression);
 
             if (StrictMode)
                 ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(name, value, false).Raise();
+           
             SetValueImpl(name, value);
         }
 
@@ -156,97 +266,24 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             if (expression is null)
                 return;
 
+            if (_objectOwnInfo.IsReadOnly)
+                return;
+            
             var name = PropertySelector.GetPropertyName(expression);
 
             if (StrictMode)
                 ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(name, value, true, globalVerifyProviderName).Raise();
+          
             SetValueImpl(name, value);
         }
 
-        void IObjectSetter<T>.SetValue<TObj>(Expression<Func<TObj, object>> expression, object value)
-            => ((IObjectVisitor) this).SetValue(expression, value);
+        void IObjectSetter<T>.SetValue<TObj>(Expression<Func<TObj, object>> expression, object value) => ((IObjectVisitor) this).SetValue(expression, value);
 
-        void IObjectSetter<T>.SetValue<TObj>(Expression<Func<TObj, object>> expression, object value, string globalVerifyProviderName)
-            => ((IObjectVisitor) this).SetValue(expression, value, globalVerifyProviderName);
+        void IObjectSetter<T>.SetValue<TObj>(Expression<Func<TObj, object>> expression, object value, string globalVerifyProviderName) => ((IObjectVisitor) this).SetValue(expression, value, globalVerifyProviderName);
 
-        void IObjectSetter<T>.SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value)
-            => ((IObjectVisitor) this).SetValue(expression, value);
+        void IObjectSetter<T>.SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value) => ((IObjectVisitor) this).SetValue(expression, value);
 
-        void IObjectSetter<T>.SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value, string globalVerifyProviderName)
-            => ((IObjectVisitor) this).SetValue(expression, value, globalVerifyProviderName);
-
-        public void SetValue(Expression<Func<T, object>> expression, object value)
-        {
-            if (expression is null)
-                return;
-
-            var name = PropertySelector.GetPropertyName(expression);
-
-            if (StrictMode)
-                ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(name, value, false).Raise();
-            SetValueImpl(name, value);
-        }
-
-        public void SetValue(Expression<Func<T, object>> expression, object value, string globalVerifyProviderName)
-        {
-            if (expression is null)
-                return;
-
-            var name = PropertySelector.GetPropertyName(expression);
-
-            if (StrictMode)
-                ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(name, value, true, globalVerifyProviderName).Raise();
-            SetValueImpl(name, value);
-        }
-
-        public void SetValue<TValue>(Expression<Func<T, TValue>> expression, TValue value)
-        {
-            if (expression is null)
-                return;
-
-            var name = PropertySelector.GetPropertyName(expression);
-
-            if (StrictMode)
-                ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(name, value, false).Raise();
-            SetValueImpl(name, value);
-        }
-
-        public void SetValue<TValue>(Expression<Func<T, TValue>> expression, TValue value, string globalVerifyProviderName)
-        {
-            if (expression is null)
-                return;
-
-            var name = PropertySelector.GetPropertyName(expression);
-
-            if (StrictMode)
-                ((CorrectnessContext<T>) VerifiableEntry).VerifyOne(name, value, true, globalVerifyProviderName).Raise();
-            SetValueImpl(name, value);
-        }
-
-        public void SetValue(IDictionary<string, object> keyValueCollection)
-        {
-            if (keyValueCollection is null)
-                throw new ArgumentNullException(nameof(keyValueCollection));
-            if (StrictMode)
-                ((CorrectnessContext<T>) VerifiableEntry).VerifyMany(keyValueCollection, false).Raise();
-            foreach (var keyValue in keyValueCollection)
-                SetValueImpl(keyValue.Key, keyValue.Value);
-        }
-
-        public void SetValue(IDictionary<string, object> keyValueCollection, string globalVerifyProviderName)
-        {
-            if (keyValueCollection is null)
-                throw new ArgumentNullException(nameof(keyValueCollection));
-            if (StrictMode)
-                ((CorrectnessContext<T>) VerifiableEntry).VerifyMany(keyValueCollection, true, globalVerifyProviderName).Raise();
-            foreach (var keyValue in keyValueCollection)
-                SetValueImpl(keyValue.Key, keyValue.Value);
-        }
-
-        private void SetValueImpl(string memberName, object value)
-        {
-            _handler[memberName] = value;
-        }
+        void IObjectSetter<T>.SetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression, TValue value, string globalVerifyProviderName) => ((IObjectVisitor) this).SetValue(expression, value, globalVerifyProviderName);
 
         #endregion
 
@@ -284,6 +321,16 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             return default;
         }
 
+        public TValue GetValue<TValue>(Expression<Func<T, TValue>> expression)
+        {
+            if (expression is null)
+                throw new ArgumentNullException(nameof(expression));
+
+            var name = PropertySelector.GetPropertyName(expression);
+
+            return _handler.Get<TValue>(name);
+        }
+
         object IObjectVisitor.GetValue<TObj>(Expression<Func<TObj, object>> expression)
         {
             if (expression is null)
@@ -304,21 +351,9 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
             return _handler.Get<TValue>(name);
         }
 
-        object IObjectGetter<T>.GetValue<TObj>(Expression<Func<TObj, object>> expression)
-            => ((IObjectVisitor) this).GetValue(expression);
+        object IObjectGetter<T>.GetValue<TObj>(Expression<Func<TObj, object>> expression) => ((IObjectVisitor) this).GetValue(expression);
 
-        TValue IObjectGetter<T>.GetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression)
-            => ((IObjectVisitor) this).GetValue(expression);
-
-        public TValue GetValue<TValue>(Expression<Func<T, TValue>> expression)
-        {
-            if (expression is null)
-                throw new ArgumentNullException(nameof(expression));
-
-            var name = PropertySelector.GetPropertyName(expression);
-
-            return _handler.Get<TValue>(name);
-        }
+        TValue IObjectGetter<T>.GetValue<TObj, TValue>(Expression<Func<TObj, TValue>> expression) => ((IObjectVisitor) this).GetValue(expression);
 
         #endregion
 
