@@ -51,8 +51,6 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 
         public int Signature => 0;
 
-        public void SyncInstance(object instance) { }
-
         #endregion
 
         #region Validation
@@ -97,7 +95,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
                 if (node is null)
                     throw new ArgumentNullException(nameof(memberName), $"${segments[0]} is not a structured object.");
 
-                node.Value.SetValue(segments, value, 1);
+                MoveToNextNode(node).SetValue(segments, value, 1);
             }
         }
 
@@ -117,7 +115,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
                 if (node is null)
                     throw new ArgumentNullException(nameof(memberName), $"${segments[0]} is not a structured object.");
 
-                node.Value.SetValue(segments, value, 1, globalVerifyProviderName);
+                MoveToNextNode(node).SetValue(segments, value, 1, globalVerifyProviderName);
             }
         }
 
@@ -296,7 +294,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
                 return _handler[memberName];
             if (PathNavParser.TryParse(memberName, out var segments))
                 return LazyPropertyNodes.TryGetValue(segments[0], out var node)
-                    ? node.Value.GetValue(segments, 1)
+                    ? MoveToNextNode(node).GetValue(segments, 1)
                     : default;
             return default;
         }
@@ -317,7 +315,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
                 return _handler.Get<TValue>(memberName);
             if (PathNavParser.TryParse(memberName, out var segments))
                 return LazyPropertyNodes.TryGetValue(segments[0], out var node)
-                    ? (TValue) node.Value.GetValue(segments, 1)
+                    ? (TValue) MoveToNextNode(node).GetValue(segments, 1)
                     : default;
             return default;
         }
@@ -373,8 +371,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
         }
 
         #endregion
-
-
+        
         public HistoricalContext<T> ExposeHistoricalContext() => default;
 
         public Lazy<MemberHandler> ExposeLazyMemberHandler() => _lazyMemberHandler;
@@ -403,8 +400,16 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 
         #endregion
 
-        #region PropertyNodes
+        #region Nodes
 
+        private IPropertyNodeVisitor MoveToNextNode(Lazy<IPropertyNodeVisitor> lazyNode)
+        {
+            var node = lazyNode.Value;
+            if (node.Signature != (_handler[node.Name]?.GetHashCode() ?? 0))
+                node.Sync(_handler[node.Name]);
+            return node;
+        }
+        
         #endregion
 
         #region Contains
