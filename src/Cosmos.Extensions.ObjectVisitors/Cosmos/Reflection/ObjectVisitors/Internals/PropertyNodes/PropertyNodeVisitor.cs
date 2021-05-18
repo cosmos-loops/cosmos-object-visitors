@@ -19,6 +19,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.PropertyNodes
     {
         private readonly ObjectMember _member;
         private readonly Dictionary<string, IPropertyNodeVisitor> _childrenNodes;
+        private readonly ObjectVisitorOptions _options;
         private InstanceVisitor _visitor;
         private int _signature;
 
@@ -27,9 +28,10 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.PropertyNodes
         public PropertyNodeVisitor(
             ObjectMember member,
             InstanceVisitor visitor,
-            (AlgorithmKind Kind, bool Repeatable, bool StrictMode) args,
+            ObjectVisitorOptions options,
             Action<object> memberValueSyncHandler)
         {
+            _options = options ?? throw new ArgumentNullException(nameof(options));
             _member = member ?? throw new ArgumentNullException(nameof(member));
             Deep = 0;
             Root = this;
@@ -41,9 +43,6 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.PropertyNodes
             _signatureCached = new() {_signature};
             _childrenNodes = new();
             MemberValueSyncHandler = memberValueSyncHandler ?? throw new ArgumentNullException(nameof(memberValueSyncHandler));
-            Repeatable = args.Repeatable;
-            StrictMode = args.StrictMode;
-            AlgorithmKind = args.Kind;
         }
 
         //child
@@ -51,7 +50,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.PropertyNodes
         public PropertyNodeVisitor(
             ObjectMember member,
             PropertyNodeVisitor rootVisitor, PropertyNodeVisitor parentVisitor, InstanceVisitor visitor,
-            (AlgorithmKind Kind, bool Repeatable, bool StrictMode) args,
+            ObjectVisitorOptions options,
             Action<object> memberValueSyncHandler,
             List<int> rootSignatureCacheRef, List<int> parentSignatureCacheRef,
             int deep)
@@ -67,9 +66,6 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.PropertyNodes
             _signatureCached = new() {_signature};
             _childrenNodes = new();
             MemberValueSyncHandler = memberValueSyncHandler ?? throw new ArgumentNullException(nameof(memberValueSyncHandler));
-            Repeatable = args.Repeatable;
-            StrictMode = args.StrictMode;
-            AlgorithmKind = args.Kind;
 
             _rootSignatureCached.Add(_signature);
             _parentSignatureCached.Add(_signature);
@@ -91,9 +87,9 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.PropertyNodes
 
         public int Signature => _signature;
 
-        public bool Repeatable { get; }
+        public bool Repeatable => _options.Repeatable;
 
-        public bool StrictMode { get; }
+        public bool StrictMode  => _options.StrictMode;
 
         #region Init Resolve
 
@@ -127,10 +123,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.PropertyNodes
                             else
                                 _childrenNodes[memberName] = PropertyNodeFactory.Create(
                                     member,
-                                    _visitor.ExposeObjectCaller(),
-                                    AlgorithmKind,
-                                    Repeatable,
-                                    StrictMode,
+                                    _visitor.ExposeObjectCaller(), 
+                                    _options,
                                     Root,
                                     this,
                                     _rootSignatureCached,
@@ -153,7 +147,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.PropertyNodes
 
         public bool IsStatic => false;
 
-        public AlgorithmKind AlgorithmKind { get; }
+        public AlgorithmKind AlgorithmKind => _options.AlgorithmKind;
 
         public object Instance => _visitor.Instance;
 
@@ -165,7 +159,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.PropertyNodes
 
         public IObjectVisitor Owner => _visitor.Owner;
 
-        public bool LiteMode => LvMode.FULL;
+        public bool LiteMode  => _options.LiteMode;
 
         #endregion
 
@@ -289,7 +283,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.PropertyNodes
             // - Step 1: Sync to parent data holder
             // - Step 2: Sync to current node
             MemberValueSyncHandler.Invoke(instance);
-            _visitor = ObjectVisitorFactoryCore.CreateForInstance(_member.MemberType, instance, AlgorithmKind, Repeatable, LiteMode, StrictMode);
+            _visitor = ObjectVisitorFactoryCore.CreateForInstance(_member.MemberType, instance, _options);
 
             _childrenNodes.Clear();
 

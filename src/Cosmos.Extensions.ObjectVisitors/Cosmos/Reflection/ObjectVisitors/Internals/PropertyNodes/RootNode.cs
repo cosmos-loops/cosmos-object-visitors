@@ -8,11 +8,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.PropertyNodes
 {
     internal static class RootNode
     {
-        public static Dictionary<string, Lazy<IPropertyNodeVisitor>> New(
-            ObjectCallerBase handler,
-            AlgorithmKind kind,
-            bool repeatable,
-            bool strictMode)
+        public static Dictionary<string, Lazy<IPropertyNodeVisitor>> New(ObjectCallerBase handler, ObjectVisitorOptions options)
         {
             var result = new Dictionary<string, Lazy<IPropertyNodeVisitor>>();
 
@@ -26,7 +22,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.PropertyNodes
                     result[member.MemberName] = null;
 
                 else
-                    result[member.MemberName] = new(() => PropertyNodeFactory.Create(member, handler, kind, repeatable, strictMode));
+                    result[member.MemberName] = new(() => PropertyNodeFactory.Create(member, handler, options));
             }
 
             return result;

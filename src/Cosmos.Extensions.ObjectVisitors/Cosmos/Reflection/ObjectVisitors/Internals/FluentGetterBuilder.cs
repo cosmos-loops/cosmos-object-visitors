@@ -3,40 +3,45 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using Cosmos.Reflection.ObjectVisitors.Internals.Members;
-using Cosmos.Reflection.ObjectVisitors.Metadata;
 
 namespace Cosmos.Reflection.ObjectVisitors.Internals
 {
     internal class FluentGetterBuilder : IFluentGetter, IFluentValueGetter
     {
         private readonly Type _type;
-        private readonly AlgorithmKind _kind;
+        private readonly ObjectVisitorOptions _options;
 
-        public FluentGetterBuilder(Type type, AlgorithmKind kind)
+        public FluentGetterBuilder(Type type, ObjectVisitorOptions options)
         {
             _type = type;
-            _kind = kind;
+            _options = options;
         }
 
         #region Fluent building methods for Instance Getter
 
         IObjectGetter IFluentGetter.Instance(object instance)
         {
+            var clone = _options
+                        .Clone(x => x.LiteMode = LvMode.LITE)
+                        .With(x => x.StrictMode = StMode.NORMALE);
             if (_type.IsAbstract && _type.IsSealed)
-                return ObjectVisitorFactoryCore.CreateForStaticType(_type, _kind, LvMode.LITE, StMode.NORMALE);
-            return ObjectVisitorFactoryCore.CreateForInstance(_type, instance, _kind, RpMode.NON_REPEATABLE, LvMode.LITE, StMode.NORMALE);
+                return ObjectVisitorFactoryCore.CreateForStaticType(_type, _options);
+            return ObjectVisitorFactoryCore.CreateForInstance(_type, instance, _options.With(x => x.Repeatable = RpMode.NON_REPEATABLE));
         }
 
         IObjectGetter IFluentGetter.InitialValues(IDictionary<string, object> initialValues)
         {
+            var clone = _options
+                        .Clone(x => x.LiteMode = LvMode.LITE)
+                        .With(x => x.StrictMode = StMode.NORMALE);
             if (_type.IsAbstract && _type.IsSealed)
             {
-                var visitor = ObjectVisitorFactoryCore.CreateForStaticType(_type, _kind, LvMode.LITE, StMode.NORMALE);
+                var visitor = ObjectVisitorFactoryCore.CreateForStaticType(_type, clone);
                 visitor.SetValue(initialValues);
                 return visitor;
             }
 
-            return ObjectVisitorFactoryCore.CreateForFutureInstance(_type, _kind, RpMode.NON_REPEATABLE, LvMode.LITE, StMode.NORMALE, initialValues);
+            return ObjectVisitorFactoryCore.CreateForFutureInstance(_type, _options.With(x => x.Repeatable = RpMode.NON_REPEATABLE), initialValues);
         }
 
         #endregion
@@ -52,7 +57,11 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
 
             _func1 = t =>
             {
-                var visitor = ObjectVisitorFactoryCore.CreateForInstance(_type, t, _kind, RpMode.NON_REPEATABLE, LvMode.LITE, StMode.NORMALE);
+                var clone = _options
+                            .Clone(x => x.LiteMode = LvMode.LITE)
+                            .With(x => x.Repeatable = RpMode.NON_REPEATABLE)
+                            .With(x => x.StrictMode = StMode.NORMALE);
+                var visitor = ObjectVisitorFactoryCore.CreateForInstance(_type, t, clone);
                 return new ValueGetter(visitor, propertyInfo.Name);
             };
 
@@ -66,7 +75,11 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
 
             _func1 = t =>
             {
-                var visitor = ObjectVisitorFactoryCore.CreateForInstance(_type, t, _kind, RpMode.NON_REPEATABLE, LvMode.LITE, StMode.NORMALE);
+                var clone = _options
+                            .Clone(x => x.LiteMode = LvMode.LITE)
+                            .With(x => x.Repeatable = RpMode.NON_REPEATABLE)
+                            .With(x => x.StrictMode = StMode.NORMALE);
+                var visitor = ObjectVisitorFactoryCore.CreateForInstance(_type, t, clone);
                 return new ValueGetter(visitor, fieldInfo.Name);
             };
 
@@ -80,7 +93,11 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
 
             _func1 = t =>
             {
-                var visitor = ObjectVisitorFactoryCore.CreateForInstance(_type, t, _kind, RpMode.NON_REPEATABLE, LvMode.LITE, StMode.NORMALE);
+                var clone = _options
+                            .Clone(x => x.LiteMode = LvMode.LITE)
+                            .With(x => x.Repeatable = RpMode.NON_REPEATABLE)
+                            .With(x => x.StrictMode = StMode.NORMALE);
+                var visitor = ObjectVisitorFactoryCore.CreateForInstance(_type, t, clone);
                 return new ValueGetter(visitor, memberName);
             };
 
@@ -98,33 +115,39 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
     internal class FluentGetterBuilder<T> : IFluentGetter<T>, IFluentValueGetter<T>
     {
         private readonly Type _type;
-        private readonly AlgorithmKind _kind;
+        private readonly ObjectVisitorOptions _options;
 
-        public FluentGetterBuilder(AlgorithmKind kind)
+        public FluentGetterBuilder(ObjectVisitorOptions options)
         {
             _type = typeof(T);
-            _kind = kind;
+            _options = options;
         }
 
         #region Fluent building methods for Instance Getter
 
         IObjectGetter<T> IFluentGetter<T>.Instance(T instance)
         {
+            var clone = _options
+                        .Clone(x => x.LiteMode = LvMode.LITE)
+                        .With(x => x.StrictMode = StMode.NORMALE);
             if (_type.IsAbstract && _type.IsSealed)
-                return ObjectVisitorFactoryCore.CreateForStaticType<T>(_kind, LvMode.LITE, StMode.NORMALE);
-            return ObjectVisitorFactoryCore.CreateForInstance<T>(instance, _kind, RpMode.NON_REPEATABLE, LvMode.LITE, StMode.NORMALE);
+                return ObjectVisitorFactoryCore.CreateForStaticType<T>(clone);
+            return ObjectVisitorFactoryCore.CreateForInstance<T>(instance, clone.With(x=>x.Repeatable = RpMode.NON_REPEATABLE));
         }
 
         IObjectGetter<T> IFluentGetter<T>.InitialValues(IDictionary<string, object> initialValues)
         {
+            var clone = _options
+                        .Clone(x => x.LiteMode = LvMode.LITE)
+                        .With(x => x.StrictMode = StMode.NORMALE);
             if (_type.IsAbstract && _type.IsSealed)
             {
-                var visitor = ObjectVisitorFactoryCore.CreateForStaticType<T>(_kind, LvMode.LITE, StMode.NORMALE);
+                var visitor = ObjectVisitorFactoryCore.CreateForStaticType<T>(clone);
                 visitor.SetValue(initialValues);
                 return visitor;
             }
 
-            return ObjectVisitorFactoryCore.CreateForFutureInstance<T>(_kind, RpMode.NON_REPEATABLE, LvMode.LITE, StMode.NORMALE, initialValues);
+            return ObjectVisitorFactoryCore.CreateForFutureInstance<T>(clone.With(x => x.Repeatable = RpMode.NON_REPEATABLE), initialValues);
         }
 
         #endregion
@@ -140,7 +163,11 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
 
             _func1 = t =>
             {
-                var visitor = ObjectVisitorFactoryCore.CreateForInstance<T>(t, _kind, RpMode.NON_REPEATABLE, LvMode.LITE, StMode.NORMALE);
+                var clone = _options
+                            .Clone(x => x.LiteMode = LvMode.LITE)
+                            .With(x => x.Repeatable = RpMode.NON_REPEATABLE)
+                            .With(x => x.StrictMode = StMode.NORMALE);
+                var visitor = ObjectVisitorFactoryCore.CreateForInstance<T>(t, clone);
                 return new ValueGetter<T>(visitor, propertyInfo.Name);
             };
 
@@ -154,7 +181,11 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
 
             _func1 = t =>
             {
-                var visitor = ObjectVisitorFactoryCore.CreateForInstance<T>(t, _kind, RpMode.NON_REPEATABLE, LvMode.LITE, StMode.NORMALE);
+                var clone = _options
+                            .Clone(x => x.LiteMode = LvMode.LITE)
+                            .With(x => x.Repeatable = RpMode.NON_REPEATABLE)
+                            .With(x => x.StrictMode = StMode.NORMALE);
+                var visitor = ObjectVisitorFactoryCore.CreateForInstance<T>(t, clone);
                 return new ValueGetter<T>(visitor, fieldInfo.Name);
             };
 
@@ -168,7 +199,11 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
 
             _func1 = t =>
             {
-                var visitor = ObjectVisitorFactoryCore.CreateForInstance<T>(t, _kind, RpMode.NON_REPEATABLE, LvMode.LITE, StMode.NORMALE);
+                var clone = _options
+                            .Clone(x => x.LiteMode = LvMode.LITE)
+                            .With(x => x.Repeatable = RpMode.NON_REPEATABLE)
+                            .With(x => x.StrictMode = StMode.NORMALE);
+                var visitor = ObjectVisitorFactoryCore.CreateForInstance<T>(t, clone);
                 return new ValueGetter<T>(visitor, memberName);
             };
 
@@ -182,7 +217,11 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
 
             _func1 = t =>
             {
-                var visitor = ObjectVisitorFactoryCore.CreateForInstance<T>(t, _kind, RpMode.NON_REPEATABLE, LvMode.LITE, StMode.NORMALE);
+                var clone = _options
+                            .Clone(x => x.LiteMode = LvMode.LITE)
+                            .With(x => x.Repeatable = RpMode.NON_REPEATABLE)
+                            .With(x => x.StrictMode = StMode.NORMALE);
+                var visitor = ObjectVisitorFactoryCore.CreateForInstance<T>(t, clone);
                 return new ValueGetter<T>(visitor, expression);
             };
 
@@ -196,7 +235,11 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
 
             Func<T, ValueGetter<T, TVal>> func = t =>
             {
-                var visitor = ObjectVisitorFactoryCore.CreateForInstance<T>(t, _kind, RpMode.NON_REPEATABLE, LvMode.LITE, StMode.NORMALE);
+                var clone = _options
+                            .Clone(x => x.LiteMode = LvMode.LITE)
+                            .With(x => x.Repeatable = RpMode.NON_REPEATABLE)
+                            .With(x => x.StrictMode = StMode.NORMALE);
+                var visitor = ObjectVisitorFactoryCore.CreateForInstance<T>(t, clone);
                 return new ValueGetter<T, TVal>(visitor, expression);
             };
 

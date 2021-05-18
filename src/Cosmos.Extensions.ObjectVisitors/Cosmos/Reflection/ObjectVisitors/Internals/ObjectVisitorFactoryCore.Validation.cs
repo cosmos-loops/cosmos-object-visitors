@@ -2,63 +2,68 @@
 using System.Collections.Generic;
 using Cosmos.Reflection.ObjectVisitors.Core;
 using Cosmos.Reflection.ObjectVisitors.Internals.Visitors;
-using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Cosmos.Validation.Strategies;
 
 namespace Cosmos.Reflection.ObjectVisitors.Internals
 {
     internal static partial class ObjectVisitorFactoryCore
     {
-        public static InstanceVisitor CreateForInstance<TStrategy>(Type type, object instance, AlgorithmKind kind, bool repeatable, bool liteMode, TStrategy strategy, bool strictMode)
+        public static InstanceVisitor CreateForInstance<TStrategy>(Type type, object instance, ObjectVisitorOptions options, TStrategy strategy)
             where TStrategy : class, IValidationStrategy, new()
         {
-            var handler = SafeObjectHandleSwitcher.Switch(kind)(type).AndSetInstance(instance);
-            var visitor = new InstanceVisitor(handler, type, kind, repeatable, liteMode, strictMode);
+            options ??= ObjectVisitorOptions.Default;
+            var handler = SafeObjectHandleSwitcher.Switch(options.AlgorithmKind)(type).AndSetInstance(instance);
+            var visitor = new InstanceVisitor(handler, type, options);
             visitor.VerifiableEntry.SetStrategy(strategy);
             return visitor;
         }
 
-        public static InstanceVisitor<T> CreateForInstance<T, TStrategy>(T instance, AlgorithmKind kind, bool repeatable, bool liteMode, bool strictMode)
+        public static InstanceVisitor<T> CreateForInstance<T, TStrategy>(T instance, ObjectVisitorOptions options)
             where TStrategy : class, IValidationStrategy<T>, new()
         {
-            var handler = UnsafeObjectHandleSwitcher.Switch<T>(kind)().With<T>();
-            var visitor = new InstanceVisitor<T>(handler, instance, kind, repeatable, liteMode, strictMode);
+            options ??= ObjectVisitorOptions.Default;
+            var handler = UnsafeObjectHandleSwitcher.Switch<T>(options.AlgorithmKind)().With<T>();
+            var visitor = new InstanceVisitor<T>(handler, instance,options);
             visitor.VerifiableEntry.SetStrategy<TStrategy>();
             return visitor;
         }
 
-        public static FutureInstanceVisitor CreateForFutureInstance<TStrategy>(Type type, AlgorithmKind kind, bool repeatable, bool liteMode, TStrategy strategy, bool strictMode, IDictionary<string, object> initialValues = null)
+        public static FutureInstanceVisitor CreateForFutureInstance<TStrategy>(Type type, ObjectVisitorOptions options, TStrategy strategy, IDictionary<string, object> initialValues = null)
             where TStrategy : class, IValidationStrategy, new()
         {
-            var handler = SafeObjectHandleSwitcher.Switch(kind)(type);
-            var visitor = new FutureInstanceVisitor(handler, type, kind, repeatable, initialValues, liteMode, strictMode);
+            options ??= ObjectVisitorOptions.Default;
+            var handler = SafeObjectHandleSwitcher.Switch(options.AlgorithmKind)(type);
+            var visitor = new FutureInstanceVisitor(handler, type, options, initialValues);
             visitor.VerifiableEntry.SetStrategy(strategy);
             return visitor;
         }
 
-        public static FutureInstanceVisitor<T> CreateForFutureInstance<T, TStrategy>(AlgorithmKind kind, bool repeatable, bool liteMode, bool strictMode, IDictionary<string, object> initialValues = null)
+        public static FutureInstanceVisitor<T> CreateForFutureInstance<T, TStrategy>(ObjectVisitorOptions options, IDictionary<string, object> initialValues = null)
             where TStrategy : class, IValidationStrategy<T>, new()
         {
-            var handler = UnsafeObjectHandleSwitcher.Switch<T>(kind)().With<T>();
-            var visitor = new FutureInstanceVisitor<T>(handler, kind, repeatable, initialValues, liteMode, strictMode);
+            options ??= ObjectVisitorOptions.Default;
+            var handler = UnsafeObjectHandleSwitcher.Switch<T>(options.AlgorithmKind)().With<T>();
+            var visitor = new FutureInstanceVisitor<T>(handler, options, initialValues);
             visitor.VerifiableEntry.SetStrategy<TStrategy>();
             return visitor;
         }
 
-        public static StaticTypeObjectVisitor CreateForStaticType<TStrategy>(Type type, AlgorithmKind kind, bool liteMode, TStrategy strategy, bool strictMode)
+        public static StaticTypeObjectVisitor CreateForStaticType<TStrategy>(Type type, ObjectVisitorOptions options, TStrategy strategy)
             where TStrategy : class, IValidationStrategy, new()
         {
-            var handler = SafeObjectHandleSwitcher.Switch(kind)(type);
-            var visitor = new StaticTypeObjectVisitor(handler, type, kind, liteMode, strictMode);
+            options ??= ObjectVisitorOptions.Default;
+            var handler = SafeObjectHandleSwitcher.Switch(options.AlgorithmKind)(type);
+            var visitor = new StaticTypeObjectVisitor(handler, type, options);
             visitor.VerifiableEntry.SetStrategy(strategy);
             return visitor;
         }
 
-        public static StaticTypeObjectVisitor<T> CreateForStaticType<T, TStrategy>(AlgorithmKind kind, bool liteMode, bool strictMode)
+        public static StaticTypeObjectVisitor<T> CreateForStaticType<T, TStrategy>(ObjectVisitorOptions options)
             where TStrategy : class, IValidationStrategy<T>, new()
         {
-            var handler = UnsafeObjectHandleSwitcher.Switch<T>(kind)().With<T>();
-            var visitor = new StaticTypeObjectVisitor<T>(handler, kind, liteMode, strictMode);
+            options ??= ObjectVisitorOptions.Default;
+            var handler = UnsafeObjectHandleSwitcher.Switch<T>(options.AlgorithmKind)().With<T>();
+            var visitor = new StaticTypeObjectVisitor<T>(handler, options);
             visitor.VerifiableEntry.SetStrategy<TStrategy>();
             return visitor;
         }
