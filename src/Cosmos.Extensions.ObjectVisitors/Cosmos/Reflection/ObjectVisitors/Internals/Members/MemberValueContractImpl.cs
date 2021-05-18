@@ -28,7 +28,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Members
 
             DeclaringType = declaringType;
             MemberKind = member.Kind;
-            IsBasicType = ObjectKindExtensions.IsBasicType(member.MemberType);
+            IsBasicType = member.MemberType.IsBasicType();
 
             _reflectorProvider = member.MemberType.GetReflector();
             _attributes = _reflectorProvider.GetCustomAttributes();
