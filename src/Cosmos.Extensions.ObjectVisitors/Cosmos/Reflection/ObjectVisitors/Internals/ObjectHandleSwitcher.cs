@@ -3,7 +3,6 @@ using Cosmos.Reflection.ObjectVisitors.Core;
 using Cosmos.Reflection.ObjectVisitors.Core.Builder;
 using Cosmos.Reflection.ObjectVisitors.Metadata;
 using Cosmos.Reflection.ObjectVisitors.SlimSupported;
-using Cosmos.Reflection.ObjectVisitors.SlimSupported.DynamicServices;
 
 namespace Cosmos.Reflection.ObjectVisitors.Internals
 {

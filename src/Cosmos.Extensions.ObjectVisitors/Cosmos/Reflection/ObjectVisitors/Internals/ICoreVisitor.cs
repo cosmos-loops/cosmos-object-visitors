@@ -17,8 +17,6 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
         object Instance { get; }
         
         int Signature { get; }
-        
-        //void SyncInstance(object instance);
 
         HistoricalContext ExposeHistoricalContext();
 
