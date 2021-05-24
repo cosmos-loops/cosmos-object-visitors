@@ -13,9 +13,9 @@ namespace Cosmos.Reflection.ObjectVisitors.SlimSupported.DynamicServices
             SlimSupportedFor dynamicType
         ) : base(true, true, false, name, type, false, isAsync, false, false, false, false, false, VerifiableMemberKind.Field)
         {
-            DynamicType = dynamicType;
+            SlimFor = dynamicType;
         }
 
-        public SlimSupportedFor DynamicType;
+        public SlimSupportedFor SlimFor;
     }
 }

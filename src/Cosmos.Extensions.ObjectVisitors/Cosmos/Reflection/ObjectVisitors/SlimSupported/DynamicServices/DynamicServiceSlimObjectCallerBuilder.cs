@@ -7,18 +7,16 @@ namespace Cosmos.Reflection.ObjectVisitors.SlimSupported.DynamicServices
     {
         public static unsafe ObjectCallerBase Ctor(Type type)
         {
-            ObjectCallerBase caller;
+            var caller = DynamicServiceTypeHelper.Create(type);
 
-            if (DynamicServiceTypeHelper.IsSupportedDynamicType(type))
-                caller = new DynamicServiceSlimObjectCaller();
-            else
+            if (caller is null)
                 throw new InvalidOperationException("Is not a valid dynamic type.");
 
             return caller;
         }
     }
 
-    internal static class SlimObjectCallerBuilder<T>
+    internal static class DynamicServiceSlimObjectCallerBuilder<T>
     {
         public static Func<ObjectCallerBase> Ctor => () => DynamicServiceSlimObjectCallerBuilder.Ctor(typeof(T));
     }

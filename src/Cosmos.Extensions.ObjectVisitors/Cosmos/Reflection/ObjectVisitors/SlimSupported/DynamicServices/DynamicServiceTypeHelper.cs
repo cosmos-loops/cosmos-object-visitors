@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Dynamic;
 using Cosmos.Reflection.ObjectVisitors.Core;
 
@@ -14,6 +13,9 @@ namespace Cosmos.Reflection.ObjectVisitors.SlimSupported.DynamicServices
 
         public static bool IsSupportedDynamicType(Type type)
         {
+            if (type is null)
+                return false;
+
             if (type == typeof(NullObjectClass))
                 return false;
 
@@ -28,19 +30,30 @@ namespace Cosmos.Reflection.ObjectVisitors.SlimSupported.DynamicServices
 
             return false;
         }
-
-        public static Dictionary<string, object> ToDictionary<T>(this T dynamicObject)
-            where T : DynamicObject
+        
+        public static ObjectCallerBase<T> Create<T>()
         {
-            var d = new Dictionary<string, object>();
-            if (dynamicObject is null)
-                return d;
+            return Create(typeof(T)).With<T>();
+        }
 
-            dynamic ptr = dynamicObject;
-            foreach (var name in dynamicObject.GetDynamicMemberNames())
-                d[name] = ptr[name];
+        public static ObjectCallerBase Create(Type type)
+        {
+            if (type is null)
+                return default;
 
-            return d;
+            if (type == typeof(NullObjectClass))
+                return default;
+
+            if (type == typeof(ExpandoObject))
+                return new ExpandoObjectSlimObjectCaller();
+
+            if (type == typeof(DynamicInstance) || type.IsDerivedFrom<DynamicObject>(TypeDerivedOptions.CanAbstract))
+            {
+                var z = typeof(DynamicObjectSlimObjectCaller<>).MakeGenericType(type);
+                return TypeVisit.CreateInstance<ObjectCallerBase>(z);
+            }
+
+            throw new InvalidOperationException("Is not a valid dynamic type.");
         }
     }
 }
