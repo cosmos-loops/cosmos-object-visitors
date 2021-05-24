@@ -18,7 +18,7 @@ namespace Cosmos.Reflection.ObjectVisitors
             bool strictMode = StMode.NORMALE)
             where T : class
         {
-            return ObjectVisitorFactory.Create(instanceObj, kind, repeatable, strictMode);
+            return ObjectVisitor.Create(instanceObj, kind, repeatable, strictMode);
         }
 
         public static IObjectVisitor ToVisitor(this Type type,
@@ -26,7 +26,7 @@ namespace Cosmos.Reflection.ObjectVisitors
             bool repeatable = RpMode.REPEATABLE,
             bool strictMode = StMode.NORMALE)
         {
-            return ObjectVisitorFactory.Create(type, kind, repeatable, strictMode);
+            return ObjectVisitor.Create(type, kind, repeatable, strictMode);
         }
 
         public static IObjectVisitor ToVisitor(this Type type, IDictionary<string, object> initialValues,
@@ -34,14 +34,19 @@ namespace Cosmos.Reflection.ObjectVisitors
             bool repeatable = RpMode.REPEATABLE,
             bool strictMode = StMode.NORMALE)
         {
-            return ObjectVisitorFactory.Create(type, initialValues, kind, repeatable, strictMode);
+            return ObjectVisitor.Create(type, initialValues, kind, repeatable, strictMode);
         }
 
         #endregion
 
-        #region ToDynamicObject
+        #region ToDynamicInstance
 
         public static DynamicInstance ToDynamicObject(this IObjectVisitor visitor)
+        {
+            return new(visitor);
+        }
+        
+        public static DynamicInstance<T> ToDynamicObject<T>(this IObjectVisitor<T> visitor)
         {
             return new(visitor);
         }

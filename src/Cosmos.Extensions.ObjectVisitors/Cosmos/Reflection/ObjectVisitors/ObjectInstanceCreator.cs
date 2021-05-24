@@ -13,7 +13,7 @@ namespace Cosmos.Reflection.ObjectVisitors
 
         public static object Create(Type type, IDictionary<string, object> keyValueCollections, out IObjectVisitor visitor, AlgorithmKind kind = AlgorithmKind.Precision)
         {
-            visitor = ObjectVisitorFactory.Create(type, keyValueCollections, kind);
+            visitor = ObjectVisitor.Create(type, keyValueCollections, kind);
             return visitor.Instance;
         }
 
@@ -24,7 +24,7 @@ namespace Cosmos.Reflection.ObjectVisitors
 
         public static T Create<T>(IDictionary<string, object> keyValueCollections, out IObjectVisitor<T> visitor, AlgorithmKind kind = AlgorithmKind.Precision)
         {
-            visitor = ObjectVisitorFactory.Create<T>(keyValueCollections, kind);
+            visitor = ObjectVisitor.Create<T>(keyValueCollections, kind);
             return visitor.Instance;
         }
     }
