@@ -23,12 +23,10 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Visitors
 
         private Dictionary<string, Lazy<IPropertyNodeVisitor>> LazyPropertyNodes { get; set; }
 
-        public InstanceVisitor(ObjectCallerBase<T> handler, T instance, ObjectVisitorOptions options)
+        public InstanceVisitor(ObjectCallerBase<T> handler, ObjectVisitorOptions options)
         {
             _options = options?.Clone() ?? ObjectVisitorOptions.Default;
             _handler = handler ?? throw new ArgumentNullException(nameof(handler));
-
-            _handler.SetInstance(instance);
 
             SourceType = typeof(T);
             GenericHistoricalContext = _options.Repeatable
