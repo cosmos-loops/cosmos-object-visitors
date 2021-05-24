@@ -22,7 +22,7 @@ namespace CosmosObjectVisitorUT
             d["IsValid"] = true;
 
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type, d);
+            var v = ObjectVisitor.Create(type, d);
 
             Assert.False(v.IsStatic);
             Assert.Equal(typeof(NiceAct), v.SourceType);
@@ -107,7 +107,7 @@ namespace CosmosObjectVisitorUT
             d["Birthday"] = DateTime.Today.AddDays(9);
             d["IsValid"] = true;
 
-            var v = ObjectVisitorFactory.Create<NiceAct>(d);
+            var v = ObjectVisitor.Create<NiceAct>(d);
 
             Assert.False(v.IsStatic);
             Assert.Equal(typeof(NiceAct), v.SourceType);

@@ -22,7 +22,7 @@ namespace CosmosObjectVisitorUT
             };
 
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type, act);
+            var v = ObjectVisitor.Create(type, act);
 
             v.VerifiableEntry
              .ForMember("Name", c => c.NotEmpty().MinLength(4).MaxLength(15));

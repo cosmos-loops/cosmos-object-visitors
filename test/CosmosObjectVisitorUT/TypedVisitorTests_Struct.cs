@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Cosmos.Reflection.ObjectVisitors;
 using CosmosObjectVisitorUT.Helpers;
 using CosmosObjectVisitorUT.Model;
@@ -15,7 +14,7 @@ namespace CosmosObjectVisitorUT
         public void ToGetValueFromStructTest()
         {
             var model = new NiceStruct("Alex", 23, DateTime.Today, Country.China, true);
-            var v = ObjectVisitorFactory.Create(model);
+            var v = ObjectVisitor.Create(model);
 
             v.ShouldNotBeNull();
 
@@ -29,7 +28,7 @@ namespace CosmosObjectVisitorUT
         public void ToSetValueIntoStructWithSilenceModeTest()
         {
             var model = new NiceStruct("Alex", 23, DateTime.Today, Country.China, true);
-            var v = ObjectVisitorFactory.Create(model);
+            var v = ObjectVisitor.Create(model);
 
             v.ShouldNotBeNull();
 
@@ -45,7 +44,7 @@ namespace CosmosObjectVisitorUT
         {
             var options = ObjectVisitorOptions.Default.With(x => x.SilenceIfNotWritable = false);
             var model = new NiceStruct("Alex", 23, DateTime.Today, Country.China, true);
-            var v = ObjectVisitorFactory.Create(model, options);
+            var v = ObjectVisitor.Create(model, options);
 
             v.ShouldNotBeNull();
 

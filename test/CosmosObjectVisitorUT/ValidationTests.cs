@@ -22,7 +22,7 @@ namespace CosmosObjectVisitorUT
             };
 
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type, act);
+            var v = ObjectVisitor.Create(type, act);
 
             var context = v.VerifiableEntry;
 
@@ -66,7 +66,7 @@ namespace CosmosObjectVisitorUT
         public void DirectFutureWithStrategyValidTest()
         {
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type);
+            var v = ObjectVisitor.Create(type);
 
             var context = v.VerifiableEntry;
 
@@ -117,7 +117,7 @@ namespace CosmosObjectVisitorUT
                 Birthday = DateTime.Today
             };
 
-            var v = ObjectVisitorFactory.Create<NiceAct>(act);
+            var v = ObjectVisitor.Create<NiceAct>(act);
 
             var context = v.VerifiableEntry;
 
@@ -160,7 +160,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "泛型类型策略验证测试")]
         public void GenericFutureWithStrategyValidTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct>();
+            var v = ObjectVisitor.Create<NiceAct>();
 
             var context = v.VerifiableEntry;
 
@@ -212,7 +212,7 @@ namespace CosmosObjectVisitorUT
             };
 
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type, act);
+            var v = ObjectVisitor.Create(type, act);
 
             var context = v.VerifiableEntry;
 
@@ -257,7 +257,7 @@ namespace CosmosObjectVisitorUT
         public void DirectFutureWithValueApiValidTest()
         {
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type);
+            var v = ObjectVisitor.Create(type);
 
             var context = v.VerifiableEntry;
 
@@ -309,7 +309,7 @@ namespace CosmosObjectVisitorUT
                 Birthday = DateTime.Today
             };
 
-            var v = ObjectVisitorFactory.Create<NiceAct>(act);
+            var v = ObjectVisitor.Create<NiceAct>(act);
 
             var context = v.VerifiableEntry;
 
@@ -353,7 +353,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "泛型类型属性规则验证测试")]
         public void GenericFutureWithValueApiValidTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct>();
+            var v = ObjectVisitor.Create<NiceAct>();
 
             var context = v.VerifiableEntry;
 

@@ -22,7 +22,7 @@ namespace CosmosObjectVisitorUT
             };
 
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type, act);
+            var v = ObjectVisitor.Create(type, act);
 
             v.VerifiableEntry
              .ForMember("Name", c => c.NotEmpty().MinLength(4).MaxLength(15));
@@ -53,7 +53,7 @@ namespace CosmosObjectVisitorUT
         public void DirectFutureWithValueApiValidTest()
         {
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type);
+            var v = ObjectVisitor.Create(type);
 
             v["Name"] = "Hulu";
 
@@ -97,7 +97,7 @@ namespace CosmosObjectVisitorUT
                 Birthday = DateTime.Today
             };
 
-            var v = ObjectVisitorFactory.Create<NiceAct>(act);
+            var v = ObjectVisitor.Create<NiceAct>(act);
 
             var context = v.VerifiableEntry;
 
@@ -131,7 +131,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "泛型类型属性规则验证复写测试")]
         public void GenericFutureWithValueApiValidTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct>();
+            var v = ObjectVisitor.Create<NiceAct>();
 
             v["Name"] = "Hulu";
 

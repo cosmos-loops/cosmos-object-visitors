@@ -23,7 +23,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Equal `1 Token with Str")]
         public void StringEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.Str, c => c.Equal("StrStr"));
 
             var r = v.Verify();
@@ -38,7 +38,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Equal `1 Token with Int16")]
         public void Int16EqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.Int16, c => c.Equal((short) 16));
 
             var r = v.Verify();
@@ -53,7 +53,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Equal `1 Token with Int32")]
         public void Int32EqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.Int32, c => c.Equal(32));
 
             var r = v.Verify();
@@ -68,7 +68,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Equal `1 Token with Int64")]
         public void Int64EqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.Int64, c => c.Equal(64));
 
             var r = v.Verify();
@@ -83,7 +83,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Equal `1 Token with Char")]
         public void CharEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.Char, c => c.Equal('c'));
 
             var r = v.Verify();
@@ -98,7 +98,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Equal `1 Token with Obj")]
         public void ObjEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.SomeObj, c => c.Equal(Data.SomeObj));
 
             var r = v.Verify();
@@ -113,7 +113,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Not Equal `1 Token with Str")]
         public void StringNotEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.Str, c => c.NotEqual("StrStr"));
 
             var r = v.Verify();
@@ -128,7 +128,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Not Equal `1 Token with Int16")]
         public void Int16NotEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.Int16, c => c.NotEqual((short) 16));
 
             var r = v.Verify();
@@ -143,7 +143,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Not Equal `1 Token with Int32")]
         public void Int32NotEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.Int32, c => c.NotEqual(32));
 
             var r = v.Verify();
@@ -158,7 +158,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Not Equal `1 Token with Int64")]
         public void Int64NotEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.Int64, c => c.NotEqual(64));
 
             var r = v.Verify();
@@ -173,7 +173,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Not Equal `1 Token with Char")]
         public void CharNotEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.Char, c => c.NotEqual('c'));
 
             var r = v.Verify();
@@ -188,7 +188,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Not Equal `1 Token with Obj")]
         public void ObjNotEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.SomeObj, c => c.NotEqual(Data.SomeObj));
 
             var r = v.Verify();
@@ -203,7 +203,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Range`1 Token with int16")]
         public void Int16RangeTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.Int16, c => c.Range((short) 1, (short) 100));
 
             var r = v.Verify();
@@ -228,7 +228,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Range`1 Token with int32")]
         public void Int32RangeTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.Int32, c => c.Range(1, 100));
 
             var r = v.Verify();
@@ -253,7 +253,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Range`1 Token with int64")]
         public void Int64RangeTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.Int64, c => c.Range(1, 100));
 
             var r = v.Verify();
@@ -278,7 +278,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Range`1 Token with Char")]
         public void CharRangeTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.Char, c => c.Range('a', 'd'));
 
             var r = v.Verify();
@@ -306,7 +306,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Range`1 Token with DateTime")]
         public void DateTimeRangeTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.DateTime, c => c.Range(DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1)));
 
             var r = v.Verify();
@@ -331,7 +331,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Range`1 Token with DateTimeOffset")]
         public void DateTimeOffsetRangeTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             v.VerifiableEntry.ForMember(x => x.DateTimeOffset, c => c.Range(DateTime.Today.AddDays(-1), DateTime.Today.AddDays(1)));
 
             var r = v.Verify();
@@ -356,7 +356,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Any Token with Bytes")]
         public void BytesAnyTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Bytes, c => c.Any(x => x == 0));
 
@@ -367,7 +367,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Any Token with Array")]
         public void ObjArrayAnyTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             var o = v.GetValue(x => x.SomeObj);
 
             v.VerifiableEntry.ForMember(x => x.SomeNiceActArray, c => c.Any(s => s == o));
@@ -379,7 +379,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Any Token with List")]
         public void ObjListAnyTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
             var o = v.GetValue(x => x.SomeObj);
 
             v.VerifiableEntry.ForMember(x => x.SomeNiceActList, c => c.Any<NiceAct2, List<NiceAct>, NiceAct>(s => s == o));
@@ -391,7 +391,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "All Token with Bytes")]
         public void BytesAllTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Bytes, c => c.All(b => b == 0));
 
@@ -407,14 +407,14 @@ namespace CosmosObjectVisitorUT
             var o = (NiceAct) d.SomeObj;
             d.SomeNiceActArray = new[] {o, n, o, n, o, n};
 
-            var v = ObjectVisitorFactory.Create(d);
+            var v = ObjectVisitor.Create(d);
 
             v.VerifiableEntry.ForMember(x => x.SomeNiceActArray, c => c.All(s => s == o));
 
             var r = v.Verify();
             Assert.False(r.IsValid);
 
-            var v2 = ObjectVisitorFactory.Create(Data);
+            var v2 = ObjectVisitor.Create(Data);
             var o2 = v2.GetValue(x => x.SomeObj);
             v.VerifiableEntry.ForMember(x => x.SomeNiceActArray, c => c.All(s => s == o2));
 
@@ -430,14 +430,14 @@ namespace CosmosObjectVisitorUT
             var o = (NiceAct) d.SomeObj;
             d.SomeNiceActList = new List<NiceAct> {o, n, o, n, o, n};
 
-            var v = ObjectVisitorFactory.Create(d);
+            var v = ObjectVisitor.Create(d);
 
             v.VerifiableEntry.ForMember(x => x.SomeNiceActList, c => c.All<NiceAct2, List<NiceAct>, NiceAct>(s => s == o));
 
             var r = v.Verify();
             Assert.False(r.IsValid);
 
-            var v2 = ObjectVisitorFactory.Create(Data);
+            var v2 = ObjectVisitor.Create(Data);
             var o2 = v2.GetValue(x => x.SomeObj);
             v.VerifiableEntry.ForMember(x => x.SomeNiceActList, c => c.All<NiceAct2, List<NiceAct>, NiceAct>(s => s == o2));
 
@@ -448,7 +448,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "In/NotIn Token with Str")]
         public void StrInTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Str, c => c.In(new List<string> {"Str", "StrStr"}));
 
@@ -464,7 +464,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "In/NotIn Token with Int16")]
         public void Int16InTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Int16, c => c.In(new List<Int16> {16, 17}));
 
@@ -480,7 +480,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "In/NotIn Token with Int32")]
         public void Int32InTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Int32, c => c.In(new List<Int32> {32, 33}));
 
@@ -496,7 +496,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "In/NotIn Token with Int64")]
         public void Int64InTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Int64, c => c.In(new List<Int64> {64, 65}));
 
@@ -512,7 +512,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "In/NotIn Token with Char")]
         public void CharInTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Char, c => c.In(new List<Char> {'c', 'd'}));
 
@@ -529,7 +529,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "LessThan Token with Char")]
         public void CharLessThanTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Char, c => c.LessThan('d'));
 
@@ -545,7 +545,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "LessThan Token with Int16")]
         public void Int16LessThanTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Int16, c => c.LessThan((short) 17));
 
@@ -561,7 +561,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "LessThan Token with Int32")]
         public void Int32LessThanTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Int32, c => c.LessThan(33));
 
@@ -577,7 +577,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "LessThan Token with Int64")]
         public void Int64LessThanTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Int64, c => c.LessThan(65));
 
@@ -593,7 +593,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "LessThan Token with DateTime")]
         public void DateTimeLessThanTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.DateTime, c => c.LessThan(DateTime.Today.AddDays(1)));
 
@@ -609,7 +609,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "LessThanOrEqual Token with Char")]
         public void CharLessThanOrEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Char, c => c.LessThanOrEqual('c'));
 
@@ -625,7 +625,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "LessThanOrEqual Token with Int16")]
         public void Int16LessThanOrEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Int16, c => c.LessThanOrEqual((short) 16));
 
@@ -641,7 +641,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "LessThanOrEqual Token with Int32")]
         public void Int32LessThanOrEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Int32, c => c.LessThanOrEqual(32));
 
@@ -657,7 +657,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "LessThanOrEqual Token with Int64")]
         public void Int64LessThanOrEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Int64, c => c.LessThanOrEqual(64));
 
@@ -673,7 +673,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "LessThanOrEqual Token with DateTime")]
         public void DateTimeLessThanOrEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.DateTime, c => c.LessThanOrEqual(DateTime.Today));
 
@@ -689,7 +689,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "GreaterThan Token with Char")]
         public void CharGreaterThanTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Char, c => c.GreaterThan('b'));
 
@@ -705,7 +705,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "GreaterThan Token with Int16")]
         public void Int16GreaterThanTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Int16, c => c.GreaterThan((short) 15));
 
@@ -721,7 +721,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "GreaterThan Token with Int32")]
         public void Int32GreaterThanTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Int32, c => c.GreaterThan(31));
 
@@ -737,7 +737,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "GreaterThan Token with Int64")]
         public void Int64GreaterThanTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Int64, c => c.GreaterThan(63));
 
@@ -753,7 +753,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "GreaterThan Token with DateTime")]
         public void DateTimeGreaterThanTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.DateTime, c => c.GreaterThan(DateTime.Today.AddDays(-1)));
 
@@ -769,7 +769,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "GreaterThanOrEqual Token with Char")]
         public void CharGreaterThanOrEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Char, c => c.GreaterThanOrEqual('c'));
 
@@ -785,7 +785,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "GreaterThanOrEqual Token with Int16")]
         public void Int16GreaterThanOrEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Int16, c => c.GreaterThanOrEqual((short) 16));
 
@@ -801,7 +801,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "GreaterThanOrEqual Token with Int32")]
         public void Int32GreaterThanOrEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Int32, c => c.GreaterThanOrEqual(32));
 
@@ -817,7 +817,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "GreaterThanOrEqual Token with Int64")]
         public void Int64GreaterThanOrEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Int64, c => c.GreaterThanOrEqual(64));
 
@@ -833,7 +833,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "GreaterThanOrEqual Token with DateTime")]
         public void DateTimeGreaterThanOrEqualTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.DateTime, c => c.GreaterThanOrEqual(DateTime.Today));
 
@@ -849,7 +849,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "RequireType(s) Token with String")]
         public void StringTypeRequireTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Str, c => c.RequiredType(typeof(string)));
 
@@ -885,7 +885,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "RequireType(s) Token with Char")]
         public void CharTypeRequireTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Char, c => c.RequiredType(typeof(char)));
 
@@ -921,7 +921,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "RequireType(s) Token with Int32")]
         public void Int32TypeRequireTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.Int32, c => c.RequiredType(typeof(Int32)));
 
@@ -957,7 +957,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "RequireType(s) Token with DateTime")]
         public void DateTimeTypeRequireTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.DateTime, c => c.RequiredType(typeof(DateTime)));
 
@@ -993,7 +993,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "RequireType(s) Token with Obj")]
         public void ObjTypeRequireTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.SomeObj, c => c.RequiredType(typeof(NiceAct)));
 
@@ -1029,7 +1029,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "RequireType(s) Token with NullObj")]
         public void NullObjTypeRequireTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.MustByNullObj, c => c.RequiredType(typeof(object)));
 
@@ -1065,7 +1065,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "RequireType(s) Token with ObjArray")]
         public void ObjArrayTypeRequireTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.SomeNiceActArray, c => c.RequiredType(typeof(NiceAct[])));
 
@@ -1101,7 +1101,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "RequireType(s) Token with ObjList")]
         public void ObjListTypeRequireTest()
         {
-            var v = ObjectVisitorFactory.Create(Data);
+            var v = ObjectVisitor.Create(Data);
 
             v.VerifiableEntry.ForMember(x => x.SomeNiceActList, c => c.RequiredType(typeof(List<NiceAct>)));
 
@@ -1137,7 +1137,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "ScalePrecision Token with Decimal and should be valid")]
         public void DecimalScalePrecisionShouldBeValidTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct2>();
+            var v = ObjectVisitor.Create<NiceAct2>();
             v.VerifiableEntry.ForMember(x => x.Discount, c => c.ScalePrecision(2, 4));
 
             v.SetValue(x => x.Discount, 12.34M);
@@ -1160,7 +1160,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "ScalePrecision Token with Decimal and should not be valid")]
         public void DecimalScalePrecisionShouldNotBeValidTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct2>();
+            var v = ObjectVisitor.Create<NiceAct2>();
             v.VerifiableEntry.ForMember(x => x.Discount, c => c.ScalePrecision(2, 4));
 
             v.SetValue(x => x.Discount, 123.456778M);
@@ -1187,7 +1187,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "ScalePrecision Token with Decimal and should be valid when equal")]
         public void DecimalScalePrecisionShouldBeValidWhenEqualTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct2>();
+            var v = ObjectVisitor.Create<NiceAct2>();
             v.VerifiableEntry.ForMember(x => x.Discount, c => c.ScalePrecision(2, 2));
 
             v.SetValue(x => x.Discount, 0.34M);
@@ -1210,7 +1210,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "ScalePrecision Token with Decimal and should not be valid when equal")]
         public void DecimalScalePrecisionShouldNotBeValidWhenEqualTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct2>();
+            var v = ObjectVisitor.Create<NiceAct2>();
             v.VerifiableEntry.ForMember(x => x.Discount, c => c.ScalePrecision(2, 2));
 
             v.SetValue(x => x.Discount, 123.456778M);
@@ -1233,7 +1233,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "ScalePrecision Token with Decimal and should be valid when ignore trailing zeroes")]
         public void DecimalScalePrecisionShouldBeValidWhenIgnoreTrailingZeroesTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct2>();
+            var v = ObjectVisitor.Create<NiceAct2>();
             v.VerifiableEntry.ForMember(x => x.Discount, c => c.ScalePrecision(2, 4, true));
 
             v.SetValue(x => x.Discount, 15.0000000000000000000000000M);
@@ -1252,7 +1252,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "ScalePrecision Token with Decimal and should not be valid when ignore trailing zeroes")]
         public void DecimalScalePrecisionShouldNotBeValidWhenIgnoreTrailingZeroesTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct2>();
+            var v = ObjectVisitor.Create<NiceAct2>();
             v.VerifiableEntry.ForMember(x => x.Discount, c => c.ScalePrecision(2, 4, true));
 
             v.SetValue(x => x.Discount, 1565.0M);
@@ -1271,8 +1271,8 @@ namespace CosmosObjectVisitorUT
             var n1 = new NiceAct2() {Country = Country.China};
             var n2 = new NiceAct2() {Country = (Country) 1};
 
-            var v1 = ObjectVisitorFactory.Create(n1);
-            var v2 = ObjectVisitorFactory.Create(n2);
+            var v1 = ObjectVisitor.Create(n1);
+            var v2 = ObjectVisitor.Create(n2);
 
             v1.VerifiableEntry.ForMember(z => z.Country, x => x.InEnum(typeof(Country)));
             v2.VerifiableEntry.ForMember(z => z.Country, x => x.InEnum(typeof(Country)));
@@ -1294,7 +1294,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Enum Token with non-init enum value should not be valid")]
         public void EnumWithValidValueAndWithoutInitThenShouldBeFailTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct2>();
+            var v = ObjectVisitor.Create<NiceAct2>();
 
             v.VerifiableEntry.ForMember(z => z.Country, x => x.InEnum(typeof(Country)));
 
@@ -1310,7 +1310,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Enum Token with invalid value should not be valid")]
         public void EnumWithInvalidValueThenShouldBeFailTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct2>();
+            var v = ObjectVisitor.Create<NiceAct2>();
             v["Country"] = (Country) 100;
 
             v.VerifiableEntry.ForMember(z => z.Country, x => x.InEnum(typeof(Country)));
@@ -1327,7 +1327,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Enum Token with nullable value without init should not valid")]
         public void EnumWithNullableTypeAndWithoutInitTest()
         {
-            var v = ObjectVisitorFactory.Create(new NiceAct3());
+            var v = ObjectVisitor.Create(new NiceAct3());
             v.VerifiableEntry.ForMember(z => z.Country, c => c.InEnum(typeof(Country)));
 
             var r = v.Verify();
@@ -1342,8 +1342,8 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "Enum Token with nullable value with init should not valid")]
         public void EnumWithNullableTypeAndWithInitTest()
         {
-            var v1 = ObjectVisitorFactory.Create(new NiceAct3() {Country = Country.China});
-            var v2 = ObjectVisitorFactory.Create(new NiceAct3() {Country = (Country) 1});
+            var v1 = ObjectVisitor.Create(new NiceAct3() {Country = Country.China});
+            var v2 = ObjectVisitor.Create(new NiceAct3() {Country = (Country) 1});
 
             v1.VerifiableEntry.ForMember(z => z.Country, c => c.InEnum(typeof(Country)));
             v2.VerifiableEntry.ForMember(z => z.Country, c => c.InEnum(typeof(Country)));
@@ -1368,7 +1368,7 @@ namespace CosmosObjectVisitorUT
             var m = new FlagsEnumModel();
             m.PopulateWithValidValues();
 
-            var v = ObjectVisitorFactory.Create(m);
+            var v = ObjectVisitor.Create(m);
 
             v.VerifiableEntry
              .ForMember(z => z.SByteValue, c => c.InEnum(typeof(SByteEnum)))
@@ -1395,7 +1395,7 @@ namespace CosmosObjectVisitorUT
         public void FlagEnumWhenUsingBitwiseValueWithOverlappingFlagsTest()
         {
             var m = new FlagsEnumModel();
-            var v = ObjectVisitorFactory.Create(m);
+            var v = ObjectVisitor.Create(m);
             v.VerifiableEntry.ForMember(z => z.EnumWithOverlappingFlagsValue, c => c.InEnum(typeof(EnumWithOverlappingFlags)));
 
             VerifyResult r = null;
@@ -1421,7 +1421,7 @@ namespace CosmosObjectVisitorUT
         public void FlagEnumWhenUsingZeroValueTest()
         {
             var m = new FlagsEnumModel();
-            var v = ObjectVisitorFactory.Create(m);
+            var v = ObjectVisitor.Create(m);
 
             v.VerifiableEntry
              .ForMember(z => z.SByteValue, c => c.InEnum(typeof(SByteEnum)))
@@ -1447,7 +1447,7 @@ namespace CosmosObjectVisitorUT
         {
             var m = new FlagsEnumModel();
             m.PopulateWithInvalidPositiveValues();
-            var v = ObjectVisitorFactory.Create(m);
+            var v = ObjectVisitor.Create(m);
 
             v.VerifiableEntry
              .ForMember(z => z.SByteValue, c => c.InEnum(typeof(SByteEnum)))
@@ -1479,7 +1479,7 @@ namespace CosmosObjectVisitorUT
         {
             var m = new FlagsEnumModel();
             m.PopulateWithInvalidNegativeValues();
-            var v = ObjectVisitorFactory.Create(m);
+            var v = ObjectVisitor.Create(m);
 
             v.VerifiableEntry
              .ForMember(z => z.SByteValue, c => c.InEnum(typeof(SByteEnum)))
@@ -1504,8 +1504,8 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "StringEnum Token with CaseInsensitive and CaseCorrect")]
         public void StringEnumCaseInsensitiveAndCaseCorrectTest()
         {
-            var v1 = ObjectVisitorFactory.Create(new NiceAct3() {CountryString = "China"});
-            var v2 = ObjectVisitorFactory.Create(new NiceAct3() {CountryString = "USA"});
+            var v1 = ObjectVisitor.Create(new NiceAct3() {CountryString = "China"});
+            var v2 = ObjectVisitor.Create(new NiceAct3() {CountryString = "USA"});
 
             v1.VerifiableEntry.ForMember(x => x.CountryString, c => c.IsEnumName(typeof(Country), false));
             v2.VerifiableEntry.ForMember(x => x.CountryString, c => c.IsEnumName(typeof(Country), false));
@@ -1529,8 +1529,8 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "StringEnum Token with CaseInsensitive and CaseIncorrect")]
         public void StringEnumCaseInsensitiveAndCaseIncorrectTest()
         {
-            var v1 = ObjectVisitorFactory.Create(new NiceAct3() {CountryString = "chinA"});
-            var v2 = ObjectVisitorFactory.Create(new NiceAct3() {CountryString = "usa"});
+            var v1 = ObjectVisitor.Create(new NiceAct3() {CountryString = "chinA"});
+            var v2 = ObjectVisitor.Create(new NiceAct3() {CountryString = "usa"});
 
             v1.VerifiableEntry.ForMember(x => x.CountryString, c => c.IsEnumName(typeof(Country), false));
             v2.VerifiableEntry.ForMember(x => x.CountryString, c => c.IsEnumName(typeof(Country), false));
@@ -1554,8 +1554,8 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "StringEnum Token with CaseSensitive and CaseCorrect")]
         public void StringEnumCaseSensitiveAndCaseCorrectTest()
         {
-            var v1 = ObjectVisitorFactory.Create(new NiceAct3() {CountryString = "China"});
-            var v2 = ObjectVisitorFactory.Create(new NiceAct3() {CountryString = "USA"});
+            var v1 = ObjectVisitor.Create(new NiceAct3() {CountryString = "China"});
+            var v2 = ObjectVisitor.Create(new NiceAct3() {CountryString = "USA"});
 
             v1.VerifiableEntry.ForMember(x => x.CountryString, c => c.IsEnumName(typeof(Country), true));
             v2.VerifiableEntry.ForMember(x => x.CountryString, c => c.IsEnumName(typeof(Country), true));
@@ -1579,8 +1579,8 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "StringEnum Token with CaseSensitive and CaseIncorrect")]
         public void StringEnumCaseSensitiveAndCaseIncorrectTest()
         {
-            var v1 = ObjectVisitorFactory.Create(new NiceAct3() {CountryString = "chinA"});
-            var v2 = ObjectVisitorFactory.Create(new NiceAct3() {CountryString = "uSA"});
+            var v1 = ObjectVisitor.Create(new NiceAct3() {CountryString = "chinA"});
+            var v2 = ObjectVisitor.Create(new NiceAct3() {CountryString = "uSA"});
 
             v1.VerifiableEntry.ForMember(x => x.CountryString, c => c.IsEnumName(typeof(Country), true));
             v2.VerifiableEntry.ForMember(x => x.CountryString, c => c.IsEnumName(typeof(Country), true));
@@ -1604,7 +1604,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "StringEnum Token with wrong value")]
         public void StringEnumWithWrongValueTest()
         {
-            var v = ObjectVisitorFactory.Create(new NiceAct3() {CountryString = "VVVV"});
+            var v = ObjectVisitor.Create(new NiceAct3() {CountryString = "VVVV"});
             v.VerifiableEntry.ForMember(x => x.CountryString, c => c.IsEnumName(typeof(Country), true));
             var r = v.Verify();
             Assert.False(r.IsValid);
@@ -1613,7 +1613,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "StringEnum Token with empty value")]
         public void StringEnumWithEmptyValueTest()
         {
-            var v = ObjectVisitorFactory.Create(new NiceAct3() {CountryString = string.Empty});
+            var v = ObjectVisitor.Create(new NiceAct3() {CountryString = string.Empty});
             v.VerifiableEntry.ForMember(x => x.CountryString, c => c.IsEnumName(typeof(Country), true));
             var r = v.Verify();
             Assert.False(r.IsValid);
@@ -1623,7 +1623,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "StringEnum Token with null value")]
         public void StringEnumWithNullValueTest()
         {
-            var v = ObjectVisitorFactory.Create(new NiceAct3() {CountryString = null});
+            var v = ObjectVisitor.Create(new NiceAct3() {CountryString = null});
             v.VerifiableEntry.ForMember(x => x.CountryString, c => c.IsEnumName(typeof(Country), true));
             var r = v.Verify();
             Assert.True(r.IsValid);
@@ -1632,7 +1632,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "StringEnum Token with null strategy")]
         public void StringEnumWithNullStrategyTest()
         {
-            var v = ObjectVisitorFactory.Create(new NiceAct3() {CountryString = null});
+            var v = ObjectVisitor.Create(new NiceAct3() {CountryString = null});
             Assert.Throws<ArgumentNullException>(() =>
             {
                 v.VerifiableEntry.ForMember(x => x.CountryString, c => c.IsEnumName(null, true));
@@ -1644,7 +1644,7 @@ namespace CosmosObjectVisitorUT
         public void RegexExpressionTest()
         {
             var m = new NiceAct3() {StringVal = "53"};
-            var v = ObjectVisitorFactory.Create(m);
+            var v = ObjectVisitor.Create(m);
 
             v.VerifiableEntry.ForMember(x => x.StringVal, c => c.Matches(@"^\w\d$"));
 
@@ -1678,7 +1678,7 @@ namespace CosmosObjectVisitorUT
         public void RegexExpressionStringTest()
         {
             var m = new NiceAct3() {StringVal = "53", RegexExpression = @"^\w\d$"};
-            var v = ObjectVisitorFactory.Create(m);
+            var v = ObjectVisitor.Create(m);
 
             v.VerifiableEntry.ForMember(x => x.StringVal, c => c.Matches(u => u.RegexExpression));
 
@@ -1707,7 +1707,7 @@ namespace CosmosObjectVisitorUT
         {
             var regex = new Regex(@"^\w\d$");
             var m = new NiceAct3() {StringVal = "53", Regex = regex};
-            var v = ObjectVisitorFactory.Create(m);
+            var v = ObjectVisitor.Create(m);
 
             v.VerifiableEntry.ForMember(x => x.StringVal, c => c.Matches(u => u.Regex));
 

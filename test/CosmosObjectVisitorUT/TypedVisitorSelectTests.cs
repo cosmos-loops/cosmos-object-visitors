@@ -22,7 +22,7 @@ namespace CosmosObjectVisitorUT
             };
 
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type, act);
+            var v = ObjectVisitor.Create(type, act);
 
             var z0 = v.Select((s, o) => s);
             var z1 = v.Select((s, o, m) => s);
@@ -68,7 +68,7 @@ namespace CosmosObjectVisitorUT
         public void DirectFutureSelectTest()
         {
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type);
+            var v = ObjectVisitor.Create(type);
 
             v.SetValue("Name", "Du");
             v.SetValue("Age", 55);
@@ -127,7 +127,7 @@ namespace CosmosObjectVisitorUT
                 Birthday = DateTime.Today
             };
 
-            var v = ObjectVisitorFactory.Create<NiceAct>(act);
+            var v = ObjectVisitor.Create<NiceAct>(act);
 
             var z0 = v.Select((s, o) => s);
             var z1 = v.Select((s, o, m) => s);
@@ -172,7 +172,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "泛型类型选择操作测试")]
         public void GenericFutureSelectTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct>();
+            var v = ObjectVisitor.Create<NiceAct>();
 
             v.SetValue("Name", "Du");
             v.SetValue("Age", 55);

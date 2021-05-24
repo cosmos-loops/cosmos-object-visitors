@@ -21,7 +21,7 @@ namespace CosmosObjectVisitorUT
             };
 
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type, act);
+            var v = ObjectVisitor.Create(type, act);
 
             string s0 = "", s1 = "", s2 = "";
             int i2 = 0;
@@ -59,7 +59,7 @@ namespace CosmosObjectVisitorUT
         public void DirectFutureLoopTest()
         {
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type);
+            var v = ObjectVisitor.Create(type);
 
             v.SetValue("Name", "Du");
             v.SetValue("Age", 55);
@@ -110,7 +110,7 @@ namespace CosmosObjectVisitorUT
                 Birthday = DateTime.Today
             };
 
-            var v = ObjectVisitorFactory.Create<NiceAct>(act);
+            var v = ObjectVisitor.Create<NiceAct>(act);
 
             string s0 = "", s1 = "", s2 = "";
             int i2 = 0;
@@ -147,7 +147,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "泛型类型循环操作测试")]
         public void GenericFutureLoopTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct>();
+            var v = ObjectVisitor.Create<NiceAct>();
 
             v.SetValue("Name", "Du");
             v.SetValue("Age", 55);

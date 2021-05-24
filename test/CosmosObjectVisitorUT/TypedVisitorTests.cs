@@ -195,7 +195,7 @@ namespace CosmosObjectVisitorUT
             };
 
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type, act);
+            var v = ObjectVisitor.Create(type, act);
 
             Assert.False(v.IsStatic);
             Assert.Equal(typeof(NiceAct), v.SourceType);
@@ -281,7 +281,7 @@ namespace CosmosObjectVisitorUT
         public void DirectFutureTest()
         {
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type);
+            var v = ObjectVisitor.Create(type);
 
             Assert.False(v.IsStatic);
             Assert.Equal(typeof(NiceAct), v.SourceType);
@@ -368,7 +368,7 @@ namespace CosmosObjectVisitorUT
                 Birthday = DateTime.Today
             };
 
-            var v = ObjectVisitorFactory.Create<NiceAct>(act);
+            var v = ObjectVisitor.Create<NiceAct>(act);
 
             Assert.False(v.IsStatic);
             Assert.Equal(typeof(NiceAct), v.SourceType);
@@ -465,7 +465,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "泛型类型测试")]
         public void GenericFutureTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct>();
+            var v = ObjectVisitor.Create<NiceAct>();
 
             Assert.False(v.IsStatic);
             Assert.Equal(typeof(NiceAct), v.SourceType);
@@ -563,7 +563,7 @@ namespace CosmosObjectVisitorUT
 
             var type = typeof(StaticNiceAct1);
 
-            var v = ObjectVisitorFactory.Create(type);
+            var v = ObjectVisitor.Create(type);
 
             Assert.True(v.IsStatic);
             Assert.Equal(typeof(StaticNiceAct1), v.SourceType);
@@ -657,7 +657,7 @@ namespace CosmosObjectVisitorUT
 
             var type = typeof(StaticNiceAct2);
 
-            var v = ObjectVisitorFactory.Create(type, act);
+            var v = ObjectVisitor.Create(type, act);
 
             Assert.False(v.IsStatic);
             Assert.Equal(typeof(StaticNiceAct2), v.SourceType);

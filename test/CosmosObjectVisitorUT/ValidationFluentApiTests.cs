@@ -14,7 +14,7 @@ namespace CosmosObjectVisitorUT
         public void DirectFutureWithFluentApiTest()
         {
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type);
+            var v = ObjectVisitor.Create(type);
 
             v["Name"] = "Balala";
 
@@ -38,7 +38,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "泛型类型自定义消息验证测试")]
         public void GenericFutureWithFluentApiTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct>();
+            var v = ObjectVisitor.Create<NiceAct>();
         
             v["Name"] = "Balala";
         
@@ -61,7 +61,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "泛型类型和泛型值自定义消息验证测试")]
         public void GenericFutureWithFluentApiAndValTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct>();
+            var v = ObjectVisitor.Create<NiceAct>();
 
             v["Name"] = "Balala";
 

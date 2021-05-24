@@ -22,7 +22,7 @@ namespace CosmosObjectVisitorUT
             };
 
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type, act);
+            var v = ObjectVisitor.Create(type, act);
 
             v.SetValue("Name", "Du");
             v.SetValue("Age", 55);
@@ -153,7 +153,7 @@ namespace CosmosObjectVisitorUT
         public void DirectFutureRepeatTest()
         {
             var type = typeof(NiceAct);
-            var v = ObjectVisitorFactory.Create(type);
+            var v = ObjectVisitor.Create(type);
 
             v.SetValue("Name", "Du");
             v.SetValue("Age", 55);
@@ -291,7 +291,7 @@ namespace CosmosObjectVisitorUT
                 Birthday = DateTime.Today
             };
 
-            var v = ObjectVisitorFactory.Create<NiceAct>(act);
+            var v = ObjectVisitor.Create<NiceAct>(act);
 
             v.SetValue("Name", "Du");
             v.SetValue("Age", 55);
@@ -417,7 +417,7 @@ namespace CosmosObjectVisitorUT
         [Fact(DisplayName = "泛型类型重复操作测试")]
         public void GenericFutureTest()
         {
-            var v = ObjectVisitorFactory.Create<NiceAct>();
+            var v = ObjectVisitor.Create<NiceAct>();
 
             v.SetValue("Name", "Du");
             v.SetValue("Age", 55);

@@ -17,7 +17,7 @@ namespace CosmosObjectVisitorUT
             model.Age = 23;
             model.AddressModel = new NiceAct4B() {Address = "Moon"};
 
-            var v = ObjectVisitorFactory.Create(typeof(NiceAct4), model);
+            var v = ObjectVisitor.Create(typeof(NiceAct4), model);
 
             v["Name"].ShouldBe("Alex");
             v["Age"].ShouldBe(23);
@@ -36,7 +36,7 @@ namespace CosmosObjectVisitorUT
             model.AddressModel = new NiceAct4B() {Address = "Moon"};
             model.AddressModel.Country = new NiceAct4C() {City = "Shanghai"};
 
-            var v = ObjectVisitorFactory.Create(typeof(NiceAct4), model);
+            var v = ObjectVisitor.Create(typeof(NiceAct4), model);
 
             v["Name"].ShouldBe("Alex");
             v["Age"].ShouldBe(23);
@@ -58,7 +58,7 @@ namespace CosmosObjectVisitorUT
             model.Age = 23;
             model.AddressModel = null;
 
-            var v = ObjectVisitorFactory.Create(typeof(NiceAct4), model);
+            var v = ObjectVisitor.Create(typeof(NiceAct4), model);
 
             v["Name"].ShouldBe("Alex");
             v["Age"].ShouldBe(23);
@@ -76,7 +76,7 @@ namespace CosmosObjectVisitorUT
             model.Age = 23;
             model.AddressModel = null;
 
-            var v = ObjectVisitorFactory.Create(typeof(NiceAct4), model);
+            var v = ObjectVisitor.Create(typeof(NiceAct4), model);
 
             v["Name"].ShouldBe("Alex");
             v["Age"].ShouldBe(23);
@@ -102,7 +102,7 @@ namespace CosmosObjectVisitorUT
             model.Age = 23;
             model.AddressModel = new NiceAct4B() {Address = "Moon"};
 
-            var v = ObjectVisitorFactory.Create(typeof(NiceAct4), model);
+            var v = ObjectVisitor.Create(typeof(NiceAct4), model);
 
             v["Name"] = "Lewis";
             v["Age"] = 24;
@@ -126,7 +126,7 @@ namespace CosmosObjectVisitorUT
             model.AddressModel = new NiceAct4B() {Address = "Moon"};
             model.AddressModel.Country = new NiceAct4C() {City = "Shanghai"};
 
-            var v = ObjectVisitorFactory.Create(typeof(NiceAct4), model);
+            var v = ObjectVisitor.Create(typeof(NiceAct4), model);
 
             v["Name"] = "Lewis";
             v["Age"] = 24;
@@ -154,7 +154,7 @@ namespace CosmosObjectVisitorUT
             model.Age = 23;
             model.AddressModel = null;
 
-            var v = ObjectVisitorFactory.Create(typeof(NiceAct4), model);
+            var v = ObjectVisitor.Create(typeof(NiceAct4), model);
 
             v["Name"].ShouldBe("Alex");
             v["Age"].ShouldBe(23);
@@ -182,7 +182,7 @@ namespace CosmosObjectVisitorUT
             model.Age = 23;
             model.AddressModel = null;
 
-            var v = ObjectVisitorFactory.Create(typeof(NiceAct4), model);
+            var v = ObjectVisitor.Create(typeof(NiceAct4), model);
 
             v["Name"].ShouldBe("Alex");
             v["Age"].ShouldBe(23);
