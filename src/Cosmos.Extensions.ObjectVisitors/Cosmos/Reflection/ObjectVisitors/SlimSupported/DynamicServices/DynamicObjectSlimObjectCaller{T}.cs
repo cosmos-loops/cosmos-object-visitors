@@ -63,7 +63,7 @@ namespace Cosmos.Reflection.ObjectVisitors.SlimSupported.DynamicServices
 
             return U(target);
 
-            Type U<T>(T t) => typeof(T);
+            Type U<T2>(T2 t) => typeof(T2);
         }
     }
 }
