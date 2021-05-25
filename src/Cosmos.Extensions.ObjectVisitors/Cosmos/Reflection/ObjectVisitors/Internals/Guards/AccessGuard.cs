@@ -9,7 +9,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.Guards
         public static bool ReadOnly(ObjectOwn own, ObjectVisitorOptions options)
         {
             if (!own.IsReadOnly)
-                return true;
+                return false;
 
             if (options.SilenceIfNotWritable)
                 return true;
