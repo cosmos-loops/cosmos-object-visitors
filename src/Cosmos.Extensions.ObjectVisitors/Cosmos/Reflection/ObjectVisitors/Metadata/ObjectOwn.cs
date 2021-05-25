@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Cosmos.Reflection.ObjectVisitors.Metadata
 {
@@ -62,9 +63,11 @@ namespace Cosmos.Reflection.ObjectVisitors.Metadata
                 throw new ArgumentNullException(nameof(type));
             if (type.IsValueType && !type.IsPrimitive && !type.IsEnum) //struct
                 return new(type, true);
-            return new(type, true);
+            if (type.IsTupleType()) // Tuple or ValueTuple
+                return new(type, true);
+            return new(type, false);
         }
-        
+
         public static ObjectOwn Of<T>()
         {
             return Of(typeof(T));
