@@ -3,6 +3,7 @@
     public enum SlimSupportedFor
     {
         ExpandoObject,
-        DynamicObject
+        DynamicObject,
+        Tuple
     }
 }
