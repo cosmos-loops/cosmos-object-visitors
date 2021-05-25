@@ -35,14 +35,6 @@ namespace Cosmos.Reflection.ObjectVisitors.Core
             }
         }
 
-        public override void SetObjInstance(object obj)
-        {
-            if (_typeAccessor.CreateNewSupported)
-            {
-                base.SetObjInstance(obj);
-            }
-        }
-
         public override object GetObjInstance()
         {
             return Instance;
@@ -50,12 +42,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Core
 
         public override T Get<T>(string name)
         {
-            var member = GetMember(name);
-            if (member is null)
-                return default;
-            if (member.IsStatic)
-                return (T) member.ToGetValue(Instance);
-            return (T) _typeAccessor[Instance, name];
+            return (T) GetObject(name);
         }
 
         public override void Set(string name, object value)
@@ -72,6 +59,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Core
         public override object GetObject(string name)
         {
             var member = GetMember(name);
+            if (member is null)
+                return default;
             if (member.IsStatic)
                 return member.ToGetValue(Instance);
             return _typeAccessor[Instance, name];
