@@ -33,11 +33,5 @@ namespace Cosmos.Reflection.ObjectVisitors.Core
             handler.SetObjInstance(instance);
             return handler;
         }
-
-        public static ObjectCallerBase<T> AndSetInstance<T>(this ObjectCallerBase<T> handler, T instance)
-        {
-            handler.SetObjInstance(instance);
-            return handler;
-        }
     }
 }

@@ -17,7 +17,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
         public static InstanceVisitor<T> CreateForInstance<T>(T instance, ObjectVisitorOptions options)
         {
             options ??= ObjectVisitorOptions.Default;
-            var handler = UnsafeObjectHandleSwitcher.Switch<T>(options.AlgorithmKind)().With<T>().AndSetInstance(instance);
+            var handler = UnsafeObjectHandleSwitcher.Switch<T>(options.AlgorithmKind)().AndSetInstance(instance).With<T>();
             return new InstanceVisitor<T>(handler, options);
         }
 

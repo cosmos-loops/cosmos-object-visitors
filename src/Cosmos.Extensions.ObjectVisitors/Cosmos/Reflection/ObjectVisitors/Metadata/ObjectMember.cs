@@ -34,7 +34,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Metadata
             IsNew = isNew;
             MemberName = name;
             MemberType = type;
-            IsArray = MemberType.IsArray;
+            IsArray = type.IsArray;
             IsInterface = type.IsInterface;
             IsReadOnly = isReadonly;
             Kind = kind;

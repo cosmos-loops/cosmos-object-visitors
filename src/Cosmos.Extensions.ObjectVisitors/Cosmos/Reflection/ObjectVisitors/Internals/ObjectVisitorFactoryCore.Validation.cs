@@ -22,7 +22,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
             where TStrategy : class, IValidationStrategy<T>, new()
         {
             options ??= ObjectVisitorOptions.Default;
-            var handler = UnsafeObjectHandleSwitcher.Switch<T>(options.AlgorithmKind)().With<T>().AndSetInstance(instance);
+            var handler = UnsafeObjectHandleSwitcher.Switch<T>(options.AlgorithmKind)().AndSetInstance(instance).With<T>();
             var visitor = new InstanceVisitor<T>(handler, options);
             visitor.VerifiableEntry.SetStrategy<TStrategy>();
             return visitor;

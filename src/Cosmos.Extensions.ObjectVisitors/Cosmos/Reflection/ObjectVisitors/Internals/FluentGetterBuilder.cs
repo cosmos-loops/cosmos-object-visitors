@@ -25,8 +25,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals
                         .Clone(x => x.LiteMode = LvMode.LITE)
                         .With(x => x.StrictMode = StMode.NORMALE);
             if (_type.IsAbstract && _type.IsSealed)
-                return ObjectVisitorFactoryCore.CreateForStaticType(_type, _options);
-            return ObjectVisitorFactoryCore.CreateForInstance(_type, instance, _options.With(x => x.Repeatable = RpMode.NON_REPEATABLE));
+                return ObjectVisitorFactoryCore.CreateForStaticType(_type, clone);
+            return ObjectVisitorFactoryCore.CreateForInstance(_type, instance, clone.With(x => x.Repeatable = RpMode.NON_REPEATABLE));
         }
 
         IObjectGetter IFluentGetter.InitialValues(IDictionary<string, object> initialValues)
