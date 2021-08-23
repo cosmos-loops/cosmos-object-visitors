@@ -3,6 +3,10 @@ using Cosmos.Reflection.ObjectVisitors.Core;
 using Cosmos.Reflection.ObjectVisitors.SlimSupported.DynamicServices;
 using Cosmos.Reflection.ObjectVisitors.SlimSupported.TupleServices;
 
+#if !NETFRAMEWORK
+using Cosmos.Reflection.ObjectVisitors.SlimSupported.AnonymousServices;
+#endif
+
 namespace Cosmos.Reflection.ObjectVisitors.SlimSupported
 {
     internal static class SlimDeterminer
@@ -26,6 +30,14 @@ namespace Cosmos.Reflection.ObjectVisitors.SlimSupported
                 return true;
             }
 
+#if !NETFRAMEWORK
+            if (AnonymousServiceTypeHelper.IsSupportedAnonymousType(type))
+            {
+                caller = AnonymousServiceSlimObjectCallerBuilder.Ctor(type);
+                return true;
+            }
+#endif
+
             return false;
         }
 
@@ -44,6 +56,14 @@ namespace Cosmos.Reflection.ObjectVisitors.SlimSupported
                 callingHandler = TupleServiceSlimObjectCallerBuilder<T>.Ctor;
                 return true;
             }
+
+#if !NETFRAMEWORK
+            if (AnonymousServiceTypeHelper.IsSupportedAnonymousType<T>())
+            {
+                callingHandler = AnonymousServiceSlimObjectCallerBuilder<T>.Ctor;
+                return true;
+            }
+#endif
 
             return false;
         }

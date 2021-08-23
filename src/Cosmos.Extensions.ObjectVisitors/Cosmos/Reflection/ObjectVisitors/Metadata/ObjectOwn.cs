@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
+using Cosmos.Reflection.ObjectVisitors.Core.TypeHelpers;
 
 namespace Cosmos.Reflection.ObjectVisitors.Metadata
 {
@@ -64,6 +64,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Metadata
             if (type.IsValueType && !type.IsPrimitive && !type.IsEnum) //struct
                 return new(type, true);
             if (type.IsTupleType()) // Tuple or ValueTuple
+                return new(type, true);
+            if (TypeHelper.IsAnonymousType(type)) // Anonymous Type
                 return new(type, true);
             return new(type, false);
         }

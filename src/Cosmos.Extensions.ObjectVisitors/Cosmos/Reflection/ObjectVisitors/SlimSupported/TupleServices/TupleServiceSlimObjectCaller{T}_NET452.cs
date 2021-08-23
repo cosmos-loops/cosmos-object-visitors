@@ -25,8 +25,6 @@ namespace Cosmos.Reflection.ObjectVisitors.SlimSupported.TupleServices
             _objectMembers = new();
             _typeAccessor = accessor ?? throw new ArgumentNullException(nameof(accessor));
 
-            var a = accessor.GetMembers();
-
             foreach (var member in accessor.GetMembers())
                 if (CheckItemName(member.Name, out var itemNum))
                     _objectMembers[itemNum - 1] = TupleServiceSlimObjectMember.Of(member);

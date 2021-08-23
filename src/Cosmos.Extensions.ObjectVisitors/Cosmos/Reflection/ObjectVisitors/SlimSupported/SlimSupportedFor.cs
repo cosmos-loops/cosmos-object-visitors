@@ -2,8 +2,11 @@
 {
     public enum SlimSupportedFor
     {
-        ExpandoObject,
+#if !NETFRAMEWORK
+        AnonymousObject,
+#endif
         DynamicObject,
+        ExpandoObject,
         Tuple
     }
 }
