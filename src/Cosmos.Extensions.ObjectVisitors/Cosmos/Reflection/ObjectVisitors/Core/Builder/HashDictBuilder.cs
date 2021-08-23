@@ -39,7 +39,8 @@ namespace Cosmos.Reflection.ObjectVisitors.Core.Builder
             //生成脚本
             var newAction = NDelegate
                             .UseDomain(type.GetDomain(), builder => builder.LogCompilerError())
-                            .UnsafeFunc<Type, ObjectCallerBase>(newFindTree, _type_cache.Keys.ToArray(), "Cosmos.Reflection.NCallerDynamic");
+                            .AddUsing(_type_cache.Keys.ToArray(), "Cosmos.Reflection.NCallerDynamic")
+                            .UnsafeFunc<Type, ObjectCallerBase>(newFindTree);
 
             HashDictOperator.CreateFromString = (delegate * managed<Type, ObjectCallerBase>) (newAction.Method.MethodHandle.GetFunctionPointer());
             return (ObjectCallerBase) Activator.CreateInstance(proxyType);

@@ -4,6 +4,21 @@
         <name>Cosmos.Extensions.ObjectVisitors</name>
     </assembly>
     <members>
+        <member name="F:Cosmos.Reflection.ObjectVisitors.AccessMode.Concise">
+            <summary>
+            Concise mode, default
+            </summary>
+        </member>
+        <member name="F:Cosmos.Reflection.ObjectVisitors.AccessMode.Structured">
+            <summary>
+            Structure mode
+            </summary>
+        </member>
+        <member name="T:Cosmos.Reflection.ObjectVisitors.Core.CompatibleObjectCaller`1">
+            <summary>
+            A compatible object caller for Cosmos
+            </summary>
+        </member>
         <member name="M:Cosmos.Reflection.ObjectVisitors.Core.CoreCallerBase.New">
             <summary>
             如果不是静态类，可以新建一个实例
@@ -24,14 +39,29 @@
             <param name="name">字段/属性名</param>
             <param name="value">字段/属性新值</param>
         </member>
-        <member name="T:Cosmos.Reflection.ObjectVisitors.DynamicSupported.SlimObjectCaller">
+        <member name="M:Cosmos.Reflection.ObjectVisitors.Core.TypeHelpers.TypeAccessorExtensions.CreateTypeAccessor(System.Type)">
             <summary>
-            A slim ObjectCaller for ExpandoObject
+            Create TypeAccessor
             </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cosmos.Reflection.ObjectVisitors.Core.TypeHelpers.TypeAccessorExtensions.CreateTypeAccessor(System.Type,System.Boolean)">
+            <summary>
+            Create TypeAccessor
+            </summary>
+            <param name="type"></param>
+            <param name="allowNonPublicAccessors"></param>
+            <returns></returns>
         </member>
         <member name="T:Cosmos.Reflection.ObjectVisitors.Metadata.AlgorithmKind">
             <summary>
             Kind of algorithm to find tree
+            </summary>
+        </member>
+        <member name="T:Cosmos.Reflection.ObjectVisitors.SlimSupported.TupleServices.TupleServiceSlimObjectCaller`1">
+            <summary>
+            A slim ObjectCaller for Tuple
             </summary>
         </member>
     </members>

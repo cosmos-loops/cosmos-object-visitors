@@ -39,10 +39,11 @@ namespace Cosmos.Reflection.ObjectVisitors.Core.Builder
             //生成脚本
             var newAction = NDelegate
                             .UseDomain(type.GetDomain(), builder => builder.LogCompilerError())
-                            .UnsafeFunc<Type, ObjectCallerBase>(newFindTree, _type_cache.Keys.ToArray(), "Cosmos.Reflection.NCallerDynamic");
+                            .AddUsing(_type_cache.Keys.ToArray(), "Cosmos.Reflection.NCallerDynamic")
+                            .UnsafeFunc<Type, ObjectCallerBase>(newFindTree);
 
-            FuzzyDictOperator.CreateFromString = (delegate * managed<Type, ObjectCallerBase>) (newAction.Method.MethodHandle.GetFunctionPointer());
-            return (ObjectCallerBase) Activator.CreateInstance(proxyType);
+            FuzzyDictOperator.CreateFromString = (delegate * managed<Type, ObjectCallerBase>)(newAction.Method.MethodHandle.GetFunctionPointer());
+            return (ObjectCallerBase)Activator.CreateInstance(proxyType);
         }
     }
 
@@ -70,7 +71,7 @@ namespace Cosmos.Reflection.ObjectVisitors.Core.Builder
         static FuzzyDictOperator()
         {
             var dynamicType = ObjectCallerBuilder.InitType(typeof(T), AlgorithmKind.Fuzzy);
-            Create = (delegate * managed<ObjectCallerBase>) (NInstance.Creator(dynamicType).Method.MethodHandle.GetFunctionPointer());
+            Create = (delegate * managed<ObjectCallerBase>)(NInstance.Creator(dynamicType).Method.MethodHandle.GetFunctionPointer());
         }
     }
 }

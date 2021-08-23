@@ -2,6 +2,7 @@
 
     <ItemGroup>
         <PackageReference Include="Cosmos.Validation" Version="$(Validation-PkgVersion)" />
+        <PackageReference Include="Cosmos.Extensions.Splitters" Version="$(Prowess-PkgVersion)" />
         <PackageReference Include="Cosmos.Extensions.Reflection.Enhanced" Version="$(Prowess-PkgVersion)" />
     </ItemGroup>
 
@@ -22,11 +23,11 @@
     </ItemGroup>
 
     <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
-        <PackageReference Include="NMS.DynamicDictionary" Version="1.1.0.2" />
+        <PackageReference Include="NMS.DynamicDictionary" Version="2.0.0" />
     </ItemGroup>
 
     <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
-        <PackageReference Include="NMS.DynamicDictionary" Version="1.1.0.2" />
+        <PackageReference Include="NMS.DynamicDictionary" Version="2.0.0" />
     </ItemGroup>
 
 </Project>
