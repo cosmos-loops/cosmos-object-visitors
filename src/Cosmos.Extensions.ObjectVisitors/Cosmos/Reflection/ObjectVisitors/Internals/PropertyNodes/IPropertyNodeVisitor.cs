@@ -50,8 +50,6 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.PropertyNodes
 
         object GetValue(List<string> pathSegments, int startIndex);
 
-        object this[List<string> pathSegments, int startIndex] { get; set; }
-
         IEnumerable<string> GetMemberNames();
 
         ObjectMember GetMember(string memberName);

@@ -215,12 +215,6 @@ namespace Cosmos.Reflection.ObjectVisitors.Internals.PropertyNodes
             return _visitor.GetValue(path);
         }
 
-        public object this[List<string> pathSegments, int startIndex]
-        {
-            get => GetValue(pathSegments, startIndex);
-            set => SetValue(pathSegments, value, startIndex);
-        }
-
         #endregion
 
         #region Members
