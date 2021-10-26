@@ -1,0 +1,9 @@
+<Project>
+
+    <PropertyGroup>
+        <AssemblyName>CosmosStack.Extensions.ObjectVisitors</AssemblyName>
+        <PackageId>CosmosStack.Extensions.ObjectVisitors</PackageId>
+        <Description>ObjectVisitors extensions, a part of Cosmos Prowess Expansion pack for Cosmos Stack</Description>
+    </PropertyGroup>
+
+</Project>

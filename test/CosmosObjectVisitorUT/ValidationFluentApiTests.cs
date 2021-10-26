@@ -1,7 +1,7 @@
-﻿using Cosmos.Reflection.ObjectVisitors;
-using Cosmos.Validation;
-using CosmosObjectVisitorUT.Helpers;
+﻿using CosmosObjectVisitorUT.Helpers;
 using CosmosObjectVisitorUT.Model;
+using CosmosStack.Reflection.ObjectVisitors;
+using CosmosStack.Validation;
 using Shouldly;
 using Xunit;
 
@@ -39,19 +39,19 @@ namespace CosmosObjectVisitorUT
         public void GenericFutureWithFluentApiTest()
         {
             var v = ObjectVisitor.Create<NiceAct>();
-        
+
             v["Name"] = "Balala";
-        
+
             v.VerifiableEntry.ForMember("Name", c => c.Must(NameMustBeBalala).WithMessage("MustBala!"));
-        
+
             var r = v.Verify();
-        
+
             Assert.True(r.IsValid);
-        
+
             v["Name"] = "Bong";
-        
+
             r = v.Verify();
-        
+
             Assert.False(r.IsValid);
             Assert.Single(r.Errors);
             Assert.Single(r.Errors[0].Details);

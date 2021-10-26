@@ -1,7 +1,7 @@
 ﻿#if !NETFRAMEWORK
 using System;
 using System.Linq;
-using Cosmos.Reflection.ObjectVisitors.Core.Builder;
+using CosmosStack.Reflection.ObjectVisitors.Core.Builder;
 using CosmosObjectVisitorUT.Helpers;
 using CosmosObjectVisitorUT.Model;
 using Xunit;

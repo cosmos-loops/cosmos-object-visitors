@@ -1,6 +1,6 @@
 ﻿using System;
-using Cosmos.Reflection.ObjectVisitors;
 using CosmosObjectVisitorUT.Helpers;
+using CosmosStack.Reflection.ObjectVisitors;
 using Xunit;
 
 namespace CosmosObjectVisitorUT

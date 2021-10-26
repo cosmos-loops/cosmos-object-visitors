@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
-using Cosmos.Reflection.ObjectVisitors;
 using CosmosObjectVisitorUT.Helpers;
+using CosmosStack.Reflection.ObjectVisitors;
 using Xunit;
 
 namespace CosmosObjectVisitorUT

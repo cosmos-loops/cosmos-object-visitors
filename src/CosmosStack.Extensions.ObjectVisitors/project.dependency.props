@@ -1,0 +1,33 @@
+<Project>
+
+    <ItemGroup>
+        <PackageReference Include="CosmosStack.Validation" Version="$(Validation-RefVersion)" />
+        <PackageReference Include="CosmosStack.Extensions.Splitters" Version="$(Prowess-RefVersion)" />
+        <PackageReference Include="CosmosStack.Extensions.Reflection.Enhanced" Version="$(Prowess-RefVersion)" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
+        <PackageReference Include="FastMember" Version="1.3.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
+        <PackageReference Include="Alexinea.FastMember" Version="1.5.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net472' ">
+        <PackageReference Include="Alexinea.FastMember" Version="1.5.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net48' ">
+        <PackageReference Include="Alexinea.FastMember" Version="1.5.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+        <PackageReference Include="NMS.DynamicDictionary" Version="2.1.0.1" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
+        <PackageReference Include="NMS.DynamicDictionary" Version="2.1.0.1" />
+    </ItemGroup>
+
+</Project>

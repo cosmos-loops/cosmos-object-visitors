@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Cosmos.Reflection.ObjectVisitors;
-using Cosmos.Validation;
 using CosmosObjectVisitorUT.Helpers;
 using CosmosObjectVisitorUT.Model;
+using CosmosStack.Reflection.ObjectVisitors;
+using CosmosStack.Validation;
 using Xunit;
 
 namespace CosmosObjectVisitorUT
