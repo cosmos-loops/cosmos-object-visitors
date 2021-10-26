@@ -1,7 +1,7 @@
 @echo off
 
 echo =======================================================================
-echo Cosmos.ObjectVisitors
+echo CosmosStack.ObjectVisitors
 echo =======================================================================
 
 ::go to parent folder
@@ -22,8 +22,8 @@ echo.
 
 ::start to package all projects
 
-::cosmos-object-visitors
-dotnet pack src/Cosmos.Extensions.ObjectVisitors/Cosmos.Extensions.ObjectVisitors.csproj -c Release -o nuget_packages --no-restore
+::CosmosStack-object-visitors
+dotnet pack src/CosmosStack.Extensions.ObjectVisitors -c Release -o nuget_packages --no-restore
 
 for /R "nuget_packages" %%s in (*symbols.nupkg) do (
     del "%%s"
@@ -34,9 +34,9 @@ echo.
 
 ::push nuget packages to server
 for /R "nuget_packages" %%s in (*.nupkg) do ( 	
-    dotnet nuget push "%%s" -s "Release" --skip-duplicate
+    dotnet nuget push "%%s" -s "Beta" --skip-duplicate
 	echo.
 )
 
 ::get back to build folder
-cd build
+cd scripts
