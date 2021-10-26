@@ -14,16 +14,6 @@ ProjectSection(SolutionItems) = preProject
 	asset\props\package.props = asset\props\package.props
 EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{F2BEB61D-2191-47DE-ADE7-E5D6EA3F4FC4}"
-ProjectSection(SolutionItems) = preProject
-	build\Beta.bat = build\Beta.bat
-	build\Beta_WithoutBuild.bat = build\Beta_WithoutBuild.bat
-	build\Nightly.bat = build\Nightly.bat
-	build\Nightly_WithoutBuild.bat = build\Nightly_WithoutBuild.bat
-	build\Release.bat = build\Release.bat
-	build\Release_WithoutBuild.bat = build\Release_WithoutBuild.bat
-EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C4E8FF5C-84E8-4924-920F-1743DD243BD8}"
 ProjectSection(SolutionItems) = preProject
 	README.md = README.md
@@ -33,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F26CF0A0-947
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A1B9B8E0-0594-4FC8-B098-ECCA6A63E8A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmos.Extensions.ObjectVisitors", "src\Cosmos.Extensions.ObjectVisitors\Cosmos.Extensions.ObjectVisitors.csproj", "{5A6B1DD2-8E2E-4BDF-9647-FB5410643DF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosStack.Extensions.ObjectVisitors", "src\CosmosStack.Extensions.ObjectVisitors\CosmosStack.Extensions.ObjectVisitors.csproj", "{5A6B1DD2-8E2E-4BDF-9647-FB5410643DF3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{D6597A64-2296-4AF3-95B7-37BCD48602AC}"
 ProjectSection(SolutionItems) = preProject
@@ -47,6 +37,17 @@ ProjectSection(SolutionItems) = preProject
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosObjectVisitorUT", "test\CosmosObjectVisitorUT\CosmosObjectVisitorUT.csproj", "{73FA076A-6AF5-4734-913A-16FF7BAA4C08}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{0D4645FD-F319-4322-9249-667690C57C5C}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\Beta.bat = scripts\Beta.bat
+		scripts\Beta_WithoutBuild.bat = scripts\Beta_WithoutBuild.bat
+		scripts\Nightly.bat = scripts\Nightly.bat
+		scripts\Nightly_WithoutBuild.bat = scripts\Nightly_WithoutBuild.bat
+		scripts\Release.bat = scripts\Release.bat
+		scripts\Release_WithoutBuild.bat = scripts\Release_WithoutBuild.bat
+		scripts\BuildOnly.bat = scripts\BuildOnly.bat
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
