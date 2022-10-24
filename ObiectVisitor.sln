@@ -6,12 +6,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{4D1177
 ProjectSection(SolutionItems) = preProject
 	asset\images\icon.back.png = asset\images\icon.back.png
 	asset\images\icon.png = asset\images\icon.png
+	asset\images\icon,back3.png = asset\images\icon,back3.png
+	asset\images\icon.back2.png = asset\images\icon.back2.png
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "props", "props", "{50B8622E-8C87-4DAB-B046-D10E5A36B162}"
 ProjectSection(SolutionItems) = preProject
 	asset\props\misc.props = asset\props\misc.props
 	asset\props\package.props = asset\props\package.props
+	asset\props\sourcelink.env.props = asset\props\sourcelink.env.props
+	asset\props\target.feature.props = asset\props\target.feature.props
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C4E8FF5C-84E8-4924-920F-1743DD243BD8}"
@@ -23,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F26CF0A0-947
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A1B9B8E0-0594-4FC8-B098-ECCA6A63E8A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosStack.Extensions.ObjectVisitors", "src\CosmosStack.Extensions.ObjectVisitors\CosmosStack.Extensions.ObjectVisitors.csproj", "{5A6B1DD2-8E2E-4BDF-9647-FB5410643DF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmos.Extensions.ObjectVisitors", "src\Cosmos.Extensions.ObjectVisitors\Cosmos.Extensions.ObjectVisitors.csproj", "{5A6B1DD2-8E2E-4BDF-9647-FB5410643DF3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{D6597A64-2296-4AF3-95B7-37BCD48602AC}"
 ProjectSection(SolutionItems) = preProject

@@ -1,9 +1,9 @@
 <Project>
 
     <PropertyGroup>
-        <Standard-RefVersion>0.1.1.1</Standard-RefVersion>
-        <Prowess-RefVersion>0.1.1.1</Prowess-RefVersion>
-        <Validation-RefVersion>0.1.0</Validation-RefVersion>
+        <Standard-RefVersion>0.4.7.3</Standard-RefVersion>
+        <Prowess-RefVersion>0.4.7.3</Prowess-RefVersion>
+        <Validation-RefVersion>0.4.7.3</Validation-RefVersion>
     </PropertyGroup>
 
 </Project>

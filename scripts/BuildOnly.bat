@@ -1,7 +1,7 @@
 ﻿@echo off
 
 echo =======================================================================
-echo CosmosStack.ObjectVisitors (Build Only)
+echo Cosmos.ObjectVisitors (Build Only)
 echo =======================================================================
 
 ::go to parent folder
@@ -22,8 +22,8 @@ echo.
 
 ::start to package all projects
 
-::CosmosStack-object-visitors
-dotnet pack src/CosmosStack.Extensions.ObjectVisitors -c Release -o nuget_packages --no-restore
+::Cosmos-object-visitors
+dotnet pack src/Cosmos.Extensions.ObjectVisitors -c Release -o nuget_packages --no-restore
 
 for /R "nuget_packages" %%s in (*symbols.nupkg) do (
     del "%%s"
