@@ -1,0 +1,47 @@
+﻿<Project>
+
+    <PropertyGroup>
+        <NMS-RefVersion>2.4.2</NMS-RefVersion>
+        <CompileEnv-RefVersion>3.0.0</CompileEnv-RefVersion>
+        <AFM-RefVersion>1.5.0</AFM-RefVersion>
+        <AFM-RefVersion-nfx452>1.3.0</AFM-RefVersion-nfx452>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CosmosStack.Validation" Version="$(Validation-RefVersion)" />
+        <PackageReference Include="CosmosStack.Extensions.Text" Version="$(Prowess-RefVersion)" />
+        <PackageReference Include="CosmosStack.Extensions.Reflection.Enhanced" Version="$(Prowess-RefVersion)" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
+        <PackageReference Include="FastMember" Version="$(AFM-RefVersion-nfx452)" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
+        <PackageReference Include="Alexinea.FastMember" Version="$(AFM-RefVersion)" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net472' ">
+        <PackageReference Include="Alexinea.FastMember" Version="$(AFM-RefVersion)" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net48' ">
+        <PackageReference Include="Alexinea.FastMember" Version="$(AFM-RefVersion)" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+        <PackageReference Include="NMS.DynamicDictionary" Version="$(NMS-RefVersion)" />
+        <PackageReference Include="DotNetCore.Compile.Environment" Version="$(CompileEnv-RefVersion)" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
+        <PackageReference Include="NMS.DynamicDictionary" Version="$(NMS-RefVersion)" />
+        <PackageReference Include="DotNetCore.Compile.Environment" Version="$(CompileEnv-RefVersion)" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+        <PackageReference Include="NMS.DynamicDictionary" Version="$(NMS-RefVersion)" />
+        <PackageReference Include="DotNetCore.Compile.Environment" Version="$(CompileEnv-RefVersion)" />
+    </ItemGroup>
+
+</Project>
