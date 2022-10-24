@@ -1,8 +1,9 @@
 ﻿using System;
+using Cosmos.Reflection.ObjectVisitors;
 using CosmosObjectVisitorUT.Helpers;
 using CosmosObjectVisitorUT.Model;
-using CosmosStack.Reflection.ObjectVisitors;
 using Xunit;
+using ObjectVisitor = Cosmos.Reflection.ObjectVisitors.ObjectVisitor;
 
 namespace CosmosObjectVisitorUT
 {

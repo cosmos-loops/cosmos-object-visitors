@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cosmos.Reflection.ObjectVisitors.Metadata;
 using CosmosObjectVisitorUT.Helpers;
 using CosmosObjectVisitorUT.Model;
-using CosmosStack.Reflection.ObjectVisitors;
-using CosmosStack.Reflection.ObjectVisitors.Metadata;
 using Xunit;
+using ObjectVisitor = Cosmos.Reflection.ObjectVisitors.ObjectVisitor;
 
 namespace CosmosObjectVisitorUT
 {

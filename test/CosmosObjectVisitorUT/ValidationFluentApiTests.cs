@@ -1,7 +1,7 @@
 ﻿using CosmosObjectVisitorUT.Helpers;
 using CosmosObjectVisitorUT.Model;
-using CosmosStack.Reflection.ObjectVisitors;
-using CosmosStack.Validation;
+using Cosmos.Reflection.ObjectVisitors;
+using Cosmos.Validation;
 using Shouldly;
 using Xunit;
 

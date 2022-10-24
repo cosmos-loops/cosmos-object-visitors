@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CosmosStack.Reflection.ObjectVisitors;
+using Cosmos.Reflection.ObjectVisitors;
 using CosmosObjectVisitorUT.Helpers;
 using CosmosObjectVisitorUT.Model;
 using Xunit;

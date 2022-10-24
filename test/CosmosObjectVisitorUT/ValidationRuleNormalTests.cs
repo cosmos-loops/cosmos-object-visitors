@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using CosmosObjectVisitorUT.Helpers;
 using CosmosObjectVisitorUT.Model;
-using CosmosStack.Reflection.ObjectVisitors;
-using CosmosStack.Validation;
+using Cosmos.Reflection.ObjectVisitors;
+using Cosmos.Validation;
 using Xunit;
 
 namespace CosmosObjectVisitorUT

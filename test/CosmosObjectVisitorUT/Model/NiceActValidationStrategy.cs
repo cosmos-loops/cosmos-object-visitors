@@ -1,5 +1,5 @@
-﻿using CosmosStack.Validation;
-using CosmosStack.Validation.Strategies;
+﻿using Cosmos.Validation;
+using Cosmos.Validation.Strategies;
 
 namespace CosmosObjectVisitorUT.Model
 {

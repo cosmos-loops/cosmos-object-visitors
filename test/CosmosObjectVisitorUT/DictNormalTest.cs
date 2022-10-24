@@ -1,6 +1,7 @@
 ﻿#if !NETFRAMEWORK
 using System;
-using CosmosStack.Reflection.ObjectVisitors.Core.Builder;
+using Cosmos.Reflection.ObjectVisitors;
+using Cosmos.Reflection.ObjectVisitors.Core.Builder;
 using CosmosObjectVisitorUT.Helpers;
 using CosmosObjectVisitorUT.Model;
 using Natasha.CSharp;
@@ -39,6 +40,10 @@ namespace HelloWorld
             var oop = new AssemblyCSharpBuilder();
             oop.Add(text);
             Type type = oop.GetTypeFromShortName("Test");
+
+            //设置访问私有成员（全局）（临时措施）
+            type.AllowToVisitPrivateMembers();
+
             //创建动态类实例代理
             var instance = PrecisionDictOperator.CreateFromType(type);
             var obj = Activator.CreateInstance(type);

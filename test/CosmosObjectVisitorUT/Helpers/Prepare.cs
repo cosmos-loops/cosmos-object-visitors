@@ -5,7 +5,7 @@
         static Prepare()
         {
 #if !NETFRAMEWORK
-            NatashaInitializer.InitializeAndPreheating();
+            NatashaInitializer.Preheating();
 #endif
         }
     }

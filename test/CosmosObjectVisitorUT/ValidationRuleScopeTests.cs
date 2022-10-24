@@ -1,7 +1,7 @@
 ﻿using System;
 using CosmosObjectVisitorUT.Model;
-using CosmosStack.Reflection.ObjectVisitors;
-using CosmosStack.Validation;
+using Cosmos.Reflection.ObjectVisitors;
+using Cosmos.Validation;
 using Xunit;
 
 namespace CosmosObjectVisitorUT
